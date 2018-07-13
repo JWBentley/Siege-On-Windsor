@@ -1,19 +1,30 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
+using SiegeOnWindsor.data;
+using System;
 
 namespace SiegeOnWindsor
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class SiegeGame : Game
     {
+        // Data //
+        Screen currentScreen;
+        World world;
+
+
+        // Graphics //
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public Game1()
+        public SiegeGame()
         {
+            currentScreen = Screen.GAME;
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -27,6 +38,9 @@ namespace SiegeOnWindsor
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            this.world = new World();
+
+            this.IsMouseVisible = true;
 
             base.Initialize();
         }
@@ -63,6 +77,14 @@ namespace SiegeOnWindsor
                 Exit();
 
             // TODO: Add your update logic here
+            switch (currentScreen)
+            {
+                case Screen.MAIN_MENU:
+                    break;
+                case Screen.GAME:
+                    this.world.Update();
+                    break;
+            }
 
             base.Update(gameTime);
         }
@@ -73,9 +95,16 @@ namespace SiegeOnWindsor
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.LightGray);
 
             // TODO: Add your drawing code here
+            switch (currentScreen)
+            {
+                case Screen.MAIN_MENU:
+                    break;
+                case Screen.GAME:
+                    break;
+            }
 
             base.Draw(gameTime);
         }
