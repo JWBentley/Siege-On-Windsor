@@ -2,7 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using MonoGame.Extended.Gui;
+using MonoGame.Extended.Screens;
+using MonoGame.Extended.ViewportAdapters;
 using SiegeOnWindsor.data;
+using SiegeOnWindsor.Screens;
 using System;
 
 namespace SiegeOnWindsor
@@ -14,19 +18,29 @@ namespace SiegeOnWindsor
     {
         // Data //
         Screen currentScreen;
-        World world;
-
 
         // Graphics //
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        GraphicsDeviceManager _graphics;
+
+        // Screens //
+        ScreenManager screenManager;
 
         public SiegeGame()
         {
             currentScreen = Screen.GAME;
 
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = 1280,
+                PreferredBackBufferHeight = 720,
+            };
+
+
             Content.RootDirectory = "Content";
+            IsMouseVisible = true;
+            Window.AllowUserResizing = false;
+
+            screenManager = new ScreenManager(this);
         }
 
         /// <summary>
@@ -37,10 +51,7 @@ namespace SiegeOnWindsor
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            this.world = new World();
-
-            this.IsMouseVisible = true;
+            screenManager.InitializeScreens();
 
             base.Initialize();
         }
@@ -51,10 +62,9 @@ namespace SiegeOnWindsor
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            screenManager.LoadScreensContent();
 
-            // TODO: use this.Content to load your game content here
+            base.LoadContent();
         }
 
         /// <summary>
@@ -63,7 +73,9 @@ namespace SiegeOnWindsor
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            screenManager.UnloadScreensContent();
+
+            base.UnloadContent();
         }
 
         /// <summary>
@@ -76,15 +88,7 @@ namespace SiegeOnWindsor
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            switch (currentScreen)
-            {
-                case Screen.MAIN_MENU:
-                    break;
-                case Screen.GAME:
-                    this.world.Update();
-                    break;
-            }
+            screenManager.GetScreen(currentScreen).Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -97,14 +101,7 @@ namespace SiegeOnWindsor
         {
             GraphicsDevice.Clear(Color.LightGray);
 
-            // TODO: Add your drawing code here
-            switch (currentScreen)
-            {
-                case Screen.MAIN_MENU:
-                    break;
-                case Screen.GAME:
-                    break;
-            }
+            screenManager.GetScreen(currentScreen).Draw(gameTime);
 
             base.Draw(gameTime);
         }
