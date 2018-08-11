@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,10 +12,10 @@ namespace SiegeOnWindsor.Screens
         MenuScreen menuScreen;
         GameScreen gameScreen;
 
-        public ScreenManager(SiegeGame game)
+        public ScreenManager(GraphicsDevice gd, SiegeGame game)
         {
-            menuScreen = new MenuScreen();
-            gameScreen = new GameScreen(game);
+            menuScreen = new MenuScreen(gd);
+            gameScreen = new GameScreen(gd, game);
         }
 
         public void InitializeScreens()
@@ -35,13 +36,13 @@ namespace SiegeOnWindsor.Screens
             gameScreen.UnloadContent();
         }
 
-        public IScreen GetScreen(Screen screen)
+        public Screen GetScreen(Screens screen)
         {
             switch(screen)
             {
-                case Screen.MAIN_MENU:
+                case Screens.MAIN_MENU:
                     return menuScreen;
-                case Screen.GAME:
+                case Screens.GAME:
                     return gameScreen;
                 default:
                     return null;

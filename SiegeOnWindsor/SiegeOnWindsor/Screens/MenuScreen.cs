@@ -4,34 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SiegeOnWindsor.Screens
 {
-    public class MenuScreen : IScreen
+    public class MenuScreen : Screen
     {
-        public void Draw(GameTime gameTime)
+        public MenuScreen(GraphicsDevice graphicsDevice) : base(graphicsDevice)
         {
-            throw new NotImplementedException();
+
         }
 
-        public void Initialize()
+        public override void Draw(GameTime gameTime)
         {
-            throw new NotImplementedException();
         }
 
-        public void LoadContent()
+        public override void Initialize()
         {
-            throw new NotImplementedException();
         }
 
-        public void UnloadContent()
+        public override void LoadContent()
         {
-            throw new NotImplementedException();
         }
 
-        public void Update(GameTime gameTime)
+        public override void UnloadContent()
         {
-            throw new NotImplementedException();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+
         }
     }
 }

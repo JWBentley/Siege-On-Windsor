@@ -1,0 +1,27 @@
+﻿-Main menu									   *
+-UI (Buttons ect)							   *
+
+
+- Rendering of the world, defences and enemies *
+
+- Implement defences                           *
+- Select defences
+- Place defences
+- Defence attacks / actions
+
+- Implement enemies                            *
+- Create threat level algorithm for the world
+- Implement grid based A* search
+- Enemy attacks / abilities
+
+-Game cycle
+- Pre wave
+- Start wave
+- Spawn enemies using AI
+- End wave and repeat
+
+- File I/O
+- Convert world state to json format
+- Save to file
+- Read from file
+- Load world state from json

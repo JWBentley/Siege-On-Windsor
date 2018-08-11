@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended;
-using MonoGame.Extended.Gui;
-using MonoGame.Extended.Screens;
-using MonoGame.Extended.ViewportAdapters;
 using SiegeOnWindsor.data;
 using SiegeOnWindsor.Screens;
 using System;
@@ -17,7 +13,7 @@ namespace SiegeOnWindsor
     public class SiegeGame : Game
     {
         // Data //
-        Screen currentScreen;
+        Screens.Screens currentScreen;
 
         // Graphics //
         GraphicsDeviceManager _graphics;
@@ -27,7 +23,7 @@ namespace SiegeOnWindsor
 
         public SiegeGame()
         {
-            currentScreen = Screen.GAME;
+            currentScreen = Screens.Screens.GAME;
 
             _graphics = new GraphicsDeviceManager(this)
             {
@@ -40,7 +36,7 @@ namespace SiegeOnWindsor
             IsMouseVisible = true;
             Window.AllowUserResizing = false;
 
-            screenManager = new ScreenManager(this);
+            screenManager = new ScreenManager(this.GraphicsDevice, this);
         }
 
         /// <summary>
@@ -87,6 +83,14 @@ namespace SiegeOnWindsor
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                if (currentScreen.Equals(Screens.Screens.MAIN_MENU))
+                    currentScreen = Screens.Screens.GAME;
+                else if (currentScreen.Equals(Screens.Screens.GAME))
+                    currentScreen = Screens.Screens.MAIN_MENU;
+            }
 
             screenManager.GetScreen(currentScreen).Update(gameTime);
 

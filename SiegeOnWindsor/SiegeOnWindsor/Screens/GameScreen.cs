@@ -5,41 +5,40 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using SiegeOnWindsor.data;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SiegeOnWindsor.Screens
 {
-    public class GameScreen : IScreen
+    public class GameScreen : Screen
     {
         SiegeGame game;
 
         World world;
 
-        public GameScreen(SiegeGame g)
+        public GameScreen(GraphicsDevice graphicsDevice, SiegeGame g) : base(graphicsDevice)
         {
             this.game = g;
         }
 
-        public void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
-            throw new NotImplementedException();
+
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
             this.world = new World();
         }
 
-        public void LoadContent()
+        public override void LoadContent()
         {
-            throw new NotImplementedException();
         }
 
-        public void UnloadContent()
+        public override void UnloadContent()
         {
-            throw new NotImplementedException();
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             this.world.Update();
         }
