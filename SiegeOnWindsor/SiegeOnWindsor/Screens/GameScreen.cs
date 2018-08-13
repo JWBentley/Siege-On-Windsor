@@ -15,15 +15,15 @@ namespace SiegeOnWindsor.Screens
 
         World world;
 
-        public GameScreen(GraphicsDevice graphicsDevice, SiegeGame g) : base(graphicsDevice)
+        GraphicsDevice graphicsDevice;
+        SpriteBatch tilesBatch;
+
+        public GameScreen(GraphicsDevice graphicsDevice, SiegeGame game) : base(graphicsDevice)
         {
-            this.game = g;
+            this.graphicsDevice = graphicsDevice;
+            this.game = game;
         }
 
-        public override void Draw(GameTime gameTime)
-        {
-
-        }
 
         public override void Initialize()
         {
@@ -32,15 +32,46 @@ namespace SiegeOnWindsor.Screens
 
         public override void LoadContent()
         {
-        }
-
-        public override void UnloadContent()
-        {
+            this.tilesBatch = new SpriteBatch(this.graphicsDevice);
         }
 
         public override void Update(GameTime gameTime)
         {
             this.world.Update();
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            this.DrawTileGrid();
+        }
+
+        private void DrawTileGrid()
+        {
+            this.tilesBatch.Begin(samplerState: SamplerState.PointClamp);
+
+            int height = Convert.ToInt16(Math.Floor((double)(this.game._graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1))));
+
+            for (int x = 0; x < (this.world.Grid).GetLength(0); x++)
+            {
+                for (int y = 0; y < (this.world.Grid).GetLength(1); y++)
+                {
+                    if (this.world.GetTileAt(x, y).GetGraphic() != null)
+                        if (this.world.GetTileAt(x, y).GetGraphic().Sprite != null)
+                            this.tilesBatch.Draw(this.world.GetTileAt(x, y).GetGraphic().Sprite, new Rectangle(
+                                Convert.ToInt16(((this.game._graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
+                                Convert.ToInt16((this.game._graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
+                                height,
+                                height),
+                                Color.White);
+                }
+            }
+
+            this.tilesBatch.End();
+        }
+
+        public override void UnloadContent()
+        {
+
         }
     }
 }

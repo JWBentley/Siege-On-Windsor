@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SiegeOnWindsor.data;
+using SiegeOnWindsor.Graphics;
 using SiegeOnWindsor.Screens;
 using System;
+using System.Collections.Generic;
 
 namespace SiegeOnWindsor
 {
@@ -13,30 +15,34 @@ namespace SiegeOnWindsor
     public class SiegeGame : Game
     {
         // Data //
-        Screens.Screens currentScreen;
+        public Screens.Screens currentScreen;
 
         // Graphics //
-        GraphicsDeviceManager _graphics;
+        public GraphicsDeviceManager _graphics;
+        public List<Textures.Texture> loadBuffer;
 
         // Screens //
         ScreenManager screenManager;
 
         public SiegeGame()
         {
-            currentScreen = Screens.Screens.GAME;
+            currentScreen = Screens.Screens.MAIN_MENU;
 
             _graphics = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = 1280,
                 PreferredBackBufferHeight = 720,
             };
+            _graphics.ApplyChanges();
 
+            this.loadBuffer = new List<Textures.Texture>();
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Window.AllowUserResizing = false;
+            Window.Title = "Siege On Windsor Castle";
 
-            screenManager = new ScreenManager(this.GraphicsDevice, this);
+            screenManager = new ScreenManager(GraphicsDevice, this);
         }
 
         /// <summary>
@@ -47,9 +53,9 @@ namespace SiegeOnWindsor
         /// </summary>
         protected override void Initialize()
         {
-            screenManager.InitializeScreens();
-
             base.Initialize();
+
+            screenManager.InitializeScreens();
         }
 
         /// <summary>
@@ -58,9 +64,16 @@ namespace SiegeOnWindsor
         /// </summary>
         protected override void LoadContent()
         {
-            screenManager.LoadScreensContent();
-
             base.LoadContent();
+
+            Textures.Load(this);
+
+            foreach (Textures.Texture t in this.loadBuffer)
+            {
+                t.Sprite = Content.Load<Texture2D>(t.Name);
+            }
+
+            screenManager.LoadScreensContent();
         }
 
         /// <summary>
@@ -69,9 +82,9 @@ namespace SiegeOnWindsor
         /// </summary>
         protected override void UnloadContent()
         {
-            screenManager.UnloadScreensContent();
-
             base.UnloadContent();
+
+            screenManager.UnloadScreensContent();
         }
 
         /// <summary>
@@ -81,20 +94,12 @@ namespace SiegeOnWindsor
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                if (currentScreen.Equals(Screens.Screens.MAIN_MENU))
-                    currentScreen = Screens.Screens.GAME;
-                else if (currentScreen.Equals(Screens.Screens.GAME))
-                    currentScreen = Screens.Screens.MAIN_MENU;
-            }
-
-            screenManager.GetScreen(currentScreen).Update(gameTime);
-
-            base.Update(gameTime);
+            screenManager.GetScreen(currentScreen).Update(gameTime);    
         }
 
         /// <summary>
@@ -103,11 +108,11 @@ namespace SiegeOnWindsor
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            base.Draw(gameTime);
+
             GraphicsDevice.Clear(Color.LightGray);
 
             screenManager.GetScreen(currentScreen).Draw(gameTime);
-
-            base.Draw(gameTime);
         }
     }
 }

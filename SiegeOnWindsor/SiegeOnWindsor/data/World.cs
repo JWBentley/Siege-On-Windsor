@@ -12,7 +12,7 @@ namespace SiegeOnWindsor.data
 
         public World()
         {
-            this.CreateGrid(15, 15);
+            this.CreateGrid(17, 17);
         }
 
         public void Update()
@@ -28,7 +28,7 @@ namespace SiegeOnWindsor.data
             {
                 for (int y = 0; y < height; y++)
                 {
-                    this.Grid[x, y] = new Tile();
+                    this.Grid[x, y] = new Tile(x == 0 || y == 0 || x == width - 1 || y == height - 1);
 
                     if (x == width / 2 && y == height / 2)
                         ; //Set Crown
