@@ -42,7 +42,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Data\IUpdate.cs" />
-    <Compile Include="Data\Tile.cs" />
+    <Compile Include="Data\Tiles\CrownTile.cs" />
+    <Compile Include="Data\Tiles\NullTile.cs" />
+    <Compile Include="Data\Tiles\Tile.cs" />
     <Compile Include="Data\World.cs" />
     <Compile Include="Graphics\Textures.cs" />
     <Compile Include="Graphics\UI\Button.cs" />

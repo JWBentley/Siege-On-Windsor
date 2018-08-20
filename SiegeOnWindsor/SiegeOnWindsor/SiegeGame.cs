@@ -15,34 +15,34 @@ namespace SiegeOnWindsor
     public class SiegeGame : Game
     {
         // Data //
-        public Screens.Screens currentScreen;
+        public Screens.Screens currentScreen; //Enum holding the value of the current screen that is active
 
         // Graphics //
-        public GraphicsDeviceManager _graphics;
-        public List<Textures.Texture> loadBuffer;
+        public GraphicsDeviceManager _graphics; //GraphicsDeviceManager
+        public List<Textures.Texture> loadBuffer; //List of textures that are to be loaded
 
         // Screens //
-        ScreenManager screenManager;
+        ScreenManager screenManager; //Draws the screen corresponding to the currentScreen variable
 
         public SiegeGame()
         {
-            currentScreen = Screens.Screens.MAIN_MENU;
+            currentScreen = Screens.Screens.MAIN_MENU; //Sets the current screen to the main menu
 
             _graphics = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = 1280,
                 PreferredBackBufferHeight = 720,
             };
-            _graphics.ApplyChanges();
+            _graphics.ApplyChanges(); //Sets up the GraphicsDeviceManager for a screen of size 1280x720
 
-            this.loadBuffer = new List<Textures.Texture>();
+            this.loadBuffer = new List<Textures.Texture>(); //Creates the list for the load buffer
 
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
-            Window.AllowUserResizing = false;
-            Window.Title = "Siege On Windsor Castle";
+            Content.RootDirectory = "Content"; //Sets the content root directory (Content folder) which is where to look for texture files
+            IsMouseVisible = true; //Makes the mouse visable
+            Window.AllowUserResizing = false; //Prevents the user from resizing the window as the program does not yet support scaling to different resolutions (may or may not be added in the future)
+            Window.Title = "Siege On Windsor Castle"; //Sets the title of the window
 
-            screenManager = new ScreenManager(GraphicsDevice, this);
+            screenManager = new ScreenManager(GraphicsDevice, this); //Creates a screen manager for the game 
         }
 
         /// <summary>
@@ -66,11 +66,11 @@ namespace SiegeOnWindsor
         {
             base.LoadContent();
 
-            Textures.Load(this);
+            Textures.Load(this); //Prompts the texture class to add all textures to the loadBuffer
 
-            foreach (Textures.Texture t in this.loadBuffer)
+            foreach (Textures.Texture t in this.loadBuffer) //Loops through each texture in the buffer
             {
-                t.Sprite = Content.Load<Texture2D>(t.Name);
+                t.Sprite = Content.Load<Texture2D>(t.Name); //Loads the sprite to the texture
             }
 
             screenManager.LoadScreensContent();
@@ -99,7 +99,7 @@ namespace SiegeOnWindsor
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            screenManager.GetScreen(currentScreen).Update(gameTime);    
+            screenManager.GetScreen(currentScreen).Update(gameTime); //Updates the current screen
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace SiegeOnWindsor
 
             GraphicsDevice.Clear(Color.LightGray);
 
-            screenManager.GetScreen(currentScreen).Draw(gameTime);
+            screenManager.GetScreen(currentScreen).Draw(gameTime); //Draws the current screen
         }
     }
 }

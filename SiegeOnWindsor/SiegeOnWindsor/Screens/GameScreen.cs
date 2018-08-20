@@ -11,16 +11,12 @@ namespace SiegeOnWindsor.Screens
 {
     public class GameScreen : Screen
     {
-        SiegeGame game;
-
         World world;
 
-        GraphicsDevice graphicsDevice;
         SpriteBatch tilesBatch;
 
-        public GameScreen(GraphicsDevice graphicsDevice, SiegeGame game) : base(graphicsDevice)
+        public GameScreen(SiegeGame game) : base(game)
         {
-            this.graphicsDevice = graphicsDevice;
             this.game = game;
         }
 
@@ -32,7 +28,7 @@ namespace SiegeOnWindsor.Screens
 
         public override void LoadContent()
         {
-            this.tilesBatch = new SpriteBatch(this.graphicsDevice);
+            this.tilesBatch = new SpriteBatch(this.game.GraphicsDevice);
         }
 
         public override void Update(GameTime gameTime)

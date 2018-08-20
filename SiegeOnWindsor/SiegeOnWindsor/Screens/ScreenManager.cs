@@ -14,8 +14,8 @@ namespace SiegeOnWindsor.Screens
 
         public ScreenManager(GraphicsDevice gd, SiegeGame game)
         {
-            menuScreen = new MenuScreen(gd, game);
-            gameScreen = new GameScreen(gd, game);
+            menuScreen = new MenuScreen(game);
+            gameScreen = new GameScreen(game);
         }
 
         public void InitializeScreens()

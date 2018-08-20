@@ -10,18 +10,18 @@ namespace SiegeOnWindsor.Screens
 {
     public abstract class Screen
     {
-        private GraphicsDevice graphics;
+        protected SiegeGame game; //Local copy of the game
 
-        public Screen(GraphicsDevice graphicsDevice)
+        public Screen(SiegeGame g)
         {
-            this.graphics = graphicsDevice;
+            this.game = g;
         }
 
-        public abstract void Initialize();
-        public abstract void LoadContent();
-        public abstract void UnloadContent();
-        public abstract void Update(GameTime gameTime);
-        public abstract void Draw(GameTime gameTime);
+        public abstract void Initialize(); //Set up screen code
+        public abstract void LoadContent(); //Load screen visuals
+        public abstract void UnloadContent(); //Unload screen visuals
+        public abstract void Update(GameTime gameTime); //Update screen data
+        public abstract void Draw(GameTime gameTime); //Draw updated graphics
         
     }
 }
