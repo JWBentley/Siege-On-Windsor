@@ -41,9 +41,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Data\Defences\CrownDef.cs" />
+    <Compile Include="Data\Defences\Defence.cs" />
+    <Compile Include="Data\Defences\NullDef.cs" />
     <Compile Include="Data\IUpdate.cs" />
-    <Compile Include="Data\Tiles\CrownTile.cs" />
-    <Compile Include="Data\Tiles\NullTile.cs" />
     <Compile Include="Data\Tiles\Tile.cs" />
     <Compile Include="Data\World.cs" />
     <Compile Include="Graphics\Textures.cs" />

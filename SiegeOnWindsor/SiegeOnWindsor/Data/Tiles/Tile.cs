@@ -1,4 +1,5 @@
-﻿using SiegeOnWindsor.Graphics;
+﻿using SiegeOnWindsor.Data.Defences;
+using SiegeOnWindsor.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,21 @@ namespace SiegeOnWindsor.Data.Tiles
 {
     public class Tile
     {
-        private Textures.Texture graphic = null;
+        private Defence defence;
 
         public Tile()
         {
 
         }
 
-        public Tile(Textures.Texture g)
+        public Tile(Defence d)
         {
-            this.graphic = g;
+            this.defence = d;
         }
 
         public virtual Textures.Texture GetGraphic()
         {
-            return this.graphic != null ? this.graphic : Textures.emptyTile;
+            return this.defence != null ? this.defence.GetGraphic() : Textures.emptyTile;
         }
     }
 }
