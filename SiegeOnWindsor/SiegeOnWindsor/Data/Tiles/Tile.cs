@@ -1,4 +1,6 @@
-﻿using SiegeOnWindsor.Data.Defences;
+﻿using SiegeOnWindsor.data;
+using SiegeOnWindsor.Data.Defences;
+using SiegeOnWindsor.Data.Enemies;
 using SiegeOnWindsor.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,18 +10,31 @@ using System.Threading.Tasks;
 
 namespace SiegeOnWindsor.Data.Tiles
 {
-    public class Tile
+    public class Tile : IUpdate
     {
-        private Defence defence;
+        public List<Enemy> enemies;
+        public Defence defence;
 
-        public Tile()
+        public Tile() : this(null)
         {
-
+            
         }
 
         public Tile(Defence d)
         {
             this.defence = d;
+            this.enemies = new List<Enemy>(); 
+        }
+
+        public void Update()
+        {
+            if (this.defence != null)
+                this.defence.Update();
+
+            foreach (Enemy enemy in this.enemies)
+            {
+                enemy.Update();
+            }
         }
 
         public virtual Textures.Texture GetGraphic()

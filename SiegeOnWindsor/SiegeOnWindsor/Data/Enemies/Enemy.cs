@@ -1,23 +1,23 @@
-﻿using System;
+﻿using SiegeOnWindsor.data;
+using SiegeOnWindsor.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SiegeOnWindsor.Graphics;
-using SiegeOnWindsor.data;
 
-namespace SiegeOnWindsor.Data.Defences
+namespace SiegeOnWindsor.Data.Enemies
 {
-    public abstract class Defence : IUpdate
+    public abstract class Enemy : IUpdate
     {
         private Textures.Texture graphic;
 
-        public Defence()
+        public Enemy()
         {
 
         }
 
-        public Defence(Textures.Texture g)
+        public Enemy(Textures.Texture g)
         {
             this.graphic = g;
         }

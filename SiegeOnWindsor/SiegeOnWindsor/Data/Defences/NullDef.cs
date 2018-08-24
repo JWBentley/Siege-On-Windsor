@@ -13,5 +13,10 @@ namespace SiegeOnWindsor.Data.Defences
         {
 
         }
+
+        public override void Update()
+        {
+            
+        }
     }
 }

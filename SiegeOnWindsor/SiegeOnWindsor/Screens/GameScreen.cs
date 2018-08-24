@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using SiegeOnWindsor.data;
 using Microsoft.Xna.Framework.Graphics;
+using SiegeOnWindsor.Data.Enemies;
 
 namespace SiegeOnWindsor.Screens
 {
@@ -51,14 +52,26 @@ namespace SiegeOnWindsor.Screens
             {
                 for (int y = 0; y < (this.world.Grid).GetLength(1); y++)
                 {
-                    if (this.world.GetTileAt(x, y).GetGraphic() != null)
-                        if (this.world.GetTileAt(x, y).GetGraphic().Sprite != null)
+                    if (this.world.GetTileAt(x, y).GetGraphic() != null && this.world.GetTileAt(x, y).GetGraphic().Sprite != null)
                             this.tilesBatch.Draw(this.world.GetTileAt(x, y).GetGraphic().Sprite, new Rectangle(
                                 Convert.ToInt16(((this.game._graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
                                 Convert.ToInt16((this.game._graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
                                 height,
                                 height),
                                 Color.White);
+
+                    //Render defence
+
+                    if (this.world.GetTileAt(x, y).enemies != null)
+                        foreach (Enemy enemy in this.world.GetTileAt(x, y).enemies)
+                        {
+                            this.tilesBatch.Draw(enemy.GetGraphic().Sprite, new Rectangle(
+                                    Convert.ToInt16(((this.game._graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
+                                    Convert.ToInt16((this.game._graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
+                                    height,
+                                    height),
+                                    Color.White);
+                        }
                 }
             }
 

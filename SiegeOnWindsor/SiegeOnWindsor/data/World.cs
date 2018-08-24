@@ -1,4 +1,5 @@
 ﻿using SiegeOnWindsor.Data.Defences;
+using SiegeOnWindsor.Data.Enemies;
 using SiegeOnWindsor.Data.Tiles;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,10 @@ namespace SiegeOnWindsor.data
 
         public void Update()
         {
-
+            foreach (Tile tile in this.Grid)
+            {
+                tile.Update();
+            }
         }
 
         private void CreateGrid(int width, int height)
@@ -37,6 +41,9 @@ namespace SiegeOnWindsor.data
                     else this.Grid[x, y] = new Tile();
                 }
             }
+
+            this.GetTileAt(1, 1).enemies.Add(new PeasantEnemy(100));
+            this.GetTileAt(1, 1).enemies.Add(new PeasantEnemy(50));
         }
 
         public Tile GetTileAt(int x, int y)

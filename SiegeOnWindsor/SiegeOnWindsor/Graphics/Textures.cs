@@ -15,6 +15,7 @@ namespace SiegeOnWindsor.Graphics
         public static Texture nullTile;
         public static Texture crownTile;
 
+        public static Animation testAnimation;
 
         public static void Load(SiegeGame game)
         {
@@ -23,6 +24,8 @@ namespace SiegeOnWindsor.Graphics
             emptyTile = new Texture("empty_tile", game);
             nullTile = new Texture("null_tile", game);
             crownTile = new Texture("crown_tile", game);
+
+            testAnimation = new Animation(new String[] { "Enemies/Left", "Enemies/Right" }, game);
         }
 
         public class Texture
@@ -34,6 +37,42 @@ namespace SiegeOnWindsor.Graphics
             {
                 this.Name = s;
                 game.loadBuffer.Add(this);
+            }
+        }
+
+        public class Animation
+        {
+            Texture[] Sprites;
+            int currentFrame = 0;
+
+            public Animation(Animation a)
+            {
+                this.Sprites = a.Sprites;
+            }
+
+            public Animation(String[] s, SiegeGame game)
+            {
+                this.Sprites = new Texture[s.Length];
+                for (int i = 0; i < s.Length; i++)
+                {
+                    this.Sprites[i] = new Texture(s[i], game);
+                }
+            }
+
+            public Texture GetFrame()
+            {
+                return this.Sprites[this.currentFrame];
+            }
+
+            public void NextFrame()
+            {
+                if (this.Sprites != null)
+                {
+                    if (this.currentFrame < this.Sprites.Length - 1)
+                        this.currentFrame++;
+                    else
+                        this.currentFrame = 0;
+                }
             }
         }
     }

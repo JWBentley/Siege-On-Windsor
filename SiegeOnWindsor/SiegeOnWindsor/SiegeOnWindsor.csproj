@@ -44,6 +44,8 @@
     <Compile Include="Data\Defences\CrownDef.cs" />
     <Compile Include="Data\Defences\Defence.cs" />
     <Compile Include="Data\Defences\NullDef.cs" />
+    <Compile Include="Data\Enemies\Enemy.cs" />
+    <Compile Include="Data\Enemies\PeasantEnemy.cs" />
     <Compile Include="Data\IUpdate.cs" />
     <Compile Include="Data\Tiles\Tile.cs" />
     <Compile Include="Data\World.cs" />
