@@ -41,6 +41,9 @@ namespace SiegeOnWindsor
             IsMouseVisible = true; //Makes the mouse visable
             Window.AllowUserResizing = false; //Prevents the user from resizing the window as the program does not yet support scaling to different resolutions (may or may not be added in the future)
             Window.Title = "Siege On Windsor Castle"; //Sets the title of the window
+            TargetElapsedTime = TimeSpan.FromSeconds(1.0F / 100.0F); //Forces an update to be called 100 times per second
+            IsFixedTimeStep = false;
+
 
             screenManager = new ScreenManager(GraphicsDevice, this); //Creates a screen manager for the game 
         }

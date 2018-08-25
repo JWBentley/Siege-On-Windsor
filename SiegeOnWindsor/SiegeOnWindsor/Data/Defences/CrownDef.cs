@@ -1,4 +1,5 @@
-﻿using SiegeOnWindsor.Graphics;
+﻿using Microsoft.Xna.Framework;
+using SiegeOnWindsor.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace SiegeOnWindsor.Data.Defences
 
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
            
         }

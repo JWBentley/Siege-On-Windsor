@@ -5,11 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using SiegeOnWindsor.Graphics;
 using SiegeOnWindsor.data;
+using Microsoft.Xna.Framework;
+using SiegeOnWindsor.Data.Tiles;
 
 namespace SiegeOnWindsor.Data.Defences
 {
     public abstract class Defence : IUpdate
     {
+        public int Health = 1;
+
+        public Tile Tile;
+
         private Textures.Texture graphic;
 
         public Defence()
@@ -22,7 +28,22 @@ namespace SiegeOnWindsor.Data.Defences
             this.graphic = g;
         }
 
-        public abstract void Update();
+        public abstract void Update(GameTime gameTime);
+
+        public int GetBaseRiskValue()
+        {
+            return this.Health / 100;
+        }
+
+        public List<Vector2> GetImpactedTiles()
+        {
+            return new List<Vector2>();
+        }
+
+        public int GetImpactOnTile(Vector2 location)
+        {
+            return 0;
+        }
 
         public virtual Textures.Texture GetGraphic()
         {

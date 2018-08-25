@@ -1,4 +1,6 @@
-﻿using SiegeOnWindsor.Graphics;
+﻿using Microsoft.Xna.Framework;
+using SiegeOnWindsor.Data.Enemies;
+using SiegeOnWindsor.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +16,18 @@ namespace SiegeOnWindsor.Data.Defences
 
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             
+        }
+
+        public void SpawnEnemy(Enemy enemy)
+        {
+            if (this.Tile != null)
+            {
+                enemy.Location = this.Tile.Location;
+                this.Tile.enemies.Add(enemy);
+            }
         }
     }
 }
