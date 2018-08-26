@@ -61,7 +61,7 @@ namespace SiegeOnWindsor.Data.Tiles
 
         public virtual Textures.Texture GetGraphic()
         {
-            return this.defence != null ? this.defence.GetGraphic() : Textures.emptyTile;
+            return Textures.emptyTile;
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using SiegeOnWindsor.data;
 using Microsoft.Xna.Framework.Graphics;
 using SiegeOnWindsor.Data.Enemies;
+using SiegeOnWindsor.Graphics;
 
 namespace SiegeOnWindsor.Screens
 {
@@ -41,6 +42,14 @@ namespace SiegeOnWindsor.Screens
         {
             this.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
+            /*
+             * DRAW BACKGROUND
+             */
+            this.spriteBatch.Draw(texture: Textures.gameBackground.Sprite, destinationRectangle: new Rectangle(0, 0, this.game._graphics.PreferredBackBufferWidth, this.game._graphics.PreferredBackBufferHeight), color: Color.White); //Draws the background fullscreen
+
+            /*
+             * DRAW TILES
+             */
             int height = Convert.ToInt16(Math.Floor((double)(this.game._graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1))));
 
             for (int x = 0; x < (this.world.Grid).GetLength(0); x++)
@@ -55,8 +64,21 @@ namespace SiegeOnWindsor.Screens
                             height),
                             Color.White);
 
-                    //Render defence
+                    if (this.world.GetTileAt(x, y).defence != null && this.world.GetTileAt(x, y).defence.GetGraphic() != null && this.world.GetTileAt(x, y).defence.GetGraphic().Sprite != null)
+                        this.spriteBatch.Draw(this.world.GetTileAt(x, y).defence.GetGraphic().Sprite, new Rectangle(
+                            Convert.ToInt16(((this.game._graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
+                            Convert.ToInt16((this.game._graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
+                            height,
+                            height),
+                            Color.White);
 
+                    /*
+                     * DRAW DEFENCE 
+                     */
+
+                    /*
+                     * DRAW ENEMIES 
+                     */
                     if (this.world.GetTileAt(x, y).enemies != null)
                         foreach (Enemy enemy in this.world.GetTileAt(x, y).enemies)
                         {
@@ -69,6 +91,11 @@ namespace SiegeOnWindsor.Screens
                         }
                 }
             }
+
+            /*
+             * DRAW UI
+             */
+            this.spriteBatch.Draw(texture: Textures.defencePanelUI.Sprite, destinationRectangle: new Rectangle(991, 164, Textures.defencePanelUI.Sprite.Bounds.Width, Textures.defencePanelUI.Sprite.Bounds.Height), color: Color.White); //Draws the selection panel
 
             this.spriteBatch.End();
         }

@@ -33,7 +33,7 @@ namespace SiegeOnWindsor.Screens
             //Creates a new button by loading the sprite and font
             this.testButton = new Button(this.game.Content.Load<Texture2D>("Controls/Button"), this.game.Content.Load<SpriteFont>("Fonts/Font"))
             {
-                Position = new Vector2(758, 315),
+                Position = new Vector2(789, 352),
                 Text = "Play Game"
             };
 

@@ -10,6 +10,9 @@ namespace SiegeOnWindsor.Graphics
     public class Textures
     {
         public static Texture menuBackground;
+        public static Texture gameBackground;
+
+        public static Texture defencePanelUI;
 
         public static Texture emptyTile;
         public static Texture nullTile;
@@ -20,6 +23,9 @@ namespace SiegeOnWindsor.Graphics
         public static void Load(SiegeGame game)
         {
             menuBackground = new Texture("Backgrounds/menu_screen", game);
+            gameBackground = new Texture("Backgrounds/game_screen", game);
+
+            defencePanelUI = new Texture("UI/defence_panel", game);
 
             emptyTile = new Texture("empty_tile", game);
             nullTile = new Texture("null_tile", game);

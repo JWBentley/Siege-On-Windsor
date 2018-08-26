@@ -42,15 +42,15 @@ namespace SiegeOnWindsor.data
                 for (int y = 0; y < height; y++)
                 {
                     if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
-                        this.Grid[x, y] = new Tile(this, new Vector2(x, y), new NullDef());
+                        this.Grid[x, y] = new SpawnTile(this, new Vector2(x, y), null);
                     else if (x == width / 2 && y == height / 2)
                         this.Grid[x, y] = new Tile(this, new Vector2(x,y), new CrownDef());
                     else this.Grid[x, y] = new Tile(this, new Vector2(x, y));
                 }
             }
 
-            ((NullDef)this.GetTileAt(0, 1).defence).SpawnEnemy(new PeasantEnemy(100));
-            ((NullDef)this.GetTileAt(0, 2).defence).SpawnEnemy(new PeasantEnemy(50));
+            ((SpawnTile)this.GetTileAt(0, 1)).SpawnEnemy(new PeasantEnemy(100));
+            ((SpawnTile)this.GetTileAt(0, 2)).SpawnEnemy(new PeasantEnemy(50));
 
 
 
