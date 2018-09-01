@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using SiegeOnWindsor.Data.Defences;
 using SiegeOnWindsor.Data.Enemies;
+using SiegeOnWindsor.Data.Enemies.Pathfinding;
 using SiegeOnWindsor.Data.Tiles;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,8 @@ namespace SiegeOnWindsor.data
         /// <summary>
         /// Risk to the enemy of moving to each tile in the world
         /// </summary>
-        private int[,] RiskMap;
+        public int[,] RiskMap;
+        public AStar aStar;
 
         public World()
         {
@@ -42,19 +44,17 @@ namespace SiegeOnWindsor.data
                 for (int y = 0; y < height; y++)
                 {
                     if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
-                        this.Grid[x, y] = new SpawnTile(this, new Vector2(x, y), null);
+                        this.Grid[x, y] = new SpawnTile(this, new Vector2(x, y), null); //Creates spawn tiles
                     else if (x == width / 2 && y == height / 2)
-                        this.Grid[x, y] = new Tile(this, new Vector2(x,y), new CrownDef());
-                    else this.Grid[x, y] = new Tile(this, new Vector2(x, y));
+                        this.Grid[x, y] = new Tile(this, new Vector2(x,y), new CrownDef()); //Creates tile with a crown def
+                    else this.Grid[x, y] = new Tile(this, new Vector2(x, y)); //Creates an empty tile
                 }
             }
 
-            ((SpawnTile)this.GetTileAt(0, 1)).SpawnEnemy(new PeasantEnemy(100));
-            ((SpawnTile)this.GetTileAt(0, 2)).SpawnEnemy(new PeasantEnemy(50));
-
-
-
             this.UpdateRiskMap();
+
+            //TESTING of spawning enemies
+            ((SpawnTile)this.GetTileAt(0, 1)).SpawnEnemy(new PeasantEnemy(this, 100));
         }
 
         /// <summary>
@@ -83,6 +83,13 @@ namespace SiegeOnWindsor.data
                         }
                 }
             }
+
+            this.aStar = new AStar(new GridGraph(this.RiskMap));
+        }
+
+        public Vector2 GetCrownLocation()
+        {
+            return new Vector2((int)this.RiskMap.GetLength(0) / 2, (int)this.RiskMap.GetLength(1) / 2);
         }
 
         public Tile GetTileAt(int x, int y)

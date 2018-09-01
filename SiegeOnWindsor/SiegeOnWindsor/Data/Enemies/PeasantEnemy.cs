@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SiegeOnWindsor.data;
 using SiegeOnWindsor.Graphics;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace SiegeOnWindsor.Data.Enemies
         private int limit;
 
 
-        public PeasantEnemy(int a) : base()
+        public PeasantEnemy(World w, int a) : base(w)
         {
             this.Speed = 100;
             this.animation = new Animation(Textures.testAnimation);

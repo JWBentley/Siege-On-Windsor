@@ -21,15 +21,18 @@ namespace SiegeOnWindsor.Data.Enemies
         protected int Speed = -1;
         protected int MovementProgress = 0;
 
+        public World World;
         public Vector2 Location;
         protected Stack<Vector2> Path;
 
         
         private Textures.Texture graphic;
 
-        public Enemy()
+        public Enemy(World w)
         {
-
+            this.World = w;
+            Console.WriteLine(this.World.GetCrownLocation().X);
+            Console.WriteLine(this.World.GetCrownLocation().Y);
         }
 
         public Enemy(Vector2 l)
@@ -56,6 +59,16 @@ namespace SiegeOnWindsor.Data.Enemies
                 }
             }
 
+        }
+
+        public void UpdatePath()
+        {
+            this.Path = this.World.aStar.Run(this.Location, this.World.GetCrownLocation());
+
+            foreach (Vector2 loc in this.Path)
+            {
+                Console.WriteLine("Path:{0},{1}", loc.X, loc.Y);
+            }
         }
 
         public virtual Vector2 GetActualLocation()

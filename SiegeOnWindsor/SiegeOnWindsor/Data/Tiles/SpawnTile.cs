@@ -24,8 +24,9 @@ namespace SiegeOnWindsor.Data.Tiles
 
         public void SpawnEnemy(Enemy enemy)
         {
-            enemy.Location = this.Location;
-            this.enemies.Add(enemy);
+            enemy.Location = this.Location; //Sets the enemies location to the spawn tile
+            this.enemies.Add(enemy); //Adds the enemy to the tiles list
+            enemy.UpdatePath();
         }
 
         public override Textures.Texture GetGraphic()
