@@ -43,7 +43,7 @@ namespace SiegeOnWindsor.Screens
             this.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             //Debugging pathfinding
-            Stack<Vector2> test = this.world.aStar.Run(new Vector2(0, 0), new Vector2((this.world.Grid).GetLength(0) / 2, (this.world.Grid).GetLength(1) / 2));
+            Stack<Vector2> test = this.world.aStar.Run(new Vector2(16, 16), new Vector2((this.world.Grid).GetLength(0) / 2, (this.world.Grid).GetLength(1) / 2));
             
             /*
              * DRAW BACKGROUND
@@ -74,6 +74,7 @@ namespace SiegeOnWindsor.Screens
                         else
                             colorTest = Color.White;
                         this.spriteBatch.DrawString(this.game.Content.Load<SpriteFont>("Fonts/Font"), this.world.RiskMap[x, y].ToString(), new Vector2(Convert.ToInt16(((this.game._graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)), Convert.ToInt16((this.game._graphics.PreferredBackBufferHeight * 0.05) + (y * height))), colorTest);
+                    
                     }
                 
                     if (this.world.GetTileAt(x, y).defence != null && this.world.GetTileAt(x, y).defence.GetGraphic() != null && this.world.GetTileAt(x, y).defence.GetGraphic().Sprite != null)

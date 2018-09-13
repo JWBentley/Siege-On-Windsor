@@ -40,7 +40,7 @@ namespace Pathfinding.Pathfinding
                     {
                         if (this.priorityQueue.Contains(childNode))
                         {
-                            if (this.Graph.GetCostOf(currentNode, childNode) + this.GetEstimatedCost(childNode.Value, goalNode.Value) < this.GetTotalCost(childNode))
+                            if (this.gCost[currentNode] + this.Graph.GetCostOf(currentNode, childNode) + this.GetEstimatedCost(childNode.Value, goalNode.Value) < this.GetTotalCost(childNode))
                             {
                                 this.cameFrom[childNode] = currentNode;
                                 this.gCost[childNode] = this.Graph.GetCostOf(currentNode, childNode);
@@ -53,6 +53,7 @@ namespace Pathfinding.Pathfinding
                         else if (this.closedSet.Contains(childNode))
                         {
                             Console.WriteLine("Trying to update cameFrom for something in closed set");
+                            Console.WriteLine("Node:{0},{1} Child:{2},{3}", currentNode.Value.x, currentNode.Value.y, childNode.Value.x, childNode.Value.y);
                         }
                         else
                         {

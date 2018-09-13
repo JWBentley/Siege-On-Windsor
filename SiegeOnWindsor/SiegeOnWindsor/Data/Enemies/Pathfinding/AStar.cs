@@ -45,12 +45,12 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
             while (this.priorityQueue[0] != goalNode)
             {
                 GraphNode<Vector2> currentNode = this.Dequeue();
-
+                Console.WriteLine("Location:({0},{1})", currentNode.Value.X.ToString(), currentNode.Value.Y.ToString());
                 foreach (GraphNode<Vector2> childNode in currentNode.Neighbors)
                 {
                     if (this.priorityQueue.Contains(childNode))
                     {
-                        if (this.Graph.GetCostOf(currentNode, childNode) + this.GetEstimatedCost(childNode.Value, goalNode.Value) < this.GetTotalCost(childNode))
+                        if (this.gCost[currentNode] + this.Graph.GetCostOf(currentNode, childNode) < this.gCost[childNode])
                         {
                             this.cameFrom[childNode] = currentNode;
                             this.gCost[childNode] = this.Graph.GetCostOf(currentNode, childNode);
@@ -76,6 +76,7 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
                 this.closedSet.Add(currentNode);
             }
 
+            Console.WriteLine("DONE");
             return this.ReconstructPath(startNode, goalNode);
         }
 
@@ -96,7 +97,7 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
 
         private int GetEstimatedCost(Vector2 start, Vector2 goal)
         {
-            return Math.Abs((int)((goal.X - start.X) + (goal.Y - start.Y)));
+            return Math.Abs((int)Math.Sqrt(Math.Pow(goal.X - start.X, 2) + Math.Pow(goal.Y - start.Y, 2)));
         }
 
         private int GetTotalCost(GraphNode<Vector2> node)

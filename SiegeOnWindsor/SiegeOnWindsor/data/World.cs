@@ -54,7 +54,7 @@ namespace SiegeOnWindsor.data
             this.UpdateRiskMap();
 
             //TESTING of spawning enemies
-            ((SpawnTile)this.GetTileAt(0, 1)).SpawnEnemy(new PeasantEnemy(this, 100));
+            ((SpawnTile)this.GetTileAt(0, 0)).SpawnEnemy(new PeasantEnemy(this, 100));
         }
 
         /// <summary>
