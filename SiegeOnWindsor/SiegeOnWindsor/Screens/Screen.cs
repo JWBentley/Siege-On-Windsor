@@ -11,6 +11,7 @@ namespace SiegeOnWindsor.Screens
     public abstract class Screen
     {
         protected SiegeGame game; //Local copy of the game
+        protected SpriteBatch spriteBatch; //Sprite batch for drawing
 
         public Screen(SiegeGame g)
         {

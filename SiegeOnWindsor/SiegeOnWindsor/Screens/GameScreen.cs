@@ -15,8 +15,6 @@ namespace SiegeOnWindsor.Screens
     {
         World world; //Reference to the world
 
-        SpriteBatch spriteBatch; //Spritebatch
-
         public GameScreen(SiegeGame game) : base(game)
         {
             this.game = game; //Sets the game

@@ -14,20 +14,15 @@ namespace SiegeOnWindsor
     /// </summary>
     public class SiegeGame : Game
     {
-        // Data //
-        public Screens.Screens currentScreen; //Enum holding the value of the current screen that is active
-
         // Graphics //
         public GraphicsDeviceManager _graphics; //GraphicsDeviceManager
         public List<Textures.Texture> loadBuffer; //List of textures that are to be loaded
 
         // Screens //
-        ScreenManager screenManager; //Draws the screen corresponding to the currentScreen variable
+        public ScreenManager screenManager; //Draws the screen corresponding to the currentScreen variable
 
         public SiegeGame()
         {
-            currentScreen = Screens.Screens.MAIN_MENU; //Sets the current screen to the main menu
-
             _graphics = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = 1280,
@@ -102,7 +97,7 @@ namespace SiegeOnWindsor
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            screenManager.GetScreen(currentScreen).Update(gameTime); //Updates the current screen
+            screenManager.Update(gameTime);
         }
 
         /// <summary>
@@ -115,7 +110,7 @@ namespace SiegeOnWindsor
 
             GraphicsDevice.Clear(Color.LightGray);
 
-            screenManager.GetScreen(currentScreen).Draw(gameTime); //Draws the current screen
+            screenManager.Draw(gameTime);
         }
     }
 }

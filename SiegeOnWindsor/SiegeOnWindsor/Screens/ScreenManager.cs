@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,17 @@ namespace SiegeOnWindsor.Screens
 {
     public class ScreenManager
     {
-        MenuScreen menuScreen;
-        GameScreen gameScreen;
+        private Screens currentScreen;
+
+        private MenuScreen menuScreen;
+        private GameScreen gameScreen;
 
         public ScreenManager(GraphicsDevice gd, SiegeGame game)
         {
             menuScreen = new MenuScreen(game);
             gameScreen = new GameScreen(game);
+
+            currentScreen = Screens.MAIN_MENU;
         }
 
         public void InitializeScreens()
@@ -36,7 +41,22 @@ namespace SiegeOnWindsor.Screens
             gameScreen.UnloadContent();
         }
 
-        public Screen GetScreen(Screens screen)
+        public void Update(GameTime gameTime)
+        {
+            this.GetScreen(this.currentScreen).Update(gameTime); //Updates the current screen
+        }
+
+        public void Draw(GameTime gameTime)
+        {
+            this.GetScreen(this.currentScreen).Draw(gameTime); //Updates the current screen
+        }
+
+        public void SwitchScreen(Screens screen)
+        {
+            this.currentScreen = screen;
+        }
+
+        private Screen GetScreen(Screens screen)
         {
             switch(screen)
             {
