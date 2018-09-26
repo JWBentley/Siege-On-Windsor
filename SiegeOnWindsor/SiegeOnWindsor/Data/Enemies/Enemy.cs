@@ -31,8 +31,8 @@ namespace SiegeOnWindsor.Data.Enemies
         public Enemy(World w)
         {
             this.World = w;
-            Console.WriteLine(this.World.GetCrownLocation().X);
-            Console.WriteLine(this.World.GetCrownLocation().Y);
+            //Console.WriteLine(this.World.GetCrownLocation().X);
+            //Console.WriteLine(this.World.GetCrownLocation().Y);
         }
 
         public Enemy(Vector2 l)
