@@ -45,11 +45,8 @@
     <Compile Include="Data\Defences\Defence.cs" />
     <Compile Include="Data\Enemies\Enemy.cs" />
     <Compile Include="Data\Enemies\Pathfinding\AStar.cs" />
-    <Compile Include="Data\Enemies\Pathfinding\Graph.cs" />
-    <Compile Include="Data\Enemies\Pathfinding\GraphNode.cs" />
     <Compile Include="Data\Enemies\Pathfinding\GridGraph.cs" />
-    <Compile Include="Data\Enemies\Pathfinding\Node.cs" />
-    <Compile Include="Data\Enemies\Pathfinding\NodeList.cs" />
+    <Compile Include="Data\Enemies\Pathfinding\GridNode.cs" />
     <Compile Include="Data\Enemies\PeasantEnemy.cs" />
     <Compile Include="Data\IUpdate.cs" />
     <Compile Include="Data\Tiles\SpawnTile.cs" />

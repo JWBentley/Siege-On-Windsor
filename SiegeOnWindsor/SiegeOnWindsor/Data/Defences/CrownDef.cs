@@ -12,7 +12,7 @@ namespace SiegeOnWindsor.Data.Defences
     {
         public CrownDef() : base(Textures.crownTile)
         {
-
+            this.Health = 1000;
         }
 
         public override void Update(GameTime gameTime)

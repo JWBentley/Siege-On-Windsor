@@ -9,17 +9,17 @@ namespace Graphs
         private List<GridNode> nodes;
         private int width, height;
 
-        public GridGraph(int width, int height)
+        public GridGraph(int[,] data)
         {
             this.nodes = new List<GridNode>();
-            this.width = width;
-            this.height = height;
+            this.width = data.GetLength(0);
+            this.height = data.GetLength(1);
 
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    this.nodes.Add(new GridNode(new Vector2(x, y), 1));
+                    this.nodes.Add(new GridNode(new Vector2(x, y), data[x,y]));
                 }
             }
 

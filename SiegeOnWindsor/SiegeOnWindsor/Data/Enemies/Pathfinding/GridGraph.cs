@@ -7,59 +7,69 @@ using System.Threading.Tasks;
 
 namespace SiegeOnWindsor.Data.Enemies.Pathfinding
 {
-    public class GridGraph : Graph<Vector2>
+    public class GridGraph
     {
-        GraphNode<Vector2>[,] gridNodes;
+        private List<GridNode> nodes;
+        private int width, height;
 
-        public GridGraph(int[,] data) : this(data, null) { }
-
-        public GridGraph(int[,] data, NodeList<Vector2> nodeSet) : base(nodeSet)
+        public GridGraph(int[,] data)
         {
-            this.gridNodes = new GraphNode<Vector2>[data.GetLength(0), data.GetLength(1)];
+            this.nodes = new List<GridNode>();
+            this.width = data.GetLength(0);
+            this.height = data.GetLength(1);
 
-            for (int x = 0; x < data.GetLength(0); x++)
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 0; y < data.GetLength(1); y++)
+                for (int y = 0; y < height; y++)
                 {
-                    GraphNode<Vector2> node = new GraphNode<Vector2>(new Vector2(x, y));
-                    this.AddNode(node);
-                    this.gridNodes[x, y] = node;
+                    this.nodes.Add(new GridNode(new Vector2(x, y), data[x, y]));
                 }
             }
 
-            for (int x = 0; x < gridNodes.GetLength(0); x++)
+            //Neighbours
+            foreach (GridNode NodeA in this.nodes)
             {
-                for (int y = 0; y < gridNodes.GetLength(1); y++)
+                foreach (GridNode NodeB in this.nodes)
                 {
-                    List<Vector2> adj = new List<Vector2>();
-
-                    if (x + 1 < gridNodes.GetLength(0))
-                        this.AddDirectedEdge(gridNodes[x, y], gridNodes[x + 1, y], data[x + 1, y]);
-                    if (x - 1 >= 0)
-                        this.AddDirectedEdge(gridNodes[x, y], gridNodes[x - 1, y], data[x - 1, y]);
-                    if (y + 1 < gridNodes.GetLength(1))
-                        this.AddDirectedEdge(gridNodes[x, y], gridNodes[x, y + 1], data[x, y + 1]);
-                    if (y - 1 >= 0)
-                        this.AddDirectedEdge(gridNodes[x, y], gridNodes[x, y - 1], data[x, y - 1]);
+                    NodeA.SetNeighbour(NodeB, (int)(NodeB.Location.X - NodeA.Location.X), (int)(NodeB.Location.Y - NodeA.Location.Y));
                 }
             }
-
-            /*
-            GraphNode<Location> testNode = this.GetNodeFromLocation(new Location(4, 3));
-            GraphNode<Location> testNode2 = this.GetNodeFromLocation(new Loscation(4, 4));
-            int cost = GetCostOf(testNode, testNode2);
-            Console.WriteLine(cost.ToString());
-            */
         }
 
-        public int GetCostOf(GraphNode<Vector2> from, GraphNode<Vector2> to)
+        public GridNode GetNodeFromLocation(Vector2 node)
         {
-            return from.Costs.ToArray<int>()[from.Neighbors.IndexOf(to)];
+            foreach (GridNode n in this.nodes)
+            {
+                if (n.Location.X == node.X && n.Location.Y == node.Y)
+                    return n;
+            }
+
+            return null;
         }
 
-        public GraphNode<Vector2> GetNodeFromLocation(Vector2 loc)
+        //Alternative method for gaining access to neighbours
+        public List<GridNode> GetNeighbours(GridNode node)
         {
-            return (GraphNode<Vector2>)this.Nodes.FindByValue(loc);
+            List<GridNode> neighbours = new List<GridNode>();
+
+            //NORTH
+            if (node.Location.Y - 1 >= 0)
+                neighbours.Add(this.GetNodeFromLocation(new Vector2(node.Location.X, node.Location.Y - 1)));
+
+            //EAST
+            if (node.Location.X + 1 < this.width)
+                neighbours.Add(this.GetNodeFromLocation(new Vector2(node.Location.X + 1, node.Location.Y)));
+
+            //SOUTH
+            if (node.Location.Y + 1 < this.height)
+                neighbours.Add(this.GetNodeFromLocation(new Vector2(node.Location.X, node.Location.Y + 1)));
+
+            //WEST
+            if (node.Location.X - 1 >= 0)
+                neighbours.Add(this.GetNodeFromLocation(new Vector2(node.Location.X - 1, node.Location.Y)));
+
+            return neighbours;
         }
     }
 }
+

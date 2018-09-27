@@ -11,12 +11,12 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
     {
         GridGraph Graph;
 
-        List<GraphNode<Vector2>> closedSet;
-        List<GraphNode<Vector2>> priorityQueue;
+        List<GridNode> closedSet;
+        List<GridNode> priorityQueue;
 
-        Dictionary<GraphNode<Vector2>, GraphNode<Vector2>> cameFrom;
-        Dictionary<GraphNode<Vector2>, int> gCost;
-        Dictionary<GraphNode<Vector2>, int> hCost;
+        Dictionary<GridNode, GridNode> cameFrom;
+        Dictionary<GridNode, int> gCost;
+        Dictionary<GridNode, int> hCost;
 
         public AStar(GridGraph g)
         {
@@ -28,51 +28,53 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
             return this.Run(this.Graph.GetNodeFromLocation(startNode), this.Graph.GetNodeFromLocation(goalNode));
         }
 
-        public Stack<Vector2> Run(GraphNode<Vector2> startNode, GraphNode<Vector2> goalNode)
+        public Stack<Vector2> Run(GridNode startNode, GridNode goalNode)
         {
-            closedSet = new List<GraphNode<Vector2>>();
-            priorityQueue = new List<GraphNode<Vector2>>();
+            closedSet = new List<GridNode>();
+            priorityQueue = new List<GridNode>();
 
-            cameFrom = new Dictionary<GraphNode<Vector2>, GraphNode<Vector2>>();
-            gCost = new Dictionary<GraphNode<Vector2>, int>();
-            hCost = new Dictionary<GraphNode<Vector2>, int>();
+            cameFrom = new Dictionary<GridNode, GridNode>();
+            gCost = new Dictionary<GridNode, int>();
+            hCost = new Dictionary<GridNode, int>();
 
             this.cameFrom.Add(startNode, null);
             this.gCost.Add(startNode, 0);
-            this.hCost.Add(startNode, this.GetEstimatedCost(startNode.Value, goalNode.Value));
+            this.hCost.Add(startNode, this.GetEstimatedCost(startNode.Location, goalNode.Location));
             this.Enqueue(startNode);
 
             while (this.priorityQueue[0] != goalNode)
             {
-                GraphNode<Vector2> currentNode = this.Dequeue();
-                Console.WriteLine("Location:({0},{1})", currentNode.Value.X.ToString(), currentNode.Value.Y.ToString());
-                foreach (GraphNode<Vector2> childNode in currentNode.Neighbors)
+                GridNode currentNode = this.Dequeue();
+                Console.WriteLine("Location:({0},{1})", currentNode.Location.X.ToString(), currentNode.Location.Y.ToString());
+                foreach (GridNode childNode in currentNode.Neighbours)
                 {
-                    if (this.priorityQueue.Contains(childNode))
+                    if (childNode != null)
                     {
-                        if (this.gCost[currentNode] + this.Graph.GetCostOf(currentNode, childNode) < this.gCost[childNode])
+                        if (this.priorityQueue.Contains(childNode))
                         {
-                            this.cameFrom[childNode] = currentNode;
-                            this.gCost[childNode] = this.Graph.GetCostOf(currentNode, childNode);
-                            this.hCost[childNode] = this.GetEstimatedCost(childNode.Value, goalNode.Value);
+                            if (this.gCost[currentNode] + childNode.COST < this.gCost[childNode])
+                            {
+                                this.cameFrom[childNode] = currentNode;
+                                this.gCost[childNode] = this.gCost[currentNode] + childNode.COST;
+                                this.hCost[childNode] = this.GetEstimatedCost(childNode.Location, goalNode.Location);
 
-                            this.priorityQueue.Remove(childNode);
+                                this.priorityQueue.Remove(childNode);
+                                this.Enqueue(childNode);
+                            }
+                        }
+                        else if (this.closedSet.Contains(childNode))
+                        {
+                            Console.WriteLine("Trying to update cameFrom for something in closed set");
+                        }
+                        else
+                        {
+                            this.cameFrom.Add(childNode, currentNode);
+                            this.gCost.Add(childNode, childNode.COST + this.gCost[currentNode]);
+                            this.hCost.Add(childNode, this.GetEstimatedCost(childNode.Location, goalNode.Location));
                             this.Enqueue(childNode);
                         }
                     }
-                    else if (this.closedSet.Contains(childNode))
-                    {
-                        Console.WriteLine("Trying to update cameFrom for something in closed set");
-                    }
-                    else
-                    {
-                        this.cameFrom.Add(childNode, currentNode);
-                        this.gCost.Add(childNode, this.Graph.GetCostOf(currentNode, childNode));
-                        this.hCost.Add(childNode, this.GetEstimatedCost(childNode.Value, goalNode.Value));
-                        this.Enqueue(childNode);
-                    }
                 }
-
                 this.closedSet.Add(currentNode);
             }
 
@@ -80,16 +82,16 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
             return this.ReconstructPath(startNode, goalNode);
         }
 
-        private Stack<Vector2> ReconstructPath(GraphNode<Vector2> startNode, GraphNode<Vector2> goalNode)
+        private Stack<Vector2> ReconstructPath(GridNode startNode, GridNode goalNode)
         {
             Stack<Vector2> path = new Stack<Vector2>();
 
-            GraphNode<Vector2> node = goalNode;
-            path.Push(node.Value);
+            GridNode node = goalNode;
+            path.Push(node.Location);
             do
             {
                 this.cameFrom.TryGetValue(node, out node);
-                path.Push(node.Value);
+                path.Push(node.Location);
             } while (node != startNode);
 
             return path;
@@ -100,7 +102,7 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
             return Math.Abs((int)Math.Sqrt(Math.Pow(goal.X - start.X, 2) + Math.Pow(goal.Y - start.Y, 2)));
         }
 
-        private int GetTotalCost(GraphNode<Vector2> node)
+        private int GetTotalCost(GridNode node)
         {
             if (this.gCost.TryGetValue(node, out int g) && this.hCost.TryGetValue(node, out int h))
                 return g + h;
@@ -108,9 +110,9 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
                 return int.MaxValue;
         }
 
-        private void Enqueue(GraphNode<Vector2> node)
+        private void Enqueue(GridNode node)
         {
-            foreach (GraphNode<Vector2> i in this.priorityQueue)
+            foreach (GridNode i in this.priorityQueue)
             {
                 if (this.GetTotalCost(node) < this.GetTotalCost(i))
                 {
@@ -122,9 +124,9 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
             this.priorityQueue.Add(node);
         }
 
-        private GraphNode<Vector2> Dequeue()
+        private GridNode Dequeue()
         {
-            GraphNode<Vector2> node = this.priorityQueue[0];
+            GridNode node = this.priorityQueue[0];
             this.priorityQueue.RemoveAt(0);
             return node;
         }
