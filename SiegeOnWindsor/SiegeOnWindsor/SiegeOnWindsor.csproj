@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Data\Defences\CrownDef.cs" />
     <Compile Include="Data\Defences\Defence.cs" />
+    <Compile Include="Data\Defences\WoodWallDef.cs" />
     <Compile Include="Data\Enemies\Enemy.cs" />
     <Compile Include="Data\Enemies\Pathfinding\AStar.cs" />
     <Compile Include="Data\Enemies\Pathfinding\GridGraph.cs" />

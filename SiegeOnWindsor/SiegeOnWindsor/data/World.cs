@@ -51,7 +51,16 @@ namespace SiegeOnWindsor.data
                 }
             }
 
+            this.GetTileAt(13, 13).defence = new WoodWallDef();
+            this.GetTileAt(14, 13).defence = new WoodWallDef();
+            this.GetTileAt(15, 13).defence = new WoodWallDef();
+
+            this.GetTileAt(9, 8).defence = new WoodWallDef();
+            this.GetTileAt(9, 9).defence = new WoodWallDef();
+
             this.UpdateRiskMap();
+
+
 
             //TESTING of spawning enemies
             ((SpawnTile)this.GetTileAt(0, 0)).SpawnEnemy(new PeasantEnemy(this, 100));
