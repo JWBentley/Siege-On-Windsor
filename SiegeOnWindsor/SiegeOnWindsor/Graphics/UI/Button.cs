@@ -12,7 +12,7 @@ namespace SiegeOnWindsor.Graphics.UI
     /// <summary>
     /// This class creates a simple button that can be used whilst making a prototype of the game
     /// </summary>
-    public class Button : Component
+    public class Button
     {
         private MouseState currentMouse; //Holds the current mouse state
         private SpriteFont font; //Font for the text of the button
@@ -42,7 +42,7 @@ namespace SiegeOnWindsor.Graphics.UI
             this.PenColor = Color.Black;
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             Color color = Color.White;
 
@@ -60,7 +60,7 @@ namespace SiegeOnWindsor.Graphics.UI
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             this.previousMouse = this.currentMouse; //Updates previousMouse
             this.currentMouse = Mouse.GetState(); //Updates currentMouse

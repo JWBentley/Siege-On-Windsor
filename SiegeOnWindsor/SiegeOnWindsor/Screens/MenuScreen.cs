@@ -12,7 +12,9 @@ namespace SiegeOnWindsor.Screens
 {
     public class MenuScreen : Screen
     {
-        Button testButton; //Play game button - TO BE REPLACED
+        Button newGameButton;
+        Button loadGameButton;
+        Button exitGameButton;
 
         public MenuScreen(SiegeGame game) : base(game)
         {
@@ -29,26 +31,44 @@ namespace SiegeOnWindsor.Screens
             this.spriteBatch = new SpriteBatch(this.game.GraphicsDevice); //Starts up the sprite batch using the game's graphics device
 
             //Creates a new button by loading the sprite and font
-            this.testButton = new Button(this.game.Content.Load<Texture2D>("Controls/Button"), this.game.Content.Load<SpriteFont>("Fonts/Font"))
+            this.newGameButton = new Button(this.game.Content.Load<Texture2D>("UI/Buttons/blank"), this.game.Content.Load<SpriteFont>("Fonts/default32"))
             {
-                Position = new Vector2(789, 352),
-                Text = "Play Game"
+                Position = new Vector2(805, 300),
+                Text = "New Game"
             };
 
-            this.testButton.Click += (o, i) => { this.game.screenManager.SwitchScreen(Screens.GAME); }; //Adds the on click event which switches the screen to the game screen
+            this.loadGameButton = new Button(this.game.Content.Load<Texture2D>("UI/Buttons/blank"), this.game.Content.Load<SpriteFont>("Fonts/default32"))
+            {
+                Position = new Vector2(798, 360),
+                Text = "Load Game"
+            };
+
+            this.exitGameButton = new Button(this.game.Content.Load<Texture2D>("UI/Buttons/blank"), this.game.Content.Load<SpriteFont>("Fonts/default32"))
+            {
+                Position = new Vector2(807, 420),
+                Text = "Quit Game"
+            };
+
+            this.newGameButton.Click += (o, i) => { this.game.ScreenManager.SwitchScreen(Screens.GAME); }; //Adds the on click event which switches the screen to the game screen
+
+            this.exitGameButton.Click += (o, i) => { this.game.Exit(); };
         }
 
         public override void Update(GameTime gameTime)
         {
-            this.testButton.Update(gameTime); //Updates the button
+            this.newGameButton.Update(gameTime); //Updates the button
+            this.loadGameButton.Update(gameTime); //Updates the button
+            this.exitGameButton.Update(gameTime); //Updates the button
         }
 
         public override void Draw(GameTime gameTime)
         {
-            this.spriteBatch.Begin(samplerState: SamplerState.PointClamp); //Starts the sprite batch using PointClamp to avoid any AA or blur
+            this.spriteBatch.Begin();
 
-            this.spriteBatch.Draw(Textures.menuBackground.Sprite, new Rectangle(0,0, this.game._graphics.PreferredBackBufferWidth, this.game._graphics.PreferredBackBufferHeight), Color.White); //Draws the background fullscreen
-            this.testButton.Draw(gameTime, this.spriteBatch); //Draws the button
+            this.spriteBatch.Draw(Textures.menuBackground.Sprite, new Rectangle(0,0, this.game.Graphics.PreferredBackBufferWidth, this.game.Graphics.PreferredBackBufferHeight), Color.White); //Draws the background fullscreen
+            this.newGameButton.Draw(gameTime, this.spriteBatch); //Draws the button
+            this.loadGameButton.Draw(gameTime, this.spriteBatch); //Draws the button
+            this.exitGameButton.Draw(gameTime, this.spriteBatch); //Draws the button
 
             this.spriteBatch.End(); //Ends the sprite batch
         }

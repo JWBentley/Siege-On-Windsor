@@ -27,9 +27,9 @@ namespace SiegeOnWindsor.Graphics
 
             defencePanelUI = new Texture("UI/defence_panel", game);
 
-            emptyTile = new Texture("empty_tile", game);
-            nullTile = new Texture("null_tile", game);
-            crownTile = new Texture("crown_tile", game);
+            emptyTile = new Texture("Tile/empty_tile", game);
+            nullTile = new Texture("Tile/null_tile", game);
+            crownTile = new Texture("Tile/Defence/crown_tile", game);
 
             testAnimation = new Animation(new String[] { "Enemies/Left", "Enemies/Right" }, game);
         }
@@ -42,7 +42,7 @@ namespace SiegeOnWindsor.Graphics
             public Texture(String s, SiegeGame game)
             {
                 this.Name = s;
-                game.loadBuffer.Add(this);
+                game.LoadBuffer.Add(this);
             }
         }
 

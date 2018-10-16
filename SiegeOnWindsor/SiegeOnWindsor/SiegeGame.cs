@@ -15,22 +15,23 @@ namespace SiegeOnWindsor
     public class SiegeGame : Game
     {
         // Graphics //
-        public GraphicsDeviceManager _graphics; //GraphicsDeviceManager
-        public List<Textures.Texture> loadBuffer; //List of textures that are to be loaded
+        public GraphicsDeviceManager Graphics; //GraphicsDeviceManager
+        public List<Textures.Texture> LoadBuffer; //List of textures that are to be loaded
 
         // Screens //
-        public ScreenManager screenManager; //Draws the screen corresponding to the currentScreen variable
+        public ScreenManager ScreenManager; //Draws the screen corresponding to the currentScreen variable
 
         public SiegeGame()
         {
-            _graphics = new GraphicsDeviceManager(this)
+            Graphics = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = 1280,
                 PreferredBackBufferHeight = 720,
+                IsFullScreen = false
             };
-            _graphics.ApplyChanges(); //Sets up the GraphicsDeviceManager for a screen of size 1280x720
+            Graphics.ApplyChanges(); //Sets up the GraphicsDeviceManager for a screen of size 1280x720
 
-            this.loadBuffer = new List<Textures.Texture>(); //Creates the list for the load buffer
+            this.LoadBuffer = new List<Textures.Texture>(); //Creates the list for the load buffer
 
             Content.RootDirectory = "Content"; //Sets the content root directory (Content folder) which is where to look for texture files
             IsMouseVisible = true; //Makes the mouse visable
@@ -38,9 +39,10 @@ namespace SiegeOnWindsor
             Window.Title = "Siege On Windsor Castle"; //Sets the title of the window
             TargetElapsedTime = TimeSpan.FromSeconds(1.0F / 100.0F); //Forces an update to be called 100 times per second
             IsFixedTimeStep = false;
+            
 
 
-            screenManager = new ScreenManager(GraphicsDevice, this); //Creates a screen manager for the game 
+            ScreenManager = new ScreenManager(GraphicsDevice, this); //Creates a screen manager for the game 
         }
 
         /// <summary>
@@ -53,7 +55,7 @@ namespace SiegeOnWindsor
         {
             base.Initialize();
 
-            screenManager.InitializeScreens();
+            ScreenManager.InitializeScreens();
         }
 
         /// <summary>
@@ -66,12 +68,12 @@ namespace SiegeOnWindsor
 
             Textures.Load(this); //Prompts the texture class to add all textures to the loadBuffer
 
-            foreach (Textures.Texture t in this.loadBuffer) //Loops through each texture in the buffer
+            foreach (Textures.Texture t in this.LoadBuffer) //Loops through each texture in the buffer
             {
                 t.Sprite = Content.Load<Texture2D>(t.Name); //Loads the sprite to the texture
             }
 
-            screenManager.LoadScreensContent();
+            ScreenManager.LoadScreensContent();
         }
 
         /// <summary>
@@ -82,7 +84,7 @@ namespace SiegeOnWindsor
         {
             base.UnloadContent();
 
-            screenManager.UnloadScreensContent();
+            ScreenManager.UnloadScreensContent();
         }
 
         /// <summary>
@@ -97,7 +99,7 @@ namespace SiegeOnWindsor
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            screenManager.Update(gameTime);
+            ScreenManager.Update(gameTime);
         }
 
         /// <summary>
@@ -110,7 +112,7 @@ namespace SiegeOnWindsor
 
             GraphicsDevice.Clear(Color.LightGray);
 
-            screenManager.Draw(gameTime);
+            ScreenManager.Draw(gameTime);
         }
     }
 }

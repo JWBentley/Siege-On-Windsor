@@ -55,7 +55,6 @@
     <Compile Include="Data\World.cs" />
     <Compile Include="Graphics\Textures.cs" />
     <Compile Include="Graphics\UI\Button.cs" />
-    <Compile Include="Graphics\UI\Component.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\MenuScreen.cs" />
