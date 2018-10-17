@@ -19,7 +19,7 @@ namespace SiegeOnWindsor.Data.Enemies
 
         public PeasantEnemy(World w, int a) : base(w)
         {
-            this.Speed = 100;
+            this.Speed = 50;
             this.animation = new Animation(Textures.testAnimation);
             this.limit = a;
         }

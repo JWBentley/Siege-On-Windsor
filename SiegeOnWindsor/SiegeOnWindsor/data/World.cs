@@ -14,6 +14,7 @@ namespace SiegeOnWindsor.data
     public class World : IUpdate
     {
         public Tile[,] Grid { private set;  get; }
+        public List<Enemy> enemies;
 
         /// <summary>
         /// Risk to the enemy of moving to each tile in the world
@@ -23,6 +24,7 @@ namespace SiegeOnWindsor.data
 
         public World()
         {
+            this.enemies = new List<Enemy>();
             this.CreateGrid(17, 17);
         }
 
@@ -31,6 +33,11 @@ namespace SiegeOnWindsor.data
             foreach (Tile tile in this.Grid)
             {
                 tile.Update(gameTime);
+            }
+
+            foreach(Enemy enemy in this.enemies) // Fix for enemy movement error
+            {
+                enemy.Update(gameTime);
             }
         }
 
@@ -63,7 +70,8 @@ namespace SiegeOnWindsor.data
 
 
             //TESTING of spawning enemies
-            ((SpawnTile)this.GetTileAt(0, 0)).SpawnEnemy(new PeasantEnemy(this, 100));
+            ((SpawnTile)this.GetTileAt(16, 16)).SpawnEnemy(new PeasantEnemy(this, 100), this.GetCrownLocation());
+            ((SpawnTile)this.GetTileAt(16, 4)).SpawnEnemy(new PeasantEnemy(this, 100), this.GetCrownLocation());
         }
 
         /// <summary>

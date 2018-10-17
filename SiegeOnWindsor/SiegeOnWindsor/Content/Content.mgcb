@@ -61,14 +61,14 @@
 /processorParam:TextureFormat=Color
 /build:Enemies/Right.png
 
-#begin Fonts/Font.spritefont
+#begin Fonts/default32.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/Font.spritefont;Fonts/default32.spritefont
+/build:Fonts/default32.spritefont
 
-#begin Tile/Defence/crown_tile.png
+#begin UI/Buttons/blankButton.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -78,9 +78,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tile/Defence/crown_tile.png
+/build:UI/Buttons/blankButton.png
 
-#begin Tile/Defence/guard_tile.png
+#begin UI/Panels/defence_panel.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -90,9 +90,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tile/Defence/guard_tile.png
+/build:UI/Panels/defence_panel.png
 
-#begin Tile/Defence/wall_tile.png
+#begin Tile/Defence/crown_defence.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -102,7 +102,31 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tile/Defence/wall_tile.png
+/build:Tile/Defence/crown_defence.png
+
+#begin Tile/Defence/guard_defence.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tile/Defence/guard_defence.png
+
+#begin Tile/Defence/stone_wall_defence.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tile/Defence/stone_wall_defence.png
 
 #begin Tile/empty_tile.png
 /importer:TextureImporter
@@ -127,28 +151,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Tile/null_tile.png
-
-#begin UI/Buttons/Button.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:UI/Buttons/Button.png;UI/Buttons/blank.png
-
-#begin UI/defence_panel.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:UI/defence_panel.png
 

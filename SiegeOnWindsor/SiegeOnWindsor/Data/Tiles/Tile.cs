@@ -43,13 +43,13 @@ namespace SiegeOnWindsor.Data.Tiles
             if (this.defence != null)
                 this.defence.Update(gameTime);
 
-            foreach (Enemy enemy in this.enemies)
-            {
-                enemy.Update(gameTime);
-            }
+            //foreach (Enemy enemy in this.enemies)
+            //{
+            //    enemy.Update(gameTime);
+            //}
         }
 
-        public int GetBaseRiskValue()
+        public virtual int GetBaseRiskValue()
         {
             int risk = 1;
 

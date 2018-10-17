@@ -25,11 +25,11 @@ namespace SiegeOnWindsor.Graphics
             menuBackground = new Texture("Backgrounds/menu_screen", game);
             gameBackground = new Texture("Backgrounds/game_screen", game);
 
-            defencePanelUI = new Texture("UI/defence_panel", game);
+            defencePanelUI = new Texture("UI/Panels/defence_panel", game);
 
             emptyTile = new Texture("Tile/empty_tile", game);
             nullTile = new Texture("Tile/null_tile", game);
-            crownTile = new Texture("Tile/Defence/crown_tile", game);
+            crownTile = new Texture("Tile/Defence/crown_defence", game);
 
             testAnimation = new Animation(new String[] { "Enemies/Left", "Enemies/Right" }, game);
         }

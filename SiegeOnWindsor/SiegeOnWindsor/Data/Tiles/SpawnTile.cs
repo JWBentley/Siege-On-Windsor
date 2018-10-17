@@ -22,11 +22,11 @@ namespace SiegeOnWindsor.Data.Tiles
 
         }
 
-        public void SpawnEnemy(Enemy enemy)
+        public void SpawnEnemy(Enemy enemy, Vector2 goal)
         {
             enemy.Location = this.Location; //Sets the enemies location to the spawn tile
             this.enemies.Add(enemy); //Adds the enemy to the tiles list
-            enemy.UpdatePath();
+            enemy.UpdatePath(goal);
         }
 
         public override Textures.Texture GetGraphic()

@@ -31,19 +31,19 @@ namespace SiegeOnWindsor.Screens
             this.spriteBatch = new SpriteBatch(this.game.GraphicsDevice); //Starts up the sprite batch using the game's graphics device
 
             //Creates a new button by loading the sprite and font
-            this.newGameButton = new Button(this.game.Content.Load<Texture2D>("UI/Buttons/blank"), this.game.Content.Load<SpriteFont>("Fonts/default32"))
+            this.newGameButton = new Button(this.game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.game.Content.Load<SpriteFont>("Fonts/default32"))
             {
                 Position = new Vector2(805, 300),
                 Text = "New Game"
             };
 
-            this.loadGameButton = new Button(this.game.Content.Load<Texture2D>("UI/Buttons/blank"), this.game.Content.Load<SpriteFont>("Fonts/default32"))
+            this.loadGameButton = new Button(this.game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.game.Content.Load<SpriteFont>("Fonts/default32"))
             {
                 Position = new Vector2(798, 360),
                 Text = "Load Game"
             };
 
-            this.exitGameButton = new Button(this.game.Content.Load<Texture2D>("UI/Buttons/blank"), this.game.Content.Load<SpriteFont>("Fonts/default32"))
+            this.exitGameButton = new Button(this.game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.game.Content.Load<SpriteFont>("Fonts/default32"))
             {
                 Position = new Vector2(807, 420),
                 Text = "Quit Game"
