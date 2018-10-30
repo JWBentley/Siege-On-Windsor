@@ -12,42 +12,16 @@ namespace SiegeOnWindsor.Data.Enemies
 {
     public class PeasantEnemy : Enemy
     {
-        private Animation animation;
-        private int x = 0;
-        private int limit;
-
-
-        public PeasantEnemy(World w, int a) : base(w)
+        public PeasantEnemy(World w) : base(w)
         {
             this.Speed = 50;
-            this.animation = new Animation(Textures.testAnimation);
-            this.limit = a;
+            this.Damage = 50;
+            this.AttackCooldown = 20;
         }
 
-        public PeasantEnemy(Vector2 location, int a) : base(location)
+        public override Texture GetGraphic()
         {
-            this.Speed = 100;
-            this.animation = new Animation(Textures.testAnimation);
-            this.limit = a;
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            this.x++;
-            if (x > this.limit)
-            {
-                this.animation.NextFrame();
-                this.x = 0;
-            }
-
-            base.Update(gameTime);
-
-            //Console.WriteLine(this.MovementProgress);
-        }
-
-        public override Textures.Texture GetGraphic()
-        {
-            return this.animation.GetFrame();
+            return this.Path.Count > 0 ? this.Location.X > this. Path.Peek().X ? Textures.peasantEnemy_Left : Textures.peasantEnemy_Right : Textures.peasantEnemy_Left;
         }
     }
 }

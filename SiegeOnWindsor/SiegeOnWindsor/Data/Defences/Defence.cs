@@ -30,12 +30,25 @@ namespace SiegeOnWindsor.Data.Defences
 
         public abstract void Update(GameTime gameTime);
 
+        public void DealDamage(int damage)
+        {
+            if (this.Health - damage > 0)
+                this.Health -= damage;
+            else
+                this.Die();
+        }
+
+        public virtual void Die()
+        {
+            this.Tile.ClearDefence();
+        }
+
         public int GetBaseRiskValue()
         {
             return this.Health / 100;
         }
 
-        public List<Vector2> GetImpactedTiles()
+        public virtual List<Vector2> GetImpactedTiles()
         {
             return new List<Vector2>();
         }

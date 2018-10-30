@@ -15,10 +15,14 @@ namespace SiegeOnWindsor.Graphics
         public static Texture defencePanelUI;
 
         public static Texture emptyTile;
-        public static Texture nullTile;
-        public static Texture crownTile;
+        public static Texture spawnTile;
 
-        public static Animation testAnimation;
+        public static Texture crownDef;
+        public static Texture stoneWallDef;
+        public static Texture guardDef;
+
+        public static Texture peasantEnemy_Left;
+        public static Texture peasantEnemy_Right;
 
         public static void Load(SiegeGame game)
         {
@@ -28,10 +32,15 @@ namespace SiegeOnWindsor.Graphics
             defencePanelUI = new Texture("UI/Panels/defence_panel", game);
 
             emptyTile = new Texture("Tile/empty_tile", game);
-            nullTile = new Texture("Tile/null_tile", game);
-            crownTile = new Texture("Tile/Defence/crown_defence", game);
+            spawnTile = new Texture("Tile/null_tile", game);
 
-            testAnimation = new Animation(new String[] { "Enemies/Left", "Enemies/Right" }, game);
+            crownDef = new Texture("Tile/Defence/crown_defence", game);
+            stoneWallDef = new Texture("Tile/Defence/stone_wall_defence", game);
+            guardDef = new Texture("Tile/Defence/guard_defence", game);
+
+            peasantEnemy_Left = new Texture("Enemies/peasant_enemy_left", game);
+            peasantEnemy_Right = new Texture("Enemies/peasant_enemy_right", game);
+            //testAnimation = new Animation(new String[] { "Enemies/Left", "Enemies/Right" }, game);
         }
 
         public class Texture
@@ -46,6 +55,7 @@ namespace SiegeOnWindsor.Graphics
             }
         }
 
+        /*
         public class Animation
         {
             Texture[] Sprites;
@@ -81,5 +91,6 @@ namespace SiegeOnWindsor.Graphics
                 }
             }
         }
+        */
     }
 }

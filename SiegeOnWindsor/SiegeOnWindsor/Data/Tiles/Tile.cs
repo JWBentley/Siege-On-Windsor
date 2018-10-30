@@ -13,8 +13,8 @@ namespace SiegeOnWindsor.Data.Tiles
 {
     public class Tile : IUpdate
     {
-        public List<Enemy> enemies;
-        public Defence defence;
+        public List<Enemy> Enemies;
+        public Defence Defence;
 
         public World World;
         public Vector2 Location;
@@ -30,18 +30,18 @@ namespace SiegeOnWindsor.Data.Tiles
 
             this.Location = l;
 
-            this.defence = d;
+            this.Defence = d;
 
-            if(this.defence != null)
-                this.defence.Tile = this;
+            if(this.Defence != null)
+                this.Defence.Tile = this;
 
-            this.enemies = new List<Enemy>(); 
+            this.Enemies = new List<Enemy>(); 
         }
 
         public void Update(GameTime gameTime)
         {
-            if (this.defence != null)
-                this.defence.Update(gameTime);
+            if (this.Defence != null)
+                this.Defence.Update(gameTime);
 
             //foreach (Enemy enemy in this.enemies)
             //{
@@ -49,12 +49,23 @@ namespace SiegeOnWindsor.Data.Tiles
             //}
         }
 
+        public void AddDefence(Defence def)
+        {
+            this.Defence = def;
+            def.Tile = this;
+        }
+
+        public void ClearDefence()
+        {
+            this.Defence = null;
+        }
+
         public virtual int GetBaseRiskValue()
         {
             int risk = 1;
 
-            if (this.defence != null)
-                risk += this.defence.GetBaseRiskValue();
+            if (this.Defence != null)
+                risk += this.Defence.GetBaseRiskValue();
 
             return risk;
         }

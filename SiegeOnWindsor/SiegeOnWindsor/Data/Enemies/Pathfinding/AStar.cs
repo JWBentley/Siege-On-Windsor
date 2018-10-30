@@ -45,7 +45,7 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
             while (this.priorityQueue[0] != goalNode)
             {
                 GridNode currentNode = this.Dequeue();
-                Console.WriteLine("Location:({0},{1})", currentNode.Location.X.ToString(), currentNode.Location.Y.ToString());
+                //Console.WriteLine("Location:({0},{1})", currentNode.Location.X.ToString(), currentNode.Location.Y.ToString());
                 foreach (GridNode childNode in currentNode.Neighbours)
                 {
                     if (childNode != null)
@@ -62,11 +62,7 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
                                 this.Enqueue(childNode);
                             }
                         }
-                        else if (this.closedSet.Contains(childNode))
-                        {
-                            Console.WriteLine("Trying to update cameFrom for something in closed set");
-                        }
-                        else
+                        else if (!this.closedSet.Contains(childNode))
                         {
                             this.cameFrom.Add(childNode, currentNode);
                             this.gCost.Add(childNode, childNode.COST + this.gCost[currentNode]);
@@ -77,8 +73,6 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
                 }
                 this.closedSet.Add(currentNode);
             }
-
-            Console.WriteLine("DONE");
             return this.ReconstructPath(startNode, goalNode);
         }
 

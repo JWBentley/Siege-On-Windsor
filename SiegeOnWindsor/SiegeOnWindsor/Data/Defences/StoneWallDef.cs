@@ -8,9 +8,9 @@ using SiegeOnWindsor.Graphics;
 
 namespace SiegeOnWindsor.Data.Defences
 {
-    public class WoodWallDef : Defence
+    public class StoneWallDef : Defence
     {
-        public WoodWallDef() : base(Textures.nullTile)
+        public StoneWallDef() : base(Textures.stoneWallDef)
         {
             this.Health = 1000;
         }

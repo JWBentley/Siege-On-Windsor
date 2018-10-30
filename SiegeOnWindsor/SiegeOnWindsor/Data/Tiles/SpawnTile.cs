@@ -25,13 +25,13 @@ namespace SiegeOnWindsor.Data.Tiles
         public void SpawnEnemy(Enemy enemy, Vector2 goal)
         {
             enemy.Location = this.Location; //Sets the enemies location to the spawn tile
-            this.enemies.Add(enemy); //Adds the enemy to the tiles list
+            this.Enemies.Add(enemy); //Adds the enemy to the tiles list
             enemy.UpdatePath(goal);
         }
 
         public override Textures.Texture GetGraphic()
         {
-            return Textures.nullTile;
+            return Textures.spawnTile;
         }
     }
 }

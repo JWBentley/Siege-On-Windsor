@@ -59,12 +59,23 @@ namespace SiegeOnWindsor.Screens
                 {
                     if (this.world.GetTileAt(x, y).GetGraphic() != null && this.world.GetTileAt(x, y).GetGraphic().Sprite != null)
                     {
+                        //Draws the tile
                         this.spriteBatch.Draw(this.world.GetTileAt(x, y).GetGraphic().Sprite, new Rectangle(
                             Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
                             Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
                             height,
                             height),
                             Color.White);
+
+                        //Draws the defence on top of the tile
+                        if(this.world.GetTileAt(x, y).Defence != null)
+                        this.spriteBatch.Draw(this.world.GetTileAt(x, y).Defence.GetGraphic().Sprite, new Rectangle(
+                            Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
+                            Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
+                            height,
+                            height),
+                            Color.White);
+
                         //DEBUGGING PATHFINDING
                         /*
                         Color colorTest;
@@ -75,33 +86,12 @@ namespace SiegeOnWindsor.Screens
                         this.spriteBatch.DrawString(this.game.Content.Load<SpriteFont>("Fonts/default32"), this.world.RiskMap[x, y].ToString(), new Vector2(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)), Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height))), colorTest);
                         */
                     }
-                
-                    if (this.world.GetTileAt(x, y).defence != null && this.world.GetTileAt(x, y).defence.GetGraphic() != null && this.world.GetTileAt(x, y).defence.GetGraphic().Sprite != null)
-                        this.spriteBatch.Draw(this.world.GetTileAt(x, y).defence.GetGraphic().Sprite, new Rectangle(
-                            Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
-                            Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
-                            height,
-                            height),
-                            Color.White);
-
-
 
                     /*
                      * DRAW DEFENCE 
                      */
 
-                    /*
-                     * DRAW ENEMIES 
-                     */
-                     foreach(Enemy enemy in this.world.enemies)
-                    {
-                        this.spriteBatch.Draw(enemy.GetGraphic().Sprite, new Rectangle(
-                                    Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (enemy.GetActualLocation().X * height)),
-                                    Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (enemy.GetActualLocation().Y * height)),
-                                    height,
-                                    height),
-                                    Color.White);
-                    }
+
                     /*if (this.world.GetTileAt(x, y).enemies != null)
                         foreach (Enemy enemy in this.world.GetTileAt(x, y).enemies)
                         {
@@ -113,6 +103,19 @@ namespace SiegeOnWindsor.Screens
                                     Color.White);
                         }*/
                 }
+            }
+
+            /*
+             * DRAW ENEMIES 
+             */
+            foreach (Enemy enemy in this.world.enemies)
+            {
+                this.spriteBatch.Draw(enemy.GetGraphic().Sprite, new Rectangle(
+                            Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (enemy.GetActualLocation().X * height)),
+                            Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (enemy.GetActualLocation().Y * height)),
+                            height,
+                            height),
+                            Color.White);
             }
 
             /*

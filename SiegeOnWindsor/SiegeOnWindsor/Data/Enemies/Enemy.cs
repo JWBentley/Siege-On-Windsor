@@ -17,6 +17,7 @@ namespace SiegeOnWindsor.Data.Enemies
 
         protected int Damage = -1;
         protected int AttackCooldown = 0;
+        protected int AttackProgress = 0;
 
         protected int Speed = -1;
         protected int MovementProgress = 0;
@@ -26,7 +27,7 @@ namespace SiegeOnWindsor.Data.Enemies
         protected Stack<Vector2> Path;
 
         
-        private Textures.Texture graphic;
+        protected Textures.Texture graphic;
 
         public Enemy(World w)
         {
@@ -60,16 +61,26 @@ namespace SiegeOnWindsor.Data.Enemies
                     Vector2 newLoc = this.Path.Pop();
                     Vector2 oldLoc = this.Location;
                     this.Location = newLoc;
-                    this.World.GetTileAt((int)oldLoc.X, (int)oldLoc.Y).enemies.Remove(this);
-                    this.World.GetTileAt((int)newLoc.X, (int)newLoc.Y).enemies.Add(this);
+                    this.World.GetTileAt((int)oldLoc.X, (int)oldLoc.Y).Enemies.Remove(this);
+                    this.World.GetTileAt((int)newLoc.X, (int)newLoc.Y).Enemies.Add(this);
                 }
+            }
+            else if(this.Path.Count > 0 && this.World.GetTileAt((int)this.Path.Peek().X, (int)this.Path.Peek().Y).Defence != null)
+            {
+                if (this.AttackProgress >= this.AttackCooldown)
+                {
+                    this.World.GetTileAt((int)this.Path.Peek().X, (int)this.Path.Peek().Y).Defence.DealDamage(this.Damage);
+                    this.AttackProgress = 0;
+                }
+                else
+                    this.AttackProgress++;
             }
 
         }
 
         private bool CanMove()
         {
-            return this.Path.Count <= 0 ? false : this.World.GetTileAt((int)this.Path.Peek().X, (int)this.Path.Peek().Y).defence == null;
+            return this.Path.Count <= 0 ? false : this.World.GetTileAt((int)this.Path.Peek().X, (int)this.Path.Peek().Y).Defence == null;
         }
 
         public void UpdatePath(Vector2 goal)
