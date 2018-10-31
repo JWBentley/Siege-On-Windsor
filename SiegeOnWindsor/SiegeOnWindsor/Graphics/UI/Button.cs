@@ -44,7 +44,7 @@ namespace SiegeOnWindsor.Graphics.UI
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Color color = Color.White;
+            Color color = new Color(165, 133, 88); //Brown tint
 
             if (this.isHovering) //If the mouse if hovering over the button a grey tint is added
                 color = Color.Gray;

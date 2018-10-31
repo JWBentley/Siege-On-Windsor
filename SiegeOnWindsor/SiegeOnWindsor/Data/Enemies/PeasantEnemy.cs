@@ -14,8 +14,9 @@ namespace SiegeOnWindsor.Data.Enemies
     {
         public PeasantEnemy(World w) : base(w)
         {
-            this.Speed = 50;
-            this.Damage = 50;
+            this.Health = 200;
+            this.Speed = 70;
+            this.Damage = 20;
             this.AttackCooldown = 20;
         }
 
