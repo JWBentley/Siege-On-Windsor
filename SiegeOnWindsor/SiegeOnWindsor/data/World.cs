@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SiegeOnWindsor.Data.Defences;
 using SiegeOnWindsor.Data.Enemies;
 using SiegeOnWindsor.Data.Enemies.Pathfinding;
 using SiegeOnWindsor.Data.Tiles;
+using SiegeOnWindsor.Graphics.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +16,9 @@ namespace SiegeOnWindsor.data
 {
     public class World : IUpdate
     {
+        public SiegeGame Game;
         public Tile[,] Grid { private set;  get; }
-        public List<Enemy> enemies;
+        public List<Enemy> Enemies;
 
         /// <summary>
         /// Risk to the enemy of moving to each tile in the world
@@ -25,33 +29,69 @@ namespace SiegeOnWindsor.data
         public bool HasEnded = false;
         private bool isPaused = false;
 
-        public World()
+        //Testing for playing the game
+        public Vector2 SelectedTile; //Testing placing
+        KeyboardState prevState = Keyboard.GetState();
+        public Button spawnEnemy;
+        public Button buildWall;
+        public Button deployGuard;
+
+        public World(SiegeGame g)
         {
-            this.enemies = new List<Enemy>();
+            this.Game = g;
+            this.Enemies = new List<Enemy>();
             this.CreateGrid(17, 17);
 
-            this.GetTileAt(9, 8).AddDefence(new StoneWallDef());
-            this.GetTileAt(8, 9).AddDefence(new StoneWallDef());
-            this.GetTileAt(8, 7).AddDefence(new StoneWallDef());
-            this.GetTileAt(7, 8).AddDefence(new StoneWallDef());
+            //this.GetTileAt(9, 8).AddDefence(new GuardDef());
+            //this.GetTileAt(8, 9).AddDefence(new GuardDef());
+            //this.GetTileAt(8, 7).AddDefence(new GuardDef());
+            //this.GetTileAt(7, 8).AddDefence(new GuardDef());
 
 
             this.UpdateRiskMap();
 
             //TESTING of spawning enemies
-            ((SpawnTile)this.GetTileAt(16, 16)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
-            ((SpawnTile)this.GetTileAt(16, 4)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
+            //((SpawnTile)this.GetTileAt(16, 16)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
+            //((SpawnTile)this.GetTileAt(16, 4)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
+
+            //TESTING
+            this.SelectedTile = new Vector2(0, 0);
+            this.spawnEnemy = new Button(this.Game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.Game.Content.Load<SpriteFont>("Fonts/default32"))
+            {
+                Position = new Vector2(900, 300),
+                Text = "Spawn Enemy"
+            };
+
+            this.spawnEnemy.Click += (o, i) => { if(this.GetTileAt(this.SelectedTile) is SpawnTile) ((SpawnTile)this.GetTileAt(this.SelectedTile)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation()); };
+
+            this.buildWall = new Button(this.Game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.Game.Content.Load<SpriteFont>("Fonts/default32"))
+            {
+                Position = new Vector2(900, 400),
+                Text = "Build Wall"
+            };
+
+            this.buildWall.Click += (o, i) => { if (!(this.GetTileAt(this.SelectedTile) is SpawnTile) && this.GetTileAt(this.SelectedTile).Defence == null) this.GetTileAt(this.SelectedTile).AddDefence(new StoneWallDef()); };
+
+            this.deployGuard = new Button(this.Game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.Game.Content.Load<SpriteFont>("Fonts/default32"))
+            {
+                Position = new Vector2(900, 500),
+                Text = "Deploy Guard"
+            };
+
+            this.deployGuard.Click += (o, i) => { if (!(this.GetTileAt(this.SelectedTile) is SpawnTile) && this.GetTileAt(this.SelectedTile).Defence == null) this.GetTileAt(this.SelectedTile).AddDefence(new GuardDef()); };
+
+
         }
 
         public void Update(GameTime gameTime)
         {
             if (HasEnded)
             {
-
+                //GAME OVER
             }
             else if (isPaused)
             {
-
+                //PAUSE MENU
             }
             else
             {
@@ -60,10 +100,24 @@ namespace SiegeOnWindsor.data
                     tile.Update(gameTime);
                 }
 
-                foreach (Enemy enemy in this.enemies) // Fix for enemy movement error
+                foreach (Enemy enemy in this.Enemies) // Fix for enemy movement error
                 {
                     enemy.Update(gameTime);
                 }
+
+                spawnEnemy.Update(gameTime);
+                buildWall.Update(gameTime);
+                deployGuard.Update(gameTime);
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Left) && prevState.IsKeyUp(Keys.Left) && this.SelectedTile.X > 0)
+                    this.SelectedTile = new Vector2(this.SelectedTile.X - 1, this.SelectedTile.Y);
+                else if (Keyboard.GetState().IsKeyDown(Keys.Right) && prevState.IsKeyUp(Keys.Right) && this.SelectedTile.X < this.Grid.GetLength(0) - 1)
+                    this.SelectedTile = new Vector2(this.SelectedTile.X + 1, this.SelectedTile.Y);
+                else if (Keyboard.GetState().IsKeyDown(Keys.Up) && prevState.IsKeyUp(Keys.Up) && this.SelectedTile.Y > 0)
+                    this.SelectedTile = new Vector2(this.SelectedTile.X, this.SelectedTile.Y - 1);
+                else if (Keyboard.GetState().IsKeyDown(Keys.Down) && prevState.IsKeyUp(Keys.Down) && this.SelectedTile.Y < this.Grid.GetLength(1) - 1)
+                    this.SelectedTile = new Vector2(this.SelectedTile.X, this.SelectedTile.Y + 1);
+                this.prevState = Keyboard.GetState();
             }
         }
 
@@ -88,7 +142,7 @@ namespace SiegeOnWindsor.data
         /// <summary>
         /// Updates the risk map for pathfinding, should be called on a world update (Defences being built/destroyed)
         /// </summary>
-        private void UpdateRiskMap()
+        public void UpdateRiskMap()
         {
             this.RiskMap = new int[this.Grid.GetLength(0), this.Grid.GetLength(1)];
 
@@ -127,6 +181,11 @@ namespace SiegeOnWindsor.data
         public Vector2 GetCrownLocation()
         {
             return new Vector2((int)this.Grid.GetLength(0) / 2, (int)this.Grid.GetLength(1) / 2);
+        }
+
+        public Tile GetTileAt(Vector2 loc)
+        {
+            return GetTileAt((int)loc.X, (int)loc.Y);
         }
 
         public Tile GetTileAt(int x, int y)

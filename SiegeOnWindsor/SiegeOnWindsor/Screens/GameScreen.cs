@@ -23,7 +23,7 @@ namespace SiegeOnWindsor.Screens
 
         public override void Initialize()
         {
-            this.world = new World(); //Creates a new world
+            this.world = new World(this.game); //Creates a new world
         }
 
         public override void LoadContent()
@@ -76,6 +76,13 @@ namespace SiegeOnWindsor.Screens
                             height),
                             Color.White);
 
+
+                        this.spriteBatch.DrawString(this.game.Content.Load<SpriteFont>("Fonts/default32"), this.world.RiskMap[x, y].ToString(), new Vector2(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)), Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height))), Color.White);
+
+
+                        if (this.world.SelectedTile == new Vector2(x, y))
+                            this.spriteBatch.DrawString(this.game.Content.Load<SpriteFont>("Fonts/default32"), "X", new Vector2(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)), Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height))), Color.Green);
+
                         //DEBUGGING PATHFINDING
                         /*
                         Color colorTest;
@@ -108,7 +115,7 @@ namespace SiegeOnWindsor.Screens
             /*
              * DRAW ENEMIES 
              */
-            foreach (Enemy enemy in this.world.enemies)
+            foreach (Enemy enemy in this.world.Enemies)
             {
                 this.spriteBatch.Draw(enemy.GetGraphic().Sprite, new Rectangle(
                             Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (enemy.GetActualLocation().X * height)),
@@ -121,7 +128,9 @@ namespace SiegeOnWindsor.Screens
             /*
              * DRAW UI
              */
-            this.spriteBatch.Draw(texture: Textures.defencePanelUI.Sprite, destinationRectangle: new Rectangle(991, 164, Textures.defencePanelUI.Sprite.Bounds.Width, Textures.defencePanelUI.Sprite.Bounds.Height), color: Color.White); //Draws the selection panel
+            this.world.spawnEnemy.Draw(gameTime, this.spriteBatch);
+            this.world.buildWall.Draw(gameTime, this.spriteBatch);
+            this.world.deployGuard.Draw(gameTime, this.spriteBatch);
 
             this.spriteBatch.End();
         }

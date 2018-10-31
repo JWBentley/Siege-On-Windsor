@@ -13,13 +13,13 @@ namespace SiegeOnWindsor.Data.Enemies
 {
     public abstract class Enemy : IUpdate
     {
-        protected int Health = 1;
+        public int Health = 1;
 
-        protected int Damage = -1;
+        public int Damage = 0;
         protected int AttackCooldown = 0;
         protected int AttackProgress = 0;
 
-        protected int Speed = -1;
+        public int Speed = -1;
         protected int MovementProgress = 0;
 
         public World World;
@@ -32,7 +32,7 @@ namespace SiegeOnWindsor.Data.Enemies
         public Enemy(World w)
         {
             this.World = w;
-            this.World.enemies.Add(this);
+            this.World.Enemies.Add(this);
             //Console.WriteLine(this.World.GetCrownLocation().X);
             //Console.WriteLine(this.World.GetCrownLocation().Y);
         }
@@ -65,7 +65,7 @@ namespace SiegeOnWindsor.Data.Enemies
                     this.World.GetTileAt((int)newLoc.X, (int)newLoc.Y).Enemies.Add(this);
                 }
             }
-            else if(this.Path.Count > 0 && this.World.GetTileAt((int)this.Path.Peek().X, (int)this.Path.Peek().Y).Defence != null)
+            else if(this.Damage > 0 && this.Path.Count > 0 && this.World.GetTileAt((int)this.Path.Peek().X, (int)this.Path.Peek().Y).Defence != null)
             {
                 if (this.AttackProgress >= this.AttackCooldown)
                 {
@@ -77,6 +77,21 @@ namespace SiegeOnWindsor.Data.Enemies
             }
 
         }
+
+        public void DealDamage(int damage)
+        {
+            if (this.Health - damage > 0)
+                this.Health -= damage;
+            else
+                this.Die();
+        }
+
+        public virtual void Die()
+        {
+            this.World.GetTileAt(this.Location).Enemies.Remove(this);
+            this.World.Enemies.Remove(this);
+        }
+
 
         private bool CanMove()
         {

@@ -53,11 +53,13 @@ namespace SiegeOnWindsor.Data.Tiles
         {
             this.Defence = def;
             def.Tile = this;
+            this.World.UpdateRiskMap();
         }
 
         public void ClearDefence()
         {
             this.Defence = null;
+            this.World.UpdateRiskMap();
         }
 
         public virtual int GetBaseRiskValue()
