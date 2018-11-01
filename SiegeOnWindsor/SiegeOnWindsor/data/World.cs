@@ -58,27 +58,30 @@ namespace SiegeOnWindsor.data
             this.SelectedTile = new Vector2(0, 0);
             this.spawnEnemy = new Button(this.Game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.Game.Content.Load<SpriteFont>("Fonts/default32"))
             {
-                Position = new Vector2(900, 300),
+                Position = new Vector2(970, 300),
                 Text = "Spawn Enemy"
             };
 
-            this.spawnEnemy.Click += (o, i) => { if(this.GetTileAt(this.SelectedTile) is SpawnTile) ((SpawnTile)this.GetTileAt(this.SelectedTile)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation()); };
+            this.spawnEnemy.Click += (o, i) => { if(this.GetTileAt(this.SelectedTile) is SpawnTile)
+                    ((SpawnTile)this.GetTileAt(this.SelectedTile)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation()); };
 
             this.buildWall = new Button(this.Game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.Game.Content.Load<SpriteFont>("Fonts/default32"))
             {
-                Position = new Vector2(900, 400),
+                Position = new Vector2(970, 400),
                 Text = "Build Wall"
             };
 
-            this.buildWall.Click += (o, i) => { if (!(this.GetTileAt(this.SelectedTile) is SpawnTile) && this.GetTileAt(this.SelectedTile).Defence == null) this.GetTileAt(this.SelectedTile).AddDefence(new StoneWallDef()); };
+            this.buildWall.Click += (o, i) => { if (!(this.GetTileAt(this.SelectedTile) is SpawnTile) && this.GetTileAt(this.SelectedTile).Defence == null)
+                    this.GetTileAt(this.SelectedTile).AddDefence(new StoneWallDef()); };
 
             this.deployGuard = new Button(this.Game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.Game.Content.Load<SpriteFont>("Fonts/default32"))
             {
-                Position = new Vector2(900, 500),
+                Position = new Vector2(970, 500),
                 Text = "Deploy Guard"
             };
 
-            this.deployGuard.Click += (o, i) => { if (!(this.GetTileAt(this.SelectedTile) is SpawnTile) && this.GetTileAt(this.SelectedTile).Defence == null) this.GetTileAt(this.SelectedTile).AddDefence(new GuardDef()); };
+            this.deployGuard.Click += (o, i) => { if (!(this.GetTileAt(this.SelectedTile) is SpawnTile) && this.GetTileAt(this.SelectedTile).Defence == null)
+                    this.GetTileAt(this.SelectedTile).AddDefence(new GuardDef()); };
 
 
         }
@@ -117,6 +120,7 @@ namespace SiegeOnWindsor.data
                     this.SelectedTile = new Vector2(this.SelectedTile.X, this.SelectedTile.Y - 1);
                 else if (Keyboard.GetState().IsKeyDown(Keys.Down) && prevState.IsKeyUp(Keys.Down) && this.SelectedTile.Y < this.Grid.GetLength(1) - 1)
                     this.SelectedTile = new Vector2(this.SelectedTile.X, this.SelectedTile.Y + 1);
+
                 this.prevState = Keyboard.GetState();
             }
         }

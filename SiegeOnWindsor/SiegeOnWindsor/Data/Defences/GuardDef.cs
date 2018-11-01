@@ -16,7 +16,7 @@ namespace SiegeOnWindsor.Data.Defences
         public GuardDef() : base(Textures.guardDef)
         {
             this.Health = 500; //Sets the health to 500
-            this.Damage = 70; //Sets the damage to 70
+            this.Damage = 50; //Sets the damage to 70
 
             this.AttackCooldown = 50; //Sets the cooldown period to 50
 

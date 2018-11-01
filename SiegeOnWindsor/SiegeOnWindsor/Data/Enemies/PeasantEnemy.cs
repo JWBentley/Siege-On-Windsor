@@ -16,7 +16,7 @@ namespace SiegeOnWindsor.Data.Enemies
         {
             this.Health = 200;
             this.Speed = 70;
-            this.Damage = 20;
+            this.Damage = 10;
             this.AttackCooldown = 20;
         }
 
