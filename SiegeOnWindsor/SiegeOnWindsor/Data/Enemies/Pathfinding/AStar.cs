@@ -87,77 +87,103 @@ namespace SiegeOnWindsor.Data.Enemies.Pathfinding
                     {
                         if (this.priorityQueue.Contains(childNode)) //If the child node is already in the priority queue
                         {
-                            if (this.gCost[currentNode] + childNode.COST < this.gCost[childNode])
+                            if (this.gCost[currentNode] + childNode.COST < this.gCost[childNode]) //If this path to the node is better than the current one
                             {
-                                this.cameFrom[childNode] = currentNode;
-                                this.gCost[childNode] = this.gCost[currentNode] + childNode.COST;
-                                this.hCost[childNode] = this.GetEstimatedCost(childNode.Location, goalNode.Location);
+                                this.cameFrom[childNode] = currentNode; //Updates cameFrom
+                                this.gCost[childNode] = this.gCost[currentNode] + childNode.COST; //Updates gCost
+                                this.hCost[childNode] = this.GetEstimatedCost(childNode.Location, goalNode.Location); //Updates hCost (probably not needed but better safe than sorry)
 
-                                this.priorityQueue.Remove(childNode);
-                                this.Enqueue(childNode);
+                                //I must remove and add the node back to the queue so that it is positioned correctly within the queue
+                                this.priorityQueue.Remove(childNode); //Removes item from queue
+                                this.Enqueue(childNode); //Adds item back to the queue
                             }
                         }
                         else if (!this.closedSet.Contains(childNode)) //If the node is not in the priority queue or closed set
                         {
-                            this.cameFrom.Add(childNode, currentNode);
-                            this.gCost.Add(childNode, childNode.COST + this.gCost[currentNode]);
-                            this.hCost.Add(childNode, this.GetEstimatedCost(childNode.Location, goalNode.Location));
-                            this.Enqueue(childNode);
+                            this.cameFrom.Add(childNode, currentNode); //cameFrom is set to the currentNode
+                            this.gCost.Add(childNode, childNode.COST + this.gCost[currentNode]); //gCost is calculated
+                            this.hCost.Add(childNode, this.GetEstimatedCost(childNode.Location, goalNode.Location)); //hCost is calculated
+                            this.Enqueue(childNode); //childNode is added to the priority queue
                         }
                     }
                 }
-                this.closedSet.Add(currentNode);
+                this.closedSet.Add(currentNode); //The current node has now been fully evaluated, therefore it is added to the closed set
             }
-            return this.ReconstructPath(startNode, goalNode);
+            return this.ReconstructPath(startNode, goalNode); //Returns the reconstructed path
         }
 
+        /// <summary>
+        /// This reconstructs the path found in Run() by working its way backwards from the goal to the start
+        /// </summary>
+        /// <param name="startNode">Starting node</param>
+        /// <param name="goalNode">Goal node</param>
+        /// <returns>Path as a stack</returns>
         private Stack<Vector2> ReconstructPath(GridNode startNode, GridNode goalNode)
         {
-            Stack<Vector2> path = new Stack<Vector2>();
+            Stack<Vector2> path = new Stack<Vector2>(); //Creates new stack
 
-            GridNode node = goalNode;
-            path.Push(node.Location);
+            GridNode node = goalNode; //Sets the current node to the goal node
+            path.Push(node.Location); //Adds the goal node to the stack
             do
             {
-                this.cameFrom.TryGetValue(node, out node);
-                path.Push(node.Location);
-            } while (node != startNode);
+                this.cameFrom.TryGetValue(node, out node); //Gets the node the current node came from, so the previous node annd sets that as the new current node
+                path.Push(node.Location); //Adds the node to the stack
+            } while (node != startNode); //Runs unitl the start node has been reached 
 
-            return path;
+            return path; //Returns the completed path
         }
 
+        /// <summary>
+        /// This function estimates the cost of moving from one node to another
+        /// </summary>
+        /// <param name="start">Starting node</param>
+        /// <param name="goal">Goal node</param>
+        /// <returns></returns>
         private int GetEstimatedCost(Vector2 start, Vector2 goal)
         {
-            return Math.Abs((int)Math.Sqrt(Math.Pow(goal.X - start.X, 2) + Math.Pow(goal.Y - start.Y, 2)));
+            return Math.Abs((int)Math.Sqrt(Math.Pow(goal.X - start.X, 2) + Math.Pow(goal.Y - start.Y, 2))); //Uses Pythagoras' theorem to calcuate the distance between the two nodes
         }
 
+        /// <summary>
+        /// Gets the sum of the gCost and hCost for a node
+        /// </summary>
+        /// <param name="node">Node to get the cost of</param>
+        /// <returns>gCost[node] + hCost[node]</returns>
         private int GetTotalCost(GridNode node)
         {
-            if (this.gCost.TryGetValue(node, out int g) && this.hCost.TryGetValue(node, out int h))
-                return g + h;
+            if (this.gCost.TryGetValue(node, out int g) && this.hCost.TryGetValue(node, out int h)) //If the node has been evaluated
+                return g + h; //Returns gCost plus hCost
             else
-                return int.MaxValue;
+                return int.MaxValue; //Returns infinity as we do not want to underestimate as this could break the algorithm
         }
 
+        /// <summary>
+        /// Adds a node to the priority queue
+        /// </summary>
+        /// <param name="node">Node to add</param>
         private void Enqueue(GridNode node)
         {
-            foreach (GridNode i in this.priorityQueue)
+            foreach (GridNode i in this.priorityQueue) //Runs though each node in the queue
             {
-                if (this.GetTotalCost(node) < this.GetTotalCost(i))
+                if (this.GetTotalCost(node) < this.GetTotalCost(i)) //If the total cost of the node is cheaper than the node in the queue at point i
                 {
-                    this.priorityQueue.Insert(this.priorityQueue.IndexOf(i), node);
-                    return;
+                    this.priorityQueue.Insert(this.priorityQueue.IndexOf(i), node); //The node is placed in front of that point, the rest of the queue automatically shuffles down
+                    return; //Exits the method
                 }
             }
 
-            this.priorityQueue.Add(node);
+            this.priorityQueue.Add(node); //If the node has a greater cost than all nodes in the queue then it is added to the end of the queue
         }
 
+        /// <summary>
+        /// Pops a node off the queue
+        /// </summary>
+        /// <returns></returns>
         private GridNode Dequeue()
         {
-            GridNode node = this.priorityQueue[0];
-            this.priorityQueue.RemoveAt(0);
-            return node;
+            GridNode node = this.priorityQueue[0]; //Gets the first node in the queue
+            this.priorityQueue.RemoveAt(0); //Removes the node from the queue, all other nodes shuffle up
+            return node; //Returns the node
         }
     }
 }

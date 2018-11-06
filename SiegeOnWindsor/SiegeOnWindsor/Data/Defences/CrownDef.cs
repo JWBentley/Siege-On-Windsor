@@ -27,7 +27,7 @@ namespace SiegeOnWindsor.Data.Defences
 
         public override void Die()
         {
-            this.Tile.World.HasEnded = true; //Makes the game end
+            this.Tile.World.IsRunning = true; //Makes the game end
             base.Die(); //Destroys the object
         }
     }

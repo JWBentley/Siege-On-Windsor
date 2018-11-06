@@ -14,6 +14,7 @@ namespace SiegeOnWindsor.Data.Enemies
     {
         public PeasantEnemy(World w) : base(w)
         {
+            //Sets key variables
             this.Health = 200;
             this.Speed = 70;
             this.Damage = 10;
@@ -23,6 +24,7 @@ namespace SiegeOnWindsor.Data.Enemies
         public override Texture GetGraphic()
         {
             return this.Path.Count > 0 ? this.Location.X > this. Path.Peek().X ? Textures.peasantEnemy_Left : Textures.peasantEnemy_Right : Textures.peasantEnemy_Left;
+            //Returns graphic so the enemy is looking in the correct location
         }
     }
 }

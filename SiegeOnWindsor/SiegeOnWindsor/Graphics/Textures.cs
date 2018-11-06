@@ -9,21 +9,31 @@ namespace SiegeOnWindsor.Graphics
 {
     public class Textures
     {
+        //List of textures
+
+        //Backgrounds
         public static Texture menuBackground;
         public static Texture gameBackground;
 
+        //UI
         public static Texture defencePanelUI;
 
+        //Tiles
         public static Texture emptyTile;
         public static Texture spawnTile;
 
+        //Defences
         public static Texture crownDef;
         public static Texture stoneWallDef;
         public static Texture guardDef;
 
-        public static Texture peasantEnemy_Left;
-        public static Texture peasantEnemy_Right;
+        //Enemies
+        public static Texture peasantEnemy_Left, peasantEnemy_Right;
 
+        /// <summary>
+        /// Loads the textures
+        /// </summary>
+        /// <param name="game">Game with content manager</param>
         public static void Load(SiegeGame game)
         {
             menuBackground = new Texture("Backgrounds/menu_screen", game);
@@ -45,13 +55,19 @@ namespace SiegeOnWindsor.Graphics
 
         public class Texture
         {
+            /// <summary>
+            /// Image to be drawn
+            /// </summary>
             public Texture2D Sprite { set; get; }
+            /// <summary>
+            /// String ref
+            /// </summary>
             public String Name { get; }
 
             public Texture(String s, SiegeGame game)
             {
                 this.Name = s;
-                game.LoadBuffer.Add(this);
+                game.LoadBuffer.Add(this); //Calls for the game to load the image from the string ref
             }
         }
 

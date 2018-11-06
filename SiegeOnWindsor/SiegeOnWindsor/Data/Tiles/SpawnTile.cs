@@ -22,11 +22,16 @@ namespace SiegeOnWindsor.Data.Tiles
 
         }
 
+        /// <summary>
+        /// Spawns a new enemy on the tile
+        /// </summary>
+        /// <param name="enemy">Enemy to spawn</param>
+        /// <param name="goal">Location the enemy should move towards</param>
         public void SpawnEnemy(Enemy enemy, Vector2 goal)
         {
             enemy.Location = this.Location; //Sets the enemies location to the spawn tile
             this.Enemies.Add(enemy); //Adds the enemy to the tiles list
-            enemy.UpdatePath(goal);
+            enemy.UpdatePath(goal); //Upates the path of the enemy
         }
 
         public override Textures.Texture GetGraphic()
