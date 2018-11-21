@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SiegeOnWindsor.Graphics.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace SiegeOnWindsor.Screens
     {
         protected SiegeGame game; //Local copy of the game
         protected SpriteBatch spriteBatch; //Sprite batch for drawing
+        protected UIController uiController;
 
         public Screen(SiegeGame g)
         {
