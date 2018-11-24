@@ -56,7 +56,7 @@ namespace SiegeOnWindsor.Data.Enemies
         /// <summary>
         /// Default graphic of the enemy
         /// </summary>
-        protected Textures.Texture graphic;
+        protected Graphics.Graphics.Graphic graphic;
 
         public Enemy(World w)
         {
@@ -71,7 +71,7 @@ namespace SiegeOnWindsor.Data.Enemies
             this.Location = l; //Sets location
         }
 
-        public Enemy(Textures.Texture g)
+        public Enemy(Graphics.Graphics.Graphic g)
         {
             this.graphic = g; //Sets graphic
         }
@@ -168,9 +168,9 @@ namespace SiegeOnWindsor.Data.Enemies
         /// Gets the graphic for the enemy in its current state
         /// </summary>
         /// <returns>Texture</returns>
-        public virtual Textures.Texture GetGraphic()
+        public virtual Graphics.Graphics.Graphic GetGraphic()
         {
-            return this.graphic != null ? this.graphic : Textures.emptyTile;
+            return this.graphic != null ? this.graphic : Graphics.Graphics.emptyTile;
         }
     }
 }

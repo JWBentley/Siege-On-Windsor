@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static SiegeOnWindsor.Graphics.Textures;
+using static SiegeOnWindsor.Graphics.Graphics;
 
 namespace SiegeOnWindsor.Data.Enemies
 {
@@ -21,9 +21,9 @@ namespace SiegeOnWindsor.Data.Enemies
             this.AttackCooldown = 20;
         }
 
-        public override Texture GetGraphic()
+        public override Graphic GetGraphic()
         {
-            return this.Path.Count > 0 ? this.Location.X > this. Path.Peek().X ? Textures.peasantEnemy_Left : Textures.peasantEnemy_Right : Textures.peasantEnemy_Left;
+            return this.Path.Count > 0 ? this.Location.X > this. Path.Peek().X ? Graphics.Graphics.peasantEnemy_Left : Graphics.Graphics.peasantEnemy_Right : Graphics.Graphics.peasantEnemy_Left;
             //Returns graphic so the enemy is looking in the correct location
         }
     }

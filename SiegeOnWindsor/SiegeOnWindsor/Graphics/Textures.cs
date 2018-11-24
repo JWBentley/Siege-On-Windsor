@@ -7,28 +7,32 @@ using System.Threading.Tasks;
 
 namespace SiegeOnWindsor.Graphics
 {
-    public class Textures
+    public class Graphics
     {
         //List of textures
 
         //Backgrounds
-        public static Texture menuBackground;
-        public static Texture gameBackground;
+        public static Graphic menuBackground;
+        public static Graphic gameBackground;
 
         //UI
-        public static Texture defencePanelUI;
+        public static Graphic defencePanelUI;
 
         //Tiles
-        public static Texture emptyTile;
-        public static Texture spawnTile;
+        public static Graphic emptyTile;
+        public static Graphic spawnTile;
 
         //Defences
-        public static Texture crownDef;
-        public static Texture stoneWallDef;
-        public static Texture guardDef;
+        public static Graphic crownDef;
+        public static Graphic stoneWallDef;
+        public static Graphic guardDef;
 
         //Enemies
-        public static Texture peasantEnemy_Left, peasantEnemy_Right;
+        public static Graphic peasantEnemy_Left, peasantEnemy_Right;
+
+        //List of fonts
+
+        public static Font arial32;
 
         /// <summary>
         /// Loads the textures
@@ -36,38 +40,59 @@ namespace SiegeOnWindsor.Graphics
         /// <param name="game">Game with content manager</param>
         public static void Load(SiegeGame game)
         {
-            menuBackground = new Texture("Backgrounds/menu_screen", game);
-            gameBackground = new Texture("Backgrounds/game_screen", game);
+            menuBackground = new Graphic("Backgrounds/menu_screen", game);
+            gameBackground = new Graphic("Backgrounds/game_screen", game);
 
-            defencePanelUI = new Texture("UI/Panels/defence_panel", game);
+            defencePanelUI = new Graphic("UI/Panels/defence_panel", game);
 
-            emptyTile = new Texture("Tile/empty_tile", game);
-            spawnTile = new Texture("Tile/null_tile", game);
+            emptyTile = new Graphic("Tile/empty_tile", game);
+            spawnTile = new Graphic("Tile/null_tile", game);
 
-            crownDef = new Texture("Tile/Defence/crown_defence", game);
-            stoneWallDef = new Texture("Tile/Defence/stone_wall_defence", game);
-            guardDef = new Texture("Tile/Defence/guard_defence", game);
+            crownDef = new Graphic("Tile/Defence/crown_defence", game);
+            stoneWallDef = new Graphic("Tile/Defence/stone_wall_defence", game);
+            guardDef = new Graphic("Tile/Defence/guard_defence", game);
 
-            peasantEnemy_Left = new Texture("Enemies/peasant_enemy_left", game);
-            peasantEnemy_Right = new Texture("Enemies/peasant_enemy_right", game);
+            peasantEnemy_Left = new Graphic("Enemies/peasant_enemy_left", game);
+            peasantEnemy_Right = new Graphic("Enemies/peasant_enemy_right", game);
             //testAnimation = new Animation(new String[] { "Enemies/Left", "Enemies/Right" }, game);
+
+            arial32 = new Font("Fonts/default32", game);
         }
 
-        public class Texture
+        
+
+        public class Visual<T>
         {
             /// <summary>
             /// Image to be drawn
             /// </summary>
-            public Texture2D Sprite { set; get; }
+            public T Object { set; get; }
             /// <summary>
             /// String ref
             /// </summary>
             public String Name { get; }
 
-            public Texture(String s, SiegeGame game)
+            public Visual(String s, SiegeGame game)
             {
                 this.Name = s;
-                game.LoadBuffer.Add(this); //Calls for the game to load the image from the string ref
+                //game.LoadBuffer.Add(this); //Calls for the game to load the image from the string ref
+                this.Object = game.Content.Load<T>(this.Name);
+            }
+        }
+
+        public class Graphic : Visual<Texture2D>
+        {
+            public Graphic(string s, SiegeGame game) : base(s, game)
+            {
+
+            }
+        }
+
+        public class Font : Visual<SpriteFont>
+        {
+            public Font(string s, SiegeGame game) : base(s, game)
+            {
+
             }
         }
 

@@ -99,9 +99,9 @@ namespace SiegeOnWindsor.Data.Tiles
         /// Gets the graphic of the tile
         /// </summary>
         /// <returns></returns>
-        public virtual Textures.Texture GetGraphic()
+        public virtual Graphics.Graphics.Graphic GetGraphic()
         {
-            return Textures.emptyTile;
+            return Graphics.Graphics.emptyTile;
         }
     }
 }

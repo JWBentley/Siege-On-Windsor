@@ -46,7 +46,7 @@ namespace SiegeOnWindsor.Screens
             /*
              * DRAW BACKGROUND
              */
-            this.spriteBatch.Draw(texture: Textures.gameBackground.Sprite, destinationRectangle: new Rectangle(0, 0, this.game.Graphics.PreferredBackBufferWidth, this.game.Graphics.PreferredBackBufferHeight), color: Color.White); //Draws the background fullscreen
+            this.spriteBatch.Draw(texture: Graphics.Graphics.gameBackground.Object, destinationRectangle: new Rectangle(0, 0, this.game.Graphics.PreferredBackBufferWidth, this.game.Graphics.PreferredBackBufferHeight), color: Color.White); //Draws the background fullscreen
 
             /*
              * DRAW TILES
@@ -57,10 +57,10 @@ namespace SiegeOnWindsor.Screens
             {
                 for (int y = 0; y < (this.world.Grid).GetLength(1); y++)
                 {
-                    if (this.world.GetTileAt(x, y).GetGraphic() != null && this.world.GetTileAt(x, y).GetGraphic().Sprite != null)
+                    if (this.world.GetTileAt(x, y).GetGraphic() != null && this.world.GetTileAt(x, y).GetGraphic().Object != null)
                     {
                         //Draws the tile
-                        this.spriteBatch.Draw(this.world.GetTileAt(x, y).GetGraphic().Sprite, new Rectangle(
+                        this.spriteBatch.Draw(this.world.GetTileAt(x, y).GetGraphic().Object, new Rectangle(
                             Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
                             Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
                             height,
@@ -69,7 +69,7 @@ namespace SiegeOnWindsor.Screens
 
                         //Draws the defence on top of the tile
                         if(this.world.GetTileAt(x, y).Defence != null)
-                        this.spriteBatch.Draw(this.world.GetTileAt(x, y).Defence.GetGraphic().Sprite, new Rectangle(
+                        this.spriteBatch.Draw(this.world.GetTileAt(x, y).Defence.GetGraphic().Object, new Rectangle(
                             Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
                             Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
                             height,
@@ -122,7 +122,7 @@ namespace SiegeOnWindsor.Screens
              */
             foreach (Enemy enemy in this.world.Enemies)
             {
-                this.spriteBatch.Draw(enemy.GetGraphic().Sprite, new Rectangle(
+                this.spriteBatch.Draw(enemy.GetGraphic().Object, new Rectangle(
                             Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (enemy.GetActualLocation().X * height)),
                             Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (enemy.GetActualLocation().Y * height)),
                             height,

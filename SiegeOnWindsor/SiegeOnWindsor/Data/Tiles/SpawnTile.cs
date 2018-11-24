@@ -34,9 +34,9 @@ namespace SiegeOnWindsor.Data.Tiles
             enemy.UpdatePath(goal); //Upates the path of the enemy
         }
 
-        public override Textures.Texture GetGraphic()
+        public override Graphics.Graphics.Graphic GetGraphic()
         {
-            return Textures.spawnTile;
+            return Graphics.Graphics.spawnTile;
         }
     }
 }

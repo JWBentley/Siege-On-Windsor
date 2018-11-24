@@ -13,7 +13,7 @@ namespace SiegeOnWindsor.Data.Defences
         /// <summary>
         /// Creates a new guard enemy
         /// </summary>
-        public GuardDef() : base(Textures.guardDef)
+        public GuardDef() : base(Graphics.Graphics.guardDef)
         {
             this.Health = 500; //Sets the health to 500
             this.Damage = 50; //Sets the damage to 70
