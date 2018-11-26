@@ -71,6 +71,11 @@ namespace SiegeOnWindsor.data
             //TESTING of spawning enemies
             //((SpawnTile)this.GetTileAt(16, 16)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
             //((SpawnTile)this.GetTileAt(16, 4)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
+            //((SpawnTile)this.GetTileAt(0,0)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
+            //((SpawnTile)this.GetTileAt(16, 16)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
+            //((SpawnTile)this.GetTileAt(7, 9)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
+            //((SpawnTile)this.GetTileAt(18, 19)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
+
 
             //TESTING - Creates buttons for placing: peasants, walls and guards
             this.SelectedTile = new Vector2(0, 0);
