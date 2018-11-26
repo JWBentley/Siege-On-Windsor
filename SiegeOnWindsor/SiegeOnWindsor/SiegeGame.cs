@@ -16,7 +16,6 @@ namespace SiegeOnWindsor
     {
         // Graphics //
         public GraphicsDeviceManager Graphics; //GraphicsDeviceManager
-        public List<Textures.Texture> LoadBuffer; //List of textures that are to be loaded
 
         // Screens //
         public ScreenManager ScreenManager; //Draws the screen corresponding to the currentScreen variable
@@ -30,8 +29,6 @@ namespace SiegeOnWindsor
                 IsFullScreen = false
             };
             Graphics.ApplyChanges(); //Sets up the GraphicsDeviceManager for a screen of size 1280x720
-
-            this.LoadBuffer = new List<Textures.Texture>(); //Creates the list for the load buffer
 
             Content.RootDirectory = "Content"; //Sets the content root directory (Content folder) which is where to look for texture files
             IsMouseVisible = true; //Makes the mouse visable
@@ -66,12 +63,7 @@ namespace SiegeOnWindsor
         {
             base.LoadContent();
 
-            Textures.Load(this); //Prompts the texture class to add all textures to the loadBuffer
-
-            foreach (Textures.Texture t in this.LoadBuffer) //Loops through each texture in the buffer
-            {
-                t.Sprite = Content.Load<Texture2D>(t.Name); //Loads the sprite to the texture
-            }
+            SiegeOnWindsor.Graphics.Graphics.Load(this); //Prompts the texture class to add all textures to the loadBuffer
 
             ScreenManager.LoadScreensContent();
         }

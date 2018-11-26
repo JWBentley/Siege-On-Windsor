@@ -13,7 +13,7 @@ namespace SiegeOnWindsor.Data.Defences
         /// <summary>
         /// Creates a new wall defence
         /// </summary>
-        public StoneWallDef() : base(Textures.stoneWallDef)
+        public StoneWallDef() : base(Graphics.Graphics.stoneWallDef)
         {
             this.Health = 1000; //Sets the health
         }

@@ -10,7 +10,7 @@ namespace SiegeOnWindsor.Data.Defences
 {
     public class CrownDef : Defence
     {
-        public CrownDef() : base(Textures.crownDef)
+        public CrownDef() : base(Graphics.Graphics.crownDef)
         {
             this.Health = 5000; //Sets the health of the defence
         }

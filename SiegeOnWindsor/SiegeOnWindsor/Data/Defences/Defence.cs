@@ -38,7 +38,7 @@ namespace SiegeOnWindsor.Data.Defences
         /// <summary>
         /// Default texture for the defence
         /// </summary>
-        private Textures.Texture graphic;
+        private Graphics.Graphics.Graphic graphic;
 
         /// <summary>
         /// Creates a new defence
@@ -52,7 +52,7 @@ namespace SiegeOnWindsor.Data.Defences
         /// Creates a new defence
         /// </summary>
         /// <param name="g">Default Texture</param>
-        public Defence(Textures.Texture g)
+        public Defence(Graphics.Graphics.Graphic g)
         {
             this.graphic = g;
         }
@@ -115,9 +115,9 @@ namespace SiegeOnWindsor.Data.Defences
         /// Gets the texture of the defence
         /// </summary>
         /// <returns>Current texture of the defence</returns>
-        public virtual Textures.Texture GetGraphic()
+        public virtual Graphics.Graphics.Graphic GetGraphic()
         {
-            return this.graphic ?? Textures.emptyTile; //Returns the graphic or emptyTile if the graphic is null
+            return this.graphic ?? Graphics.Graphics.emptyTile; //Returns the graphic or emptyTile if the graphic is null
         }
     }
 }
