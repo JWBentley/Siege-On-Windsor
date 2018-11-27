@@ -23,6 +23,9 @@ namespace SiegeOnWindsor.Graphics.UI
         /// </summary>
         public readonly List<UIComponent> Components;
 
+        /// <summary>
+        /// Spritebatch used to draw graphics
+        /// </summary>
         private SpriteBatch spriteBatch;
 
         /// <summary>

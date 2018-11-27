@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SiegeOnWindsor.Screens
 {
+    /// <summary>
+    /// Screens available
+    /// </summary>
     public enum Screens
     {
         MAIN_MENU,

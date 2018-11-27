@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SiegeOnWindsor.Graphics.UI
 {
+    /// <summary>
+    /// An element that is drawn onto the screen as part of the user interface
+    /// </summary>
     public abstract class UIComponent
     {
         /// <summary>

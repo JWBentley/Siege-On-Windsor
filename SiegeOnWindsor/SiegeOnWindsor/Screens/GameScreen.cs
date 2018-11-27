@@ -82,7 +82,7 @@ namespace SiegeOnWindsor.Screens
 
                         if (this.world.SelectedTile == new Vector2(x, y))
                             this.spriteBatch.DrawString(
-                                this.game.Content.Load<SpriteFont>("Fonts/default32"), 
+                                Graphics.Graphics.arial32.Object, 
                                 "X", 
                                 new Vector2(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)), 
                                 Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height))), 

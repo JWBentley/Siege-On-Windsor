@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 
 namespace SiegeOnWindsor.Screens
 {
+    /// <summary>
+    /// A set of graphics and data objects that make up a scene in the game
+    /// </summary>
     public abstract class Screen
     {
         protected SiegeGame game; //Local copy of the game
         protected SpriteBatch spriteBatch; //Sprite batch for drawing
-        protected UIController uiController;
+        protected UIController uiController; //Controller for all UI elements
 
         public Screen(SiegeGame g)
         {

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SiegeOnWindsor.Screens
 {
+    /// <summary>
+    /// Controls instances of screens and draws the correct screen
+    /// </summary>
     public class ScreenManager
     {
         private Screens currentScreen; //Reference to the current screens enum
@@ -17,10 +20,10 @@ namespace SiegeOnWindsor.Screens
 
         public ScreenManager(GraphicsDevice gd, SiegeGame game)
         {
-            menuScreen = new MenuScreen(game);
-            gameScreen = new GameScreen(game);
+            menuScreen = new MenuScreen(game); //Creates new instance of the menu screen
+            gameScreen = new GameScreen(game); //Creates new instance of the game screen
 
-            currentScreen = Screens.MAIN_MENU;
+            currentScreen = Screens.MAIN_MENU; //Sets the current screen to the menu
         }
 
         public void InitializeScreens()
@@ -56,6 +59,11 @@ namespace SiegeOnWindsor.Screens
             this.currentScreen = screen;
         }
 
+        /// <summary>
+        /// Takes a screen enum and then switches until a corresponding screen object is found
+        /// </summary>
+        /// <param name="screen">Screen enum ref</param>
+        /// <returns>Screen object</returns>
         private Screen GetScreen(Screens screen)
         {
             switch(screen)
