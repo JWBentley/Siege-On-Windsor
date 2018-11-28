@@ -26,6 +26,8 @@ namespace SiegeOnWindsor.Graphics
         public static Graphic crownDef;
         public static Graphic stoneWallDef;
         public static Graphic guardDef;
+        public static Graphic archerDef;
+        public static Graphic catapultDef;
 
         //Enemies
         public static Graphic peasantEnemy_Left, peasantEnemy_Right;
@@ -51,6 +53,8 @@ namespace SiegeOnWindsor.Graphics
             crownDef = new Graphic("Tile/Defence/crown_defence", game);
             stoneWallDef = new Graphic("Tile/Defence/stone_wall_defence", game);
             guardDef = new Graphic("Tile/Defence/guard_defence", game);
+            archerDef = new Graphic("Tile/Defence/archer_defence", game);
+            catapultDef = new Graphic("Tile/Defence/catapult_defence", game);
 
             peasantEnemy_Left = new Graphic("Enemies/peasant_enemy_left", game);
             peasantEnemy_Right = new Graphic("Enemies/peasant_enemy_right", game);

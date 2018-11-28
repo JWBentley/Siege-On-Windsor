@@ -19,7 +19,7 @@ namespace SiegeOnWindsor.Graphics.UI
 
         public event EventHandler Click; //Event handler for when the button is clicked
 
-        public bool Clicked { get; private set; } //bool representing if the button has been clicked or not
+        //public bool Clicked { get; private set; } //bool representing if the button has been clicked or not
         public Color PenColor { get; set; } //Colour for the text
         public string Text { get; set; } //Text of the button
 
@@ -33,7 +33,7 @@ namespace SiegeOnWindsor.Graphics.UI
 
 
 
-            this.Click += (o, i) => { this.OnClick(); };
+            this.Click += (o, i) => { this.OnClick(); }; //Sets the OnClick method to run when button is clicked
         }
 
         public virtual void OnClick()

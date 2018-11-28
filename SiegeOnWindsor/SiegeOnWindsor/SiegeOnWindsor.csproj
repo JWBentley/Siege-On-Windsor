@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Data\Defences\CrownDef.cs" />
     <Compile Include="Data\Defences\Defence.cs" />
+    <Compile Include="Data\Defences\DummyDef.cs" />
     <Compile Include="Data\Defences\GuardDef.cs" />
     <Compile Include="Data\Defences\StoneWallDef.cs" />
     <Compile Include="Data\Enemies\Enemy.cs" />
@@ -71,10 +72,12 @@
     <Compile Include="Data\World.cs" />
     <Compile Include="Graphics\Graphics.cs" />
     <Compile Include="Graphics\UI\Button.cs" />
+    <Compile Include="Graphics\UI\DefenceSelectPanel.cs" />
     <Compile Include="Graphics\UI\UIButton.cs" />
     <Compile Include="Graphics\UI\UIComponent.cs" />
     <Compile Include="Graphics\UI\UIController.cs" />
     <Compile Include="Graphics\UI\UIDummyComponent.cs" />
+    <Compile Include="Graphics\UI\UIPanel.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\MenuScreen.cs" />

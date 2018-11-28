@@ -54,6 +54,8 @@ namespace SiegeOnWindsor.data
         public Button buildWall;
         public Button deployGuard;
 
+        public DefenceSelectPanel defenceSelectPanel; //Testing atm
+
         public World(SiegeGame g)
         {
             this.Game = g; //Sets game
@@ -106,7 +108,9 @@ namespace SiegeOnWindsor.data
             this.deployGuard.Click += (o, i) => { if (!(this.GetTileAt(this.SelectedTile) is SpawnTile) && this.GetTileAt(this.SelectedTile).Defence == null)
                     this.GetTileAt(this.SelectedTile).AddDefence(new GuardDef()); }; //Places guard
 
-
+            
+            //Testing def panel
+            this.defenceSelectPanel = new DefenceSelectPanel(this, new Rectangle(0, 0, 202, 390), new List<Defence>() { new StoneWallDef(), new GuardDef(), new DummyDef(Graphics.Graphics.archerDef), new DummyDef(Graphics.Graphics.catapultDef) });
         }
 
         public void Update(GameTime gameTime)
@@ -135,6 +139,8 @@ namespace SiegeOnWindsor.data
                 spawnEnemy.Update(gameTime);
                 buildWall.Update(gameTime);
                 deployGuard.Update(gameTime);
+
+                defenceSelectPanel.Update(gameTime);
 
                 //Handles selection of tiles
                 if (Keyboard.GetState().IsKeyDown(Keys.Left) && prevState.IsKeyUp(Keys.Left) && this.SelectedTile.X > 0)
@@ -211,6 +217,27 @@ namespace SiegeOnWindsor.data
             } */
 
             this.aStar = new AStar(new GridGraph(this.RiskMap));
+        }
+
+        /// <summary>
+        /// Takes a defence and attempts to place it on the tile the mouse is currently over
+        /// </summary>
+        public void PlaceDefence(Defence defence)
+        {
+            Rectangle mouseRectangle = new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1); //Pos of the current mouse
+
+            //Coverts the location of the mouse to the loction of the mouse within the grid
+            int gridX = mouseRectangle.X - ((this.Game.Graphics.PreferredBackBufferWidth - (this.Grid).GetLength(0) * Convert.ToInt16(Math.Floor(this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1)))) / 2);
+            int gridY = mouseRectangle.Y - Convert.ToInt16((this.Game.Graphics.PreferredBackBufferHeight * 0.05));
+
+            //Gets the tile from the location using a floor method
+            Tile tile = this.GetTileAt((int)Math.Floor(gridX / Math.Floor((this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1)))), (int)Math.Floor(gridY / Math.Floor((this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1)))));
+
+            //If a defence can be placed on the tile then the selected defence will be placed
+            if (!(tile is SpawnTile) && tile.Defence == null)
+            {
+                tile.AddDefence(defence);
+            }
         }
 
         /// <summary>

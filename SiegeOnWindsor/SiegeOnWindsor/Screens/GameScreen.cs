@@ -8,6 +8,7 @@ using SiegeOnWindsor.data;
 using Microsoft.Xna.Framework.Graphics;
 using SiegeOnWindsor.Data.Enemies;
 using SiegeOnWindsor.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace SiegeOnWindsor.Screens
 {
@@ -136,6 +137,14 @@ namespace SiegeOnWindsor.Screens
             this.world.spawnEnemy.Draw(gameTime, this.spriteBatch);
             this.world.buildWall.Draw(gameTime, this.spriteBatch);
             this.world.deployGuard.Draw(gameTime, this.spriteBatch);
+
+            this.world.defenceSelectPanel.Draw(gameTime, this.spriteBatch);
+
+            //Draw selected defence
+            if (this.world.defenceSelectPanel.SelectedDefence != null)
+                this.spriteBatch.Draw(this.world.defenceSelectPanel.SelectedDefence.GetGraphic().Object,
+                    new Rectangle(Mouse.GetState().Position.X - (height / 2), Mouse.GetState().Position.Y - (height / 2), height, height),
+                    Color.White);
 
             this.spriteBatch.End();
         }
