@@ -21,6 +21,8 @@ namespace SiegeOnWindsor.Screens
         public Screen(SiegeGame g)
         {
             this.game = g;
+            this.spriteBatch = new SpriteBatch(this.game.GraphicsDevice); //Creates sprite batch
+            this.uiController = new UIController(this.game.Graphics.PreferredBackBufferWidth, this.game.Graphics.PreferredBackBufferHeight, this.spriteBatch);
         }
 
         public abstract void Initialize(); //Set up screen code

@@ -47,20 +47,27 @@ namespace SiegeOnWindsor.data
         /// </summary>
         private bool isPaused = false;
 
-        //Testing for playing the game
-        public Vector2 SelectedTile; //Testing placing
-        KeyboardState prevState = Keyboard.GetState();
-        public Button spawnEnemy;
-        public Button buildWall;
-        public Button deployGuard;
+        /// <summary>
+        /// Money that the player holds
+        /// </summary>
+        public int Money { get; private set; }
 
-        public DefenceSelectPanel defenceSelectPanel; //Testing atm
+
+        //Testing for playing the game
+        //public Vector2 SelectedTile; //Testing placing
+        //KeyboardState prevState = Keyboard.GetState();
+        //public Button spawnEnemy;
+        //public Button buildWall;
+        //public Button deployGuard;
+
+        //public DefenceSelectPanel defenceSelectPanel; //Testing atm
 
         public World(SiegeGame g)
         {
             this.Game = g; //Sets game
             this.Enemies = new List<Enemy>(); //New list of enemies
             this.CreateGrid(17, 17); //Creates grid of size 17x17
+            this.Money = 0;
 
             //this.GetTileAt(9, 8).AddDefence(new GuardDef());
             //this.GetTileAt(8, 9).AddDefence(new GuardDef());
@@ -78,13 +85,13 @@ namespace SiegeOnWindsor.data
             //((SpawnTile)this.GetTileAt(7, 9)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
             //((SpawnTile)this.GetTileAt(18, 19)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
 
-
+            /*
             //TESTING - Creates buttons for placing: peasants, walls and guards
-            this.SelectedTile = new Vector2(0, 0);
-            this.spawnEnemy = new Button(this.Game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.Game.Content.Load<SpriteFont>("Fonts/default32"))
-            {
-                Position = new Vector2(970, 300),
-                Text = "Spawn Enemy"
+            //this.SelectedTile = new Vector2(0, 0);
+            //this.spawnEnemy = new Button(this.Game.Content.Load<Texture2D>("UI/Buttons/blankButton"), this.Game.Content.Load<SpriteFont>("Fonts/default32"))
+            //{
+            //    Position = new Vector2(970, 300),
+            //   Text = "Spawn Enemy"
             };
 
             this.spawnEnemy.Click += (o, i) => { if(this.GetTileAt(this.SelectedTile) is SpawnTile)
@@ -107,15 +114,16 @@ namespace SiegeOnWindsor.data
 
             this.deployGuard.Click += (o, i) => { if (!(this.GetTileAt(this.SelectedTile) is SpawnTile) && this.GetTileAt(this.SelectedTile).Defence == null)
                     this.GetTileAt(this.SelectedTile).AddDefence(new GuardDef()); }; //Places guard
+                    */
 
-            
             //Testing def panel
-            this.defenceSelectPanel = new DefenceSelectPanel(this, new Rectangle(0, 0, 202, 390), new List<Defence>() { new StoneWallDef(), new GuardDef(), new DummyDef(Graphics.Graphics.archerDef), new DummyDef(Graphics.Graphics.catapultDef) });
+            //this.defenceSelectPanel = new DefenceSelectPanel(this, new Rectangle(0, 0, 202, 390), new List<Defence>() { new StoneWallDef(), new GuardDef(), new DummyDef(Graphics.Graphics.archerDef), new DummyDef(Graphics.Graphics.catapultDef) });
+            this.IsRunning = true;
         }
 
         public void Update(GameTime gameTime)
         {
-            if (IsRunning)
+            if (!IsRunning)
             {
                 //GAME OVER
             }
@@ -125,6 +133,8 @@ namespace SiegeOnWindsor.data
             }
             else
             {
+                this.Money++;
+
                 foreach (Tile tile in this.Grid) //Runs through each tile
                 {
                     tile.Update(gameTime); //Updates the tile
@@ -135,6 +145,7 @@ namespace SiegeOnWindsor.data
                     enemy.Update(gameTime); //Updates each enemy
                 }
 
+                /*
                 //Updates buttons
                 spawnEnemy.Update(gameTime);
                 buildWall.Update(gameTime);
@@ -153,6 +164,7 @@ namespace SiegeOnWindsor.data
                     this.SelectedTile = new Vector2(this.SelectedTile.X, this.SelectedTile.Y + 1);
 
                 this.prevState = Keyboard.GetState();
+                */
             }
         }
 
@@ -220,24 +232,20 @@ namespace SiegeOnWindsor.data
         }
 
         /// <summary>
-        /// Takes a defence and attempts to place it on the tile the mouse is currently over
+        /// Takes a vector2 screen location and then converts to grid ref
         /// </summary>
-        public void PlaceDefence(Defence defence)
+        /// <param name="screen">Screen location</param>
+        /// <returns>Bool showing if the location is one the grid</returns>
+        public bool GetLocationFromScreen(Vector2 screen, out Vector2 grid)
         {
-            Rectangle mouseRectangle = new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1); //Pos of the current mouse
-
             //Coverts the location of the mouse to the loction of the mouse within the grid
-            int gridX = mouseRectangle.X - ((this.Game.Graphics.PreferredBackBufferWidth - (this.Grid).GetLength(0) * Convert.ToInt16(Math.Floor(this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1)))) / 2);
-            int gridY = mouseRectangle.Y - Convert.ToInt16((this.Game.Graphics.PreferredBackBufferHeight * 0.05));
+            int gridX = (int)screen.X - ((this.Game.Graphics.PreferredBackBufferWidth - (this.Grid).GetLength(0) * Convert.ToInt16(Math.Floor(this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1)))) / 2);
+            int gridY = (int)screen.Y - Convert.ToInt16((this.Game.Graphics.PreferredBackBufferHeight * 0.05));
 
             //Gets the tile from the location using a floor method
-            Tile tile = this.GetTileAt((int)Math.Floor(gridX / Math.Floor((this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1)))), (int)Math.Floor(gridY / Math.Floor((this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1)))));
+                grid = new Vector2((int)Math.Floor(gridX / Math.Floor((this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1)))), (int)Math.Floor(gridY / Math.Floor((this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1)))));
 
-            //If a defence can be placed on the tile then the selected defence will be placed
-            if (!(tile is SpawnTile) && tile.Defence == null)
-            {
-                tile.AddDefence(defence);
-            }
+            return !(gridX < 0 || gridY < 0 || gridX > (this.Grid).GetLength(0) * Math.Floor((double)(this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1))) || gridY > (this.Grid).GetLength(0) * Math.Floor((double)(this.Game.Graphics.PreferredBackBufferHeight * 0.9 / this.Grid.GetLength(1))));
         }
 
         /// <summary>
@@ -268,6 +276,18 @@ namespace SiegeOnWindsor.data
         public Tile GetTileAt(int x, int y)
         {
             return this.Grid[x, y];
+        }
+
+        /// <summary>
+        /// Money getter
+        /// </summary>
+        public string getMoneyText()
+        {
+            if (this.Money < 1000)
+                return "Money: " + this.Money.ToString();
+            else if (this.Money < 1000000)
+                return "Money: " + Math.Round((float)this.Money / 1000F, 1).ToString() + "K";
+            else return "Money: " + Math.Round((float)this.Money / 1000000F, 1).ToString() + "M";
         }
     }
 }

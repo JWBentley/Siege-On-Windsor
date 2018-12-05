@@ -36,10 +36,9 @@ namespace SiegeOnWindsor
             Window.Title = "Siege On Windsor Castle"; //Sets the title of the window
             TargetElapsedTime = TimeSpan.FromSeconds(1.0F / 100.0F); //Forces an update to be called 100 times per second
             IsFixedTimeStep = false;
-            
 
-
-            ScreenManager = new ScreenManager(GraphicsDevice, this); //Creates a screen manager for the game 
+            SiegeOnWindsor.Graphics.Graphics.Load(this); //Prompts the texture class to add all textures to the loadBuffer
+            ScreenManager = new ScreenManager(GraphicsDevice, this); //Creates a screen manager for the game
         }
 
         /// <summary>
@@ -63,7 +62,7 @@ namespace SiegeOnWindsor
         {
             base.LoadContent();
 
-            SiegeOnWindsor.Graphics.Graphics.Load(this); //Prompts the texture class to add all textures to the loadBuffer
+            
 
             ScreenManager.LoadScreensContent();
         }

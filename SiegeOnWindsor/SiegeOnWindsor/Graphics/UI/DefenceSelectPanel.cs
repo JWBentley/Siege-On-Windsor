@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SiegeOnWindsor.data;
 using SiegeOnWindsor.Data.Defences;
@@ -33,10 +34,9 @@ namespace SiegeOnWindsor.Graphics.UI
         /// List of defences
         /// </summary>
         private List<Defence> defences;
-
-        public Defence SelectedDefence = null;
-
         private World world; //ref to world
+
+        public Defence SelectedDefence { get; private set; } = null;
 
         public DefenceSelectPanel(World w,Rectangle bounds, List<Defence> defences) : base(Graphics.defencePanelUI, bounds)
         {
@@ -63,7 +63,20 @@ namespace SiegeOnWindsor.Graphics.UI
                 //Code for dropping def
                 if (this.SelectedDefence != null)
                 {
-                    this.world.PlaceDefence(this.SelectedDefence);
+                    //Gets grid location, however the method should return false if this is not valid so nothing should happen if the user attempts to place the defence somewhere that isn't a tile
+                    if (this.world.GetLocationFromScreen(Mouse.GetState().Position.ToVector2(), out Vector2 gridLoc))
+                    {
+                        //Gets the tile from the location using a floor method
+                        Tile tile = this.world.GetTileAt(gridLoc);
+
+                        //If a defence can be placed on the tile then the selected defence will be placed
+                        if (!(tile is SpawnTile) && tile.Defence == null)
+                        {
+                            tile.AddDefence(this.SelectedDefence);
+
+                            //Take money off player
+                        }
+                    }
                     this.SelectedDefence = null;
                 }
             }
@@ -72,7 +85,7 @@ namespace SiegeOnWindsor.Graphics.UI
                 //Code for picking up a defence
                 foreach (DefencePanel defence in this.Children)
                 {
-                    if (mouseRectangle.Intersects(defence.Bounds))
+                    if (mouseRectangle.Intersects(defence.Bounds) && (defence.Defence.Cost < this.world.Money))
                         this.SelectedDefence = defence.Defence; //Sets the held defence
                 }
             }
@@ -93,7 +106,7 @@ namespace SiegeOnWindsor.Graphics.UI
             {
                 int visualIndex = i - (page - 1) * 8;
                 if(i < this.defences.Count && this.defences[i] != null) //Checks defence is not null
-                this.Children.Add(new DefencePanel(this.defences[i],
+                this.Children.Add(new DefencePanel(this.defences[i], this.world,
                     new Rectangle(this.Bounds.X + 14 + ((visualIndex % 2) * 94),
                     this.Bounds.Y + 14 + (94 * (int)Math.Floor((float)visualIndex / 2F)),
                     80,
@@ -128,10 +141,25 @@ namespace SiegeOnWindsor.Graphics.UI
         public class DefencePanel : UIPanel
         {
             public Defence Defence;
+            private World world;
 
-            public DefencePanel(Defence d, Rectangle rectangle) : base(d.GetGraphic(), rectangle)
+            public DefencePanel(Defence d, World w,  Rectangle rectangle) : base(d.GetGraphic(), rectangle)
             {
                 this.Defence = d;
+                this.world = w;
+            }
+
+            public override void Update(GameTime gameTime)
+            {
+
+                base.Update(gameTime);
+
+                //Blacks out sprite if the player cannot afford the defence
+                if (this.Defence.Cost > this.world.Money)
+                    this.Color = Color.Black;
+                else
+                    this.Color = Color.White;
+
             }
         }
     }

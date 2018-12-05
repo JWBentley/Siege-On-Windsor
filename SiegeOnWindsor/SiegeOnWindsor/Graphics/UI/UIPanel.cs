@@ -22,6 +22,8 @@ namespace SiegeOnWindsor.Graphics.UI
         /// </summary>
         public List<UIComponent> Children;
 
+        public Color Color = Color.White;
+
         public UIPanel(Graphics.Graphic graphic, Rectangle rectangle) : base(rectangle)
         {
             this.panelImage = graphic; //Sets the image for the panel
@@ -30,7 +32,7 @@ namespace SiegeOnWindsor.Graphics.UI
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.panelImage.Object, this.Bounds, Color.White); //By default draws panel image
+            spriteBatch.Draw(this.panelImage.Object, this.Bounds, this.Color); //By default draws panel image
 
             //Draws all children
             foreach (UIComponent child in this.Children)

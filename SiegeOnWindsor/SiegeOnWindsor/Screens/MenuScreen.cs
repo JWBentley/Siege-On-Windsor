@@ -23,11 +23,7 @@ namespace SiegeOnWindsor.Screens
         }
 
         public override void LoadContent()
-        {
-            this.spriteBatch = new SpriteBatch(this.game.GraphicsDevice); //Starts up the sprite batch using the game's graphics device
-            this.uiController = new UIController(game.Graphics.PreferredBackBufferWidth, game.Graphics.PreferredBackBufferHeight, this.spriteBatch); //Creates UI controller
-
-            
+        {            
             UIButton newGameButton = new UIButton(this.game.Content.Load<Texture2D>("UI/Buttons/blankButton"),
                                                 Graphics.Graphics.arial32.Object,
                                                 "New game",
@@ -53,9 +49,9 @@ namespace SiegeOnWindsor.Screens
             this.uiController.Components.Add(exitGameButton);
 
             //TESTING UI CONTROLLER
-            this.uiController.Components.Add(new UIDummyComponent(new Rectangle(0, 0, 5, 5)));
-            this.uiController.Components.Add(new UIDummyComponent(new Rectangle(18,67, 50, 50)));
-            this.uiController.Components.Add(new UIDummyComponent(new Rectangle(1000, 700, 4, 20)));
+            //this.uiController.Components.Add(new UIDummyComponent(new Rectangle(0, 0, 5, 5)));
+            //this.uiController.Components.Add(new UIDummyComponent(new Rectangle(18,67, 50, 50)));
+            //this.uiController.Components.Add(new UIDummyComponent(new Rectangle(1000, 700, 4, 20)));
         }
 
         public override void Update(GameTime gameTime)
@@ -68,6 +64,7 @@ namespace SiegeOnWindsor.Screens
             this.spriteBatch.Begin();
 
             this.spriteBatch.Draw(Graphics.Graphics.menuBackground.Object, new Rectangle(0,0, this.game.Graphics.PreferredBackBufferWidth, this.game.Graphics.PreferredBackBufferHeight), Color.White); //Draws the background fullscreen
+            //this.spriteBatch.Draw(Graphics.Graphics.crownDef.Object, new Vector2(0, 0), Color.White);
 
             this.uiController.Draw(gameTime); //Draws UI
 

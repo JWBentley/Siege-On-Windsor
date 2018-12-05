@@ -13,6 +13,7 @@ namespace SiegeOnWindsor.Data.Defences
         public CrownDef() : base(Graphics.Graphics.crownDef)
         {
             this.Health = 5000; //Sets the health of the defence
+            Console.WriteLine("crown placed");
         }
 
         public override void Update(GameTime gameTime)
@@ -27,7 +28,7 @@ namespace SiegeOnWindsor.Data.Defences
 
         public override void Die()
         {
-            this.Tile.World.IsRunning = true; //Makes the game end
+            this.Tile.World.IsRunning = false; //Makes the game end
             base.Die(); //Destroys the object
         }
     }

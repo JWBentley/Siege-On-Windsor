@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SiegeOnWindsor.Data.Enemies;
 using SiegeOnWindsor.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SiegeOnWindsor.Graphics.UI;
+using SiegeOnWindsor.Data.Defences;
 
 namespace SiegeOnWindsor.Screens
 {
@@ -19,21 +21,36 @@ namespace SiegeOnWindsor.Screens
         public GameScreen(SiegeGame game) : base(game)
         {
             this.game = game; //Sets the game
+            this.world = new World(this.game); //Creates a new world
         }
 
 
         public override void Initialize()
         {
-            this.world = new World(this.game); //Creates a new world
+            
         }
 
         public override void LoadContent()
         {
-            this.spriteBatch = new SpriteBatch(this.game.GraphicsDevice); //Creates sprite batch
+            //Adds defence panel to the screen
+            this.uiController.Components.Add(new DefenceSelectPanel(this.world, 
+                new Rectangle(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1))))) / 2) + ((this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1)))))) + 10, 
+                this.game.Graphics.PreferredBackBufferHeight / 2 - 390 / 2, 202, 390), 
+                new List<Defence>() { new StoneWallDef(), new GuardDef(), new DummyDef(Graphics.Graphics.archerDef), new DummyDef(Graphics.Graphics.catapultDef) }));
+
+            this.uiController.Components.Add(new UILabel(
+                this.world.getMoneyText, 
+                Graphics.Graphics.arial32, Color.White, 
+                new Rectangle(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1))))) / 2) + ((this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1)))))) + 10, (int)(this.game.Graphics.PreferredBackBufferHeight * 0.15), 0, 0)));
         }
 
         public override void Update(GameTime gameTime)
         {
+            foreach (UIComponent component in this.uiController.Components)
+            {
+                component.Update(gameTime);
+            }
+
             this.world.Update(gameTime); //Updates world
         }
 
@@ -69,25 +86,29 @@ namespace SiegeOnWindsor.Screens
                             Color.White);
 
                         //Draws the defence on top of the tile
-                        if(this.world.GetTileAt(x, y).Defence != null)
-                        this.spriteBatch.Draw(this.world.GetTileAt(x, y).Defence.GetGraphic().Object, new Rectangle(
-                            Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
-                            Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
-                            height,
-                            height),
-                            Color.White);
+                        if (this.world.GetTileAt(x, y).Defence != null)
+                        {
+                            this.spriteBatch.Draw(this.world.GetTileAt(x, y).Defence.GetGraphic().Object, new Rectangle(
+                                Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)),
+                                Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height)),
+                                height,
+                                height),
+                                Color.White);
+
+                           // Console.WriteLine("Drawing " + this.world.GetTileAt(x, y).Defence.ToString());
+                        }
 
 
                         //this.spriteBatch.DrawString(this.game.Content.Load<SpriteFont>("Fonts/default32"), this.world.RiskMap[x, y].ToString(), new Vector2(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)), Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height))), this.world.RiskMap[x, y] > 1 ? Color.Purple : Color.White);
 
-
+                        /*
                         if (this.world.SelectedTile == new Vector2(x, y))
                             this.spriteBatch.DrawString(
                                 Graphics.Graphics.arial32.Object, 
                                 "X", 
                                 new Vector2(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * height) / 2) + (x * height)), 
                                 Convert.ToInt16((this.game.Graphics.PreferredBackBufferHeight * 0.05) + (y * height))), 
-                                Color.Blue);
+                                Color.Blue);*/
 
                         //DEBUGGING PATHFINDING
                         /*
@@ -134,17 +155,26 @@ namespace SiegeOnWindsor.Screens
             /*
              * DRAW UI
              */
-            this.world.spawnEnemy.Draw(gameTime, this.spriteBatch);
-            this.world.buildWall.Draw(gameTime, this.spriteBatch);
-            this.world.deployGuard.Draw(gameTime, this.spriteBatch);
+            /*
+           this.world.spawnEnemy.Draw(gameTime, this.spriteBatch);
+           this.world.buildWall.Draw(gameTime, this.spriteBatch);
+           this.world.deployGuard.Draw(gameTime, this.spriteBatch);
+           */
 
-            this.world.defenceSelectPanel.Draw(gameTime, this.spriteBatch);
+            
+            foreach (UIComponent component in this.uiController.Components)
+            {
+                component.Draw(gameTime, this.spriteBatch);
 
-            //Draw selected defence
-            if (this.world.defenceSelectPanel.SelectedDefence != null)
-                this.spriteBatch.Draw(this.world.defenceSelectPanel.SelectedDefence.GetGraphic().Object,
-                    new Rectangle(Mouse.GetState().Position.X - (height / 2), Mouse.GetState().Position.Y - (height / 2), height, height),
-                    Color.White);
+                if (component is DefenceSelectPanel)
+                {
+                    //Draw selected defence
+                    if (((DefenceSelectPanel)component).SelectedDefence != null)
+                        this.spriteBatch.Draw(((DefenceSelectPanel)component).SelectedDefence.GetGraphic().Object,
+                            new Rectangle(Mouse.GetState().Position.X - (height / 2), Mouse.GetState().Position.Y - (height / 2), height, height),
+                            Color.White);
+                }
+            }
 
             this.spriteBatch.End();
         }

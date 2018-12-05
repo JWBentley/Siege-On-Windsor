@@ -41,6 +41,11 @@ namespace SiegeOnWindsor.Data.Defences
         private Graphics.Graphics.Graphic graphic;
 
         /// <summary>
+        /// Cost of placing a defence
+        /// </summary>
+        public int Cost { protected set; get; } 
+
+        /// <summary>
         /// Creates a new defence
         /// </summary>
         public Defence()
