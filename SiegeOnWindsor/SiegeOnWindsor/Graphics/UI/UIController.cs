@@ -49,7 +49,10 @@ namespace SiegeOnWindsor.Graphics.UI
         {
             foreach(UIComponent component in this.Components)
             {
-                component.Update(gameTime);
+                if (component.isActive)
+                {
+                    component.Update(gameTime);
+                }
             }
         }
 
@@ -61,7 +64,10 @@ namespace SiegeOnWindsor.Graphics.UI
         {
             foreach (UIComponent component in this.Components)
             {
-                component.Draw(gameTime, this.spriteBatch);
+                if (component.isVisible)
+                {
+                    component.Draw(gameTime, this.spriteBatch);
+                }
             }
         }
     }

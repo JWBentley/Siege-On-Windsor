@@ -18,15 +18,28 @@ namespace SiegeOnWindsor.Graphics.UI
         /// </summary>
         public Rectangle Bounds;
 
-        public UIComponent()
-        {
+        /// <summary>
+        /// Should the component be drawn
+        /// </summary>
+        public bool isVisible { get; set; }
 
+        /// <summary>
+        /// Should the component update
+        /// </summary>
+        public bool isActive { get; set; }
+
+
+        public UIComponent() : this(new Rectangle(0,0,0,0))
+        {
+            
         }
 
 
         public UIComponent(Rectangle rectangle)
         {
             this.Bounds = rectangle;
+            this.isActive = true;
+            this.isVisible = true;
         }
 
         public abstract void Update(GameTime gameTime);

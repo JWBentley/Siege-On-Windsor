@@ -18,6 +18,9 @@ namespace SiegeOnWindsor.Screens
     {
         World world; //Reference to the world
 
+        private DefenceSelectPanel defenceSelectPanel;
+        private UIPanel pauseMenuPanel;
+
         public GameScreen(SiegeGame game) : base(game)
         {
             this.game = game; //Sets the game
@@ -33,23 +36,36 @@ namespace SiegeOnWindsor.Screens
         public override void LoadContent()
         {
             //Adds defence panel to the screen
-            this.uiController.Components.Add(new DefenceSelectPanel(this.world, 
+            this.defenceSelectPanel = new DefenceSelectPanel(this.world, 
                 new Rectangle(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1))))) / 2) + ((this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1)))))) + 10, 
                 this.game.Graphics.PreferredBackBufferHeight / 2 - 390 / 2, 202, 390), 
-                new List<Defence>() { new StoneWallDef(), new GuardDef(), new DummyDef(Graphics.Graphics.archerDef), new DummyDef(Graphics.Graphics.catapultDef) }));
+                new List<Defence>() { new StoneWallDef(), new GuardDef(), new DummyDef(Graphics.Graphics.archerDef), new DummyDef(Graphics.Graphics.catapultDef) });
+            this.uiController.Components.Add(this.defenceSelectPanel);
 
+            //Adds money label to the screen
             this.uiController.Components.Add(new UILabel(
                 this.world.getMoneyText, 
                 Graphics.Graphics.arial32, Color.White, 
                 new Rectangle(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1))))) / 2) + ((this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1)))))) + 10, (int)(this.game.Graphics.PreferredBackBufferHeight * 0.15), 0, 0)));
+
+            //Adds pause 
+            this.pauseMenuPanel = new UIPanel(Graphics.Graphics.pauseMenuPanelUI, new Rectangle(this.game.Graphics.PreferredBackBufferWidth / 2 - 360 / 2, 0, 360, 720))
+            {
+                isActive = false,
+                isVisible = false
+            };
+            this.uiController.Components.Add(pauseMenuPanel);
         }
 
         public override void Update(GameTime gameTime)
         {
-            foreach (UIComponent component in this.uiController.Components)
+            if (SiegeGame.prevKeyboard.IsKeyDown(Keys.Escape) && SiegeGame.currentKeyboard.IsKeyUp(Keys.Escape))
             {
-                component.Update(gameTime);
+                this.pauseMenuPanel.Toggle();
+                this.world.isPaused = !this.world.isPaused;
             }
+            
+            this.uiController.Update(gameTime);
 
             this.world.Update(gameTime); //Updates world
         }
@@ -161,20 +177,13 @@ namespace SiegeOnWindsor.Screens
            this.world.deployGuard.Draw(gameTime, this.spriteBatch);
            */
 
-            
-            foreach (UIComponent component in this.uiController.Components)
-            {
-                component.Draw(gameTime, this.spriteBatch);
+            this.uiController.Draw(gameTime);
 
-                if (component is DefenceSelectPanel)
-                {
-                    //Draw selected defence
-                    if (((DefenceSelectPanel)component).SelectedDefence != null)
-                        this.spriteBatch.Draw(((DefenceSelectPanel)component).SelectedDefence.GetGraphic().Object,
-                            new Rectangle(Mouse.GetState().Position.X - (height / 2), Mouse.GetState().Position.Y - (height / 2), height, height),
-                            Color.White);
-                }
-            }
+            //Draw selected defence
+            if (this.defenceSelectPanel.SelectedDefence != null)
+                this.spriteBatch.Draw(this.defenceSelectPanel.SelectedDefence.GetGraphic().Object,
+                    new Rectangle(Mouse.GetState().Position.X - (height / 2), Mouse.GetState().Position.Y - (height / 2), height, height),
+                    Color.White);
 
             this.spriteBatch.End();
         }

@@ -17,9 +17,6 @@ namespace SiegeOnWindsor.Graphics.UI
     /// </summary>
     public class DefenceSelectPanel : UIPanel
     {
-        private MouseState currentMouse; //Holds the current mouse state
-        private MouseState previousMouse; //Previous mouse state
-
         /// <summary>
         /// Used to convert to different sizes
         /// </summary>
@@ -53,45 +50,47 @@ namespace SiegeOnWindsor.Graphics.UI
         {
             base.Update(gameTime);
 
-            this.previousMouse = this.currentMouse; //Upates prev mouse
-            this.currentMouse = Mouse.GetState(); //Updates current mouse
-            Rectangle mouseRectangle = new Rectangle(currentMouse.X, currentMouse.Y, 1, 1); //Pos of the current mouse
-
-
-            if (this.currentMouse.LeftButton == ButtonState.Released && this.previousMouse.LeftButton == ButtonState.Pressed)
+            if (!this.world.isPaused)
             {
-                //Code for dropping def
-                if (this.SelectedDefence != null)
+
+                Rectangle mouseRectangle = new Rectangle(SiegeGame.currentMouse.X, SiegeGame.currentMouse.Y, 1, 1); //Pos of the current mouse
+
+
+                if (SiegeGame.currentMouse.LeftButton == ButtonState.Released && SiegeGame.prevMouse.LeftButton == ButtonState.Pressed)
                 {
-                    //Gets grid location, however the method should return false if this is not valid so nothing should happen if the user attempts to place the defence somewhere that isn't a tile
-                    if (this.world.GetLocationFromScreen(Mouse.GetState().Position.ToVector2(), out Vector2 gridLoc))
+                    //Code for dropping def
+                    if (this.SelectedDefence != null)
                     {
-                        //Gets the tile from the location using a floor method
-                        Tile tile = this.world.GetTileAt(gridLoc);
-
-                        //If a defence can be placed on the tile then the selected defence will be placed
-                        if (!(tile is SpawnTile) && tile.Defence == null)
+                        //Gets grid location, however the method should return false if this is not valid so nothing should happen if the user attempts to place the defence somewhere that isn't a tile
+                        if (this.world.GetLocationFromScreen(Mouse.GetState().Position.ToVector2(), out Vector2 gridLoc))
                         {
-                            tile.AddDefence(this.SelectedDefence);
+                            //Gets the tile from the location using a floor method
+                            Tile tile = this.world.GetTileAt(gridLoc);
 
-                            //Take money off player
+                            //If a defence can be placed on the tile then the selected defence will be placed
+                            if (!(tile is SpawnTile) && tile.Defence == null)
+                            {
+                                tile.AddDefence((Defence)Activator.CreateInstance(this.SelectedDefence.GetType()));
+
+                                //Take money off player
+                            }
                         }
+                        this.SelectedDefence = null;
                     }
-                    this.SelectedDefence = null;
                 }
-            }
-            else if(this.currentMouse.LeftButton == ButtonState.Pressed && this.previousMouse.LeftButton == ButtonState.Released)
-            {
-                //Code for picking up a defence
-                foreach (DefencePanel defence in this.Children)
+                else if (SiegeGame.currentMouse.LeftButton == ButtonState.Pressed && SiegeGame.prevMouse.LeftButton == ButtonState.Released)
                 {
-                    if (mouseRectangle.Intersects(defence.Bounds) && (defence.Defence.Cost < this.world.Money))
-                        this.SelectedDefence = defence.Defence; //Sets the held defence
+                    //Code for picking up a defence
+                    foreach (DefencePanel defence in this.Children)
+                    {
+                        if (mouseRectangle.Intersects(defence.Bounds) && (defence.Defence.Cost < this.world.Money))
+                            this.SelectedDefence = defence.Defence; //Sets the held defence
+                    }
                 }
-            }
 
-            //Debugging
-            Console.WriteLine(this.SelectedDefence);
+                //Debugging
+                Console.WriteLine(this.SelectedDefence);
+            }
         }
 
 

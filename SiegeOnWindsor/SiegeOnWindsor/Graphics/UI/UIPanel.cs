@@ -50,5 +50,11 @@ namespace SiegeOnWindsor.Graphics.UI
             }
             //Nothing to do here
         }
+
+        public void Toggle()
+        {
+            this.isActive = !this.isActive;
+            this.isVisible = !this.isVisible;
+        }
     }
 }

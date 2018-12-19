@@ -11,10 +11,8 @@ namespace SiegeOnWindsor.Graphics.UI
 {
     public class UIButton : UIComponent
     {
-        private MouseState currentMouse; //Holds the current mouse state
         private SpriteFont font; //Font for the text of the button
         private bool isHovering; //bool representing if the mouse is hovering over the button
-        private MouseState previousMouse; //Previous mouse state
         private Texture2D texture; //Texture of the button
 
         public event EventHandler Click; //Event handler for when the button is clicked
@@ -61,10 +59,7 @@ namespace SiegeOnWindsor.Graphics.UI
 
         public override void Update(GameTime gameTime)
         {
-            this.previousMouse = this.currentMouse; //Updates previousMouse
-            this.currentMouse = Mouse.GetState(); //Updates currentMouse
-
-            Rectangle mouseRectangle = new Rectangle(currentMouse.X, currentMouse.Y, 1, 1); //Pos of the current mouse
+            Rectangle mouseRectangle = new Rectangle(SiegeGame.currentMouse.X, SiegeGame.currentMouse.Y, 1, 1); //Pos of the current mouse
 
             this.isHovering = false; //Sets hovering to false
 
@@ -72,7 +67,7 @@ namespace SiegeOnWindsor.Graphics.UI
             {
                 this.isHovering = true; //Hovering is set to true
 
-                if (this.currentMouse.LeftButton == ButtonState.Released && this.previousMouse.LeftButton == ButtonState.Pressed) //If left click has been pressed and then released
+                if (SiegeGame.currentMouse.LeftButton == ButtonState.Released && SiegeGame.prevMouse.LeftButton == ButtonState.Pressed) //If left click has been pressed and then released
                 {
                     Click?.Invoke(this, new EventArgs()); //Click event is fired
                 }

@@ -45,7 +45,7 @@ namespace SiegeOnWindsor.data
         /// <summary>
         /// Bool stating if the game is paused
         /// </summary>
-        private bool isPaused = false;
+        public bool isPaused = false;
 
         /// <summary>
         /// Money that the player holds

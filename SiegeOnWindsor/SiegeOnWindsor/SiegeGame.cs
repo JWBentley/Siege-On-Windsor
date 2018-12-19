@@ -20,6 +20,14 @@ namespace SiegeOnWindsor
         // Screens //
         public ScreenManager ScreenManager; //Draws the screen corresponding to the currentScreen variable
 
+        // Keyboard states //
+        public static KeyboardState currentKeyboard;
+        public static KeyboardState prevKeyboard;
+
+        // Mouse states //
+        public static MouseState currentMouse;
+        public static MouseState prevMouse;
+
         public SiegeGame()
         {
             Graphics = new GraphicsDeviceManager(this)
@@ -87,8 +95,11 @@ namespace SiegeOnWindsor
         {
             base.Update(gameTime);
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            prevKeyboard = currentKeyboard;
+            currentKeyboard = Keyboard.GetState();
+
+            prevMouse = currentMouse;
+            currentMouse = Mouse.GetState();
 
             ScreenManager.Update(gameTime);
         }
