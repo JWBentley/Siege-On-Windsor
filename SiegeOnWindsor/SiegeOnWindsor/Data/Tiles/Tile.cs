@@ -69,6 +69,7 @@ namespace SiegeOnWindsor.Data.Tiles
         {
             this.Defence = def; //Updates defence
             def.Tile = this; //Sets tile
+            this.World.SpendMoney(def.Cost); //Takes money from player
             this.World.UpdateRiskMap(); //Updates risk map
         }
 

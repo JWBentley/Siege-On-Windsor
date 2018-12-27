@@ -142,11 +142,15 @@ namespace SiegeOnWindsor.Graphics.UI
         {
             public Defence Defence;
             private World world;
+            private UILabel costLabel;
 
             public DefencePanel(Defence d, World w,  Rectangle rectangle) : base(d.GetGraphic(), rectangle)
             {
                 this.Defence = d;
                 this.world = w;
+
+                this.costLabel = new UILabel(d.Cost.ToString(), Graphics.arial16, Color.White, new Rectangle(this.Bounds.Left, this.Bounds.Bottom - 20, (int)Graphics.arial16.Object.MeasureString(d.Cost.ToString()).X, (int)Graphics.arial16.Object.MeasureString(d.Cost.ToString()).X));
+                this.Children.Add(this.costLabel);
             }
 
             public override void Update(GameTime gameTime)
@@ -156,9 +160,15 @@ namespace SiegeOnWindsor.Graphics.UI
 
                 //Blacks out sprite if the player cannot afford the defence
                 if (this.Defence.Cost > this.world.Money)
+                {
                     this.Color = Color.Black;
+                    this.costLabel.Color = Color.Red;
+                }
                 else
+                {
                     this.Color = Color.White;
+                    this.costLabel.Color = Color.Green;
+                }
 
             }
         }

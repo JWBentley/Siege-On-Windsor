@@ -35,6 +35,7 @@ namespace SiegeOnWindsor.Graphics
         //List of fonts
 
         public static Font arial32;
+        public static Font arial16;
 
         /// <summary>
         /// Loads the textures
@@ -61,6 +62,7 @@ namespace SiegeOnWindsor.Graphics
             //testAnimation = new Animation(new String[] { "Enemies/Left", "Enemies/Right" }, game);
 
             arial32 = new Font("Fonts/default32", game);
+            arial16 = new Font("Fonts/default16", game);
         }
 
         
