@@ -16,6 +16,8 @@ namespace SiegeOnWindsor.Data.Defences
         public StoneWallDef() : base(Graphics.Graphics.stoneWallDef)
         {
             this.Health = 1000; //Sets the health
+
+            this.Cost = 250;
         }
         public override void Update(GameTime gameTime)
         {

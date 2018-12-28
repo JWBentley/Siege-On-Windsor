@@ -12,12 +12,12 @@ namespace SiegeOnWindsor.Graphics.UI
     {
         private string text; //Text of the label
         private Graphics.Font font; //Font of the text
-        private Color color; //Colour of the text
 
         public delegate string TextGetter();
         public TextGetter textGetter { set; get; }
 
         public string Text { get => text; set => text = value; }
+        public Color Color { get; internal set; }
 
         /*
         public UILabel(string text, Graphics.Font font, Color color, Rectangle rectangle) : base(rectangle)
@@ -27,23 +27,31 @@ namespace SiegeOnWindsor.Graphics.UI
             this.color = color;
         }*/
 
+        public UILabel(string text, Graphics.Font font, Color color, Rectangle rectangle) : base(rectangle)
+        {
+            this.font = font;
+            this.Color = color;
+            this.Text = text;
+        }
+
         public UILabel(TextGetter text, Graphics.Font font, Color color, Rectangle rectangle) : base(rectangle)
         {
             this.textGetter = text;
             this.font = font;
-            this.color = color;
+            this.Color = color;
             this.Text = "";
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             //Draws the string
-            spriteBatch.DrawString(this.font.Object, this.Text, new Vector2(this.Bounds.X, this.Bounds.Y), this.color);
+            spriteBatch.DrawString(this.font.Object, this.Text, new Vector2(this.Bounds.X, this.Bounds.Y), this.Color);
         }
 
         public override void Update(GameTime gameTime)
         {
-            this.Text = this.textGetter();
+            if (this.textGetter != null)
+                this.Text = this.textGetter();
         }
     }
 }

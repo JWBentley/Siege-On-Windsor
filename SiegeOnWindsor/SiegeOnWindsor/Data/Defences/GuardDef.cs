@@ -20,7 +20,7 @@ namespace SiegeOnWindsor.Data.Defences
 
             this.AttackCooldown = 50; //Sets the cooldown period to 50
 
-            this.Cost = 1000;
+            this.Cost = 500;
         }
 
 

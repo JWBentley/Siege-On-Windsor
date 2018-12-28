@@ -121,6 +121,11 @@ namespace SiegeOnWindsor.data
             this.IsRunning = true;
         }
 
+        public void SpendMoney(int cost)
+        {
+            this.Money -= cost;
+        }
+
         public void Update(GameTime gameTime)
         {
             if (!IsRunning)
