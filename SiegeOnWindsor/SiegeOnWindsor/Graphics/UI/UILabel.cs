@@ -27,7 +27,14 @@ namespace SiegeOnWindsor.Graphics.UI
             this.color = color;
         }*/
 
-        public UILabel(string text, Graphics.Font font, Color color, Rectangle rectangle) : base(rectangle)
+        public UILabel(string text, Graphics.Font font, Color color) : base(new Rectangle(new Point(0,0), font.Object.MeasureString(text).ToPoint()))
+        {
+            this.font = font;
+            this.Color = color;
+            this.Text = text;
+        }
+
+        public UILabel(string text, Graphics.Font font, Color color, Point point) : base(new Rectangle(point, font.Object.MeasureString(text).ToPoint()))
         {
             this.font = font;
             this.Color = color;

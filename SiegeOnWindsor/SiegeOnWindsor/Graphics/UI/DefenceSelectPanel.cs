@@ -31,7 +31,7 @@ namespace SiegeOnWindsor.Graphics.UI
         /// List of defences
         /// </summary>
         private List<Defence> defences;
-        private World world; //ref to world
+        private World World; //ref to world
 
         public Defence SelectedDefence { get; private set; } = null;
 
@@ -41,7 +41,7 @@ namespace SiegeOnWindsor.Graphics.UI
             this.page = 1;
             this.defences = defences;
 
-            this.world = w;
+            this.World = w;
 
             this.CreatePage();
         }
@@ -50,7 +50,7 @@ namespace SiegeOnWindsor.Graphics.UI
         {
             base.Update(gameTime);
 
-            if (!this.world.isPaused)
+            if (!this.World.isPaused)
             {
 
                 Rectangle mouseRectangle = new Rectangle(SiegeGame.currentMouse.X, SiegeGame.currentMouse.Y, 1, 1); //Pos of the current mouse
@@ -62,17 +62,15 @@ namespace SiegeOnWindsor.Graphics.UI
                     if (this.SelectedDefence != null)
                     {
                         //Gets grid location, however the method should return false if this is not valid so nothing should happen if the user attempts to place the defence somewhere that isn't a tile
-                        if (this.world.GetLocationFromScreen(Mouse.GetState().Position.ToVector2(), out Vector2 gridLoc))
+                        if (this.World.GetLocationFromScreen(Mouse.GetState().Position.ToVector2(), out Vector2 gridLoc))
                         {
                             //Gets the tile from the location using a floor method
-                            Tile tile = this.world.GetTileAt(gridLoc);
+                            Tile tile = this.World.GetTileAt(gridLoc);
 
                             //If a defence can be placed on the tile then the selected defence will be placed
                             if (!(tile is SpawnTile) && tile.Defence == null)
                             {
                                 tile.AddDefence((Defence)Activator.CreateInstance(this.SelectedDefence.GetType()));
-
-                                //Take money off player
                             }
                         }
                         this.SelectedDefence = null;
@@ -83,7 +81,7 @@ namespace SiegeOnWindsor.Graphics.UI
                     //Code for picking up a defence
                     foreach (DefencePanel defence in this.Children)
                     {
-                        if (mouseRectangle.Intersects(defence.Bounds) && (defence.Defence.Cost < this.world.Money))
+                        if (mouseRectangle.Intersects(defence.Bounds) && (defence.Defence.Cost < this.World.Money))
                             this.SelectedDefence = defence.Defence; //Sets the held defence
                     }
                 }
@@ -105,7 +103,7 @@ namespace SiegeOnWindsor.Graphics.UI
             {
                 int visualIndex = i - (page - 1) * 8;
                 if(i < this.defences.Count && this.defences[i] != null) //Checks defence is not null
-                this.Children.Add(new DefencePanel(this.defences[i], this.world,
+                this.Children.Add(new DefencePanel(this.defences[i], this.World,
                     new Rectangle(this.Bounds.X + 14 + ((visualIndex % 2) * 94),
                     this.Bounds.Y + 14 + (94 * (int)Math.Floor((float)visualIndex / 2F)),
                     80,
@@ -140,7 +138,7 @@ namespace SiegeOnWindsor.Graphics.UI
         public class DefencePanel : UIPanel
         {
             public Defence Defence;
-            private World world;
+            public World world;
             private UILabel costLabel;
 
             public DefencePanel(Defence d, World w,  Rectangle rectangle) : base(d.GetGraphic(), rectangle)
@@ -148,7 +146,7 @@ namespace SiegeOnWindsor.Graphics.UI
                 this.Defence = d;
                 this.world = w;
 
-                this.costLabel = new UILabel(d.Cost.ToString(), Graphics.arial16, Color.White, new Rectangle(this.Bounds.Left, this.Bounds.Bottom - 20, (int)Graphics.arial16.Object.MeasureString(d.Cost.ToString()).X, (int)Graphics.arial16.Object.MeasureString(d.Cost.ToString()).X));
+                this.costLabel = new UILabel(d.Cost.ToString(), Graphics.arial16, Color.White, new Point(this.Bounds.Left, this.Bounds.Bottom - 20));
                 this.Children.Add(this.costLabel);
             }
 
@@ -169,6 +167,19 @@ namespace SiegeOnWindsor.Graphics.UI
                     this.costLabel.Color = Color.Green;
                 }
 
+            }
+        }
+
+        /// <summary>
+        /// Updates world so that money elements work correctly
+        /// </summary>
+        /// <param name="world"></param>
+        public void UpdateWorld(World world)
+        {
+            this.World = world;
+            foreach(DefencePanel panel in this.Children) //Updates the world for panel
+            {
+                panel.world = world;
             }
         }
     }

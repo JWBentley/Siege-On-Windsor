@@ -20,6 +20,7 @@ namespace SiegeOnWindsor.Screens
 
         private DefenceSelectPanel defenceSelectPanel;
         private UIPanel pauseMenuPanel;
+        private UILabel moneyLabel;
 
         public GameScreen(SiegeGame game) : base(game)
         {
@@ -43,10 +44,13 @@ namespace SiegeOnWindsor.Screens
             this.uiController.Components.Add(this.defenceSelectPanel);
 
             //Adds money label to the screen
-            this.uiController.Components.Add(new UILabel(
+            this.moneyLabel = 
+            new UILabel(
                 this.world.getMoneyText, 
                 Graphics.Graphics.arial32, Color.White, 
-                new Rectangle(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1))))) / 2) + ((this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1)))))) + 10, (int)(this.game.Graphics.PreferredBackBufferHeight * 0.15), 0, 0)));
+                new Rectangle(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1))))) / 2) + ((this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1)))))) + 10, (int)(this.game.Graphics.PreferredBackBufferHeight * 0.15), 0, 0));
+
+            this.uiController.Components.Add(this.moneyLabel);
 
             //Adds pause 
             this.pauseMenuPanel = new UIPanel(Graphics.Graphics.pauseMenuPanelUI, new Rectangle(this.game.Graphics.PreferredBackBufferWidth / 2 - 360 / 2, 0, 360, 720))
@@ -54,7 +58,20 @@ namespace SiegeOnWindsor.Screens
                 isActive = false,
                 isVisible = false
             };
-            this.uiController.Components.Add(pauseMenuPanel);
+
+            //Pause menu title text
+            this.pauseMenuPanel.AddComponent(new UILabel("Game paused", Graphics.Graphics.arial32, Color.Red), new Point((this.pauseMenuPanel.Bounds.Size.X / 2) - ((int)Graphics.Graphics.arial32.Object.MeasureString("Game paused").X / 2), 30));
+
+            //Return to main menu button
+            UIButton quitGame = new UIButton(Graphics.Graphics.blankButtonUI.Object,
+                                                Graphics.Graphics.arial32.Object,
+                                                "Quit to menu");
+            quitGame.Click += (o, i) => { this.QuitCurrentGame(); };
+
+            this.pauseMenuPanel.AddComponent(quitGame, new Point((this.pauseMenuPanel.Bounds.Size.X / 2) - ((int)quitGame.Bounds.Size.X / 2), 100));
+
+            //Adds pause menu to the ui controller
+            this.uiController.Components.Add(this.pauseMenuPanel);
         }
 
         public override void Update(GameTime gameTime)
@@ -191,6 +208,19 @@ namespace SiegeOnWindsor.Screens
         public override void UnloadContent()
         {
 
+        }
+
+        /// <summary>
+        /// Performs cleanup to quit the current game and create a new one
+        /// </summary>
+        private void QuitCurrentGame()
+        {
+            this.game.ScreenManager.SwitchScreen(Screens.MAIN_MENU);
+
+            this.world = new World(this.game); //Creates new world
+            this.pauseMenuPanel.Toggle(); //Unpauses game
+            this.moneyLabel.textGetter = this.world.getMoneyText; //Reallocates money label delegate
+            this.defenceSelectPanel.UpdateWorld(this.world); //Updates defenceselectpanel and its world reference
         }
     }
 }

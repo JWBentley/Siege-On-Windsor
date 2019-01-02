@@ -51,10 +51,34 @@ namespace SiegeOnWindsor.Graphics.UI
             //Nothing to do here
         }
 
-        public void Toggle()
+        /// <summary>
+        /// Adds component as a child using the realtionship between the two
+        /// </summary>
+        /// <param name="component"></param>
+        /// <param name="relation"></param>
+        public void AddComponent(UIComponent component, Point relation)
         {
-            this.isActive = !this.isActive;
-            this.isVisible = !this.isVisible;
+            this.AddComponent(component, new Rectangle(relation, component.Bounds.Size));
+        }
+
+        /// <summary>
+        /// Adds component as a child using the realtionship between the two
+        /// </summary>
+        /// <param name="component"></param>
+        /// <param name="relation"></param>
+        public void AddComponent(UIComponent component, Rectangle relation)
+        {
+            component.Bounds = new Rectangle(this.Bounds.Location + relation.Location, relation.Size);
+            this.AddComponent(component);
+        }
+
+        /// <summary>
+        /// Adds component as a child
+        /// </summary>
+        /// <param name="component"></param>
+        public void AddComponent(UIComponent component)
+        {
+            this.Children.Add(component);
         }
     }
 }

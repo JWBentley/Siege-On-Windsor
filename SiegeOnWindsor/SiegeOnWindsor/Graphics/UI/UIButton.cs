@@ -21,6 +21,19 @@ namespace SiegeOnWindsor.Graphics.UI
         public Color PenColor { get; set; } //Colour for the text
         public string Text { get; set; } //Text of the button
 
+        public UIButton(Texture2D t, SpriteFont f, string s)
+        {
+            this.texture = t;
+            this.font = f;
+            this.Text = s;
+            this.Bounds = new Rectangle(0, 0, (int)(this.font.MeasureString(Text).X * 1.1), (int)(this.font.MeasureString(Text).Y * 1.1));
+            this.PenColor = Color.Black;
+
+
+
+            this.Click += (o, i) => { this.OnClick(); }; //Sets the OnClick method to run when button is clicked
+        }
+
         public UIButton(Texture2D t, SpriteFont f, string s, Vector2 l)
         {
             this.texture = t;

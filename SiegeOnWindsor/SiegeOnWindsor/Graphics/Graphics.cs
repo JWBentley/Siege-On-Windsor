@@ -19,6 +19,8 @@ namespace SiegeOnWindsor.Graphics
         public static Graphic defencePanelUI;
         public static Graphic pauseMenuPanelUI;
 
+        public static Graphic blankButtonUI;
+
         //Tiles
         public static Graphic emptyTile;
         public static Graphic spawnTile;
@@ -49,6 +51,8 @@ namespace SiegeOnWindsor.Graphics
 
             defencePanelUI = new Graphic("UI/Panels/defence_panel", game);
             pauseMenuPanelUI = new Graphic("UI/Panels/pausemenu_panel", game);
+
+            blankButtonUI = new Graphic("UI/Buttons/blankButton", game);
 
             emptyTile = new Graphic("Tile/empty_tile", game);
             spawnTile = new Graphic("Tile/null_tile", game);

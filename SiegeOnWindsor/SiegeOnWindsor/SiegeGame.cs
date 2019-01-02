@@ -70,7 +70,7 @@ namespace SiegeOnWindsor
         {
             base.LoadContent();
 
-            
+
 
             ScreenManager.LoadScreensContent();
         }

@@ -119,8 +119,13 @@ namespace SiegeOnWindsor.data
             //Testing def panel
             //this.defenceSelectPanel = new DefenceSelectPanel(this, new Rectangle(0, 0, 202, 390), new List<Defence>() { new StoneWallDef(), new GuardDef(), new DummyDef(Graphics.Graphics.archerDef), new DummyDef(Graphics.Graphics.catapultDef) });
             this.IsRunning = true;
+            this.isPaused = false;
         }
 
+        /// <summary>
+        /// Reduces player's money by specified amount
+        /// </summary>
+        /// <param name="cost">Amount to spend</param>
         public void SpendMoney(int cost)
         {
             this.Money -= cost;

@@ -45,5 +45,12 @@ namespace SiegeOnWindsor.Graphics.UI
         public abstract void Update(GameTime gameTime);
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+
+
+        public void Toggle()
+        {
+            this.isActive = !this.isActive;
+            this.isVisible = !this.isVisible;
+        }
     }
 }
