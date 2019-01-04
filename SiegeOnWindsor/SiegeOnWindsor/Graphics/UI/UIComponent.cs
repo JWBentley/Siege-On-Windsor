@@ -21,12 +21,12 @@ namespace SiegeOnWindsor.Graphics.UI
         /// <summary>
         /// Should the component be drawn
         /// </summary>
-        public bool isVisible { get; set; }
+        public bool isVisible { get; set; } = true;
 
         /// <summary>
         /// Should the component update
         /// </summary>
-        public bool isActive { get; set; }
+        public bool isActive { get; set; } = true;
 
 
         public UIComponent() : this(new Rectangle(0,0,0,0))

@@ -30,13 +30,13 @@ namespace SiegeOnWindsor.Data.Defences
             {
                 //Attacks one enemy on one of the adjacent tiles
                 if (this.Tile.World.GetTileAt((int)this.Tile.Location.X + 1, (int)this.Tile.Location.Y).Enemies.Count > 0)
-                    this.Tile.World.GetTileAt((int)this.Tile.Location.X + 1, (int)this.Tile.Location.Y).Enemies.First().DealDamage(this.Damage);
+                    this.Tile.World.GetTileAt((int)this.Tile.Location.X + 1, (int)this.Tile.Location.Y).Enemies.First().DealDamage(this.Damage, this);
                 else if (this.Tile.World.GetTileAt((int)this.Tile.Location.X - 1, (int)this.Tile.Location.Y).Enemies.Count > 0)
-                    this.Tile.World.GetTileAt((int)this.Tile.Location.X - 1, (int)this.Tile.Location.Y).Enemies.First().DealDamage(this.Damage);
+                    this.Tile.World.GetTileAt((int)this.Tile.Location.X - 1, (int)this.Tile.Location.Y).Enemies.First().DealDamage(this.Damage, this);
                 else if (this.Tile.World.GetTileAt((int)this.Tile.Location.X, (int)this.Tile.Location.Y + 1).Enemies.Count > 0)
-                    this.Tile.World.GetTileAt((int)this.Tile.Location.X, (int)this.Tile.Location.Y + 1).Enemies.First().DealDamage(this.Damage);
+                    this.Tile.World.GetTileAt((int)this.Tile.Location.X, (int)this.Tile.Location.Y + 1).Enemies.First().DealDamage(this.Damage, this);
                 else if (this.Tile.World.GetTileAt((int)this.Tile.Location.X, (int)this.Tile.Location.Y - 1).Enemies.Count > 0)
-                    this.Tile.World.GetTileAt((int)this.Tile.Location.X, (int)this.Tile.Location.Y - 1).Enemies.First().DealDamage(this.Damage);
+                    this.Tile.World.GetTileAt((int)this.Tile.Location.X, (int)this.Tile.Location.Y - 1).Enemies.First().DealDamage(this.Damage, this);
 
                 this.AttackProgress = 0; //Resets the cooldown
             }

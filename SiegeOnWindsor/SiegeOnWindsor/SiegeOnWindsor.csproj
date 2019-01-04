@@ -56,6 +56,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Data\Defences\ArcherDef.cs" />
+    <Compile Include="Data\Defences\CatapultDef.cs" />
     <Compile Include="Data\Defences\CrownDef.cs" />
     <Compile Include="Data\Defences\Defence.cs" />
     <Compile Include="Data\Defences\DummyDef.cs" />
@@ -66,9 +68,11 @@
     <Compile Include="Data\Enemies\Pathfinding\GridGraph.cs" />
     <Compile Include="Data\Enemies\Pathfinding\GridNode.cs" />
     <Compile Include="Data\Enemies\PeasantEnemy.cs" />
+    <Compile Include="Data\Enemies\ShieldEnemy.cs" />
     <Compile Include="Data\IUpdate.cs" />
     <Compile Include="Data\Tiles\SpawnTile.cs" />
     <Compile Include="Data\Tiles\Tile.cs" />
+    <Compile Include="Data\WaveController.cs" />
     <Compile Include="Data\World.cs" />
     <Compile Include="Graphics\Graphics.cs" />
     <Compile Include="Graphics\UI\Button.cs" />

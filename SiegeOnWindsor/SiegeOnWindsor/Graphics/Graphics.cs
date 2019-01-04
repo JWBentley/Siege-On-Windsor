@@ -34,6 +34,7 @@ namespace SiegeOnWindsor.Graphics
 
         //Enemies
         public static Graphic peasantEnemy_Left, peasantEnemy_Right;
+        public static Graphic shieldEnemy_Left, shieldEnemy_Right;
 
         //List of fonts
 
@@ -66,6 +67,9 @@ namespace SiegeOnWindsor.Graphics
             peasantEnemy_Left = new Graphic("Enemies/peasant_enemy_left", game);
             peasantEnemy_Right = new Graphic("Enemies/peasant_enemy_right", game);
             //testAnimation = new Animation(new String[] { "Enemies/Left", "Enemies/Right" }, game);
+
+            shieldEnemy_Left = new Graphic("Enemies/shield_enemy_left", game);
+            shieldEnemy_Right = new Graphic("Enemies/shield_enemy_right", game);
 
             arial32 = new Font("Fonts/default32", game);
             arial16 = new Font("Fonts/default16", game);

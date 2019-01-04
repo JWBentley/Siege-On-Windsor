@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SiegeOnWindsor.data;
+using SiegeOnWindsor.Data.Defences;
+using SiegeOnWindsor.Data.Enemies;
 using SiegeOnWindsor.Graphics;
 using SiegeOnWindsor.Screens;
 using System;
@@ -28,6 +30,9 @@ namespace SiegeOnWindsor
         public static MouseState currentMouse;
         public static MouseState prevMouse;
 
+        // Random //
+        public static Random Random;
+
         public SiegeGame()
         {
             Graphics = new GraphicsDeviceManager(this)
@@ -44,8 +49,22 @@ namespace SiegeOnWindsor
             Window.Title = "Siege On Windsor Castle"; //Sets the title of the window
             TargetElapsedTime = TimeSpan.FromSeconds(1.0F / 100.0F); //Forces an update to be called 100 times per second
             IsFixedTimeStep = false;
+            Random = new Random();
 
             SiegeOnWindsor.Graphics.Graphics.Load(this); //Prompts the texture class to add all textures to the loadBuffer
+
+            Enemy.Types.Add(new PeasantEnemy());
+            Enemy.Types.Add(new ShieldEnemy());
+
+            Enemy.Types.Sort((x, y) => y.Cost.CompareTo(x.Cost));
+
+            Defence.Types.Add(new StoneWallDef());
+            Defence.Types.Add(new GuardDef());
+            Defence.Types.Add(new ArcherDef());
+            Defence.Types.Add(new CatapultDef());
+
+            Defence.Types.Sort((x, y) => x.Cost.CompareTo(y.Cost));
+
             ScreenManager = new ScreenManager(GraphicsDevice, this); //Creates a screen manager for the game
         }
 

@@ -13,6 +13,11 @@ namespace SiegeOnWindsor.Data.Defences
     public abstract class Defence : IUpdate
     {
         /// <summary>
+        /// List of all types of defence
+        /// </summary>
+        public static List<Defence> Types = new List<Defence>();
+
+        /// <summary>
         /// Health of the defence, this is how much damage it can take before being destroyed
         /// </summary>
         public int Health = 1;
@@ -29,6 +34,11 @@ namespace SiegeOnWindsor.Data.Defences
         /// The number of updates since the previous attack
         /// </summary>
         protected int AttackProgress = 0;
+
+        /// <summary>
+        /// Total kills of a defence
+        /// </summary>
+        public int Kills { get; set; } = 0;
 
         /// <summary>
         /// The tile that the defence is placed on
@@ -85,6 +95,11 @@ namespace SiegeOnWindsor.Data.Defences
         /// </summary>
         public virtual void Die()
         {
+            this.Tile.World.TotalKills -= this.Kills;
+
+            if (this.Tile.World.WaveController.target == this)
+                this.Tile.World.WaveController.target = null;
+
             this.Tile.ClearDefence();
         }
 
@@ -94,7 +109,7 @@ namespace SiegeOnWindsor.Data.Defences
         /// <returns>Risk as an integer</returns>
         public virtual int GetBaseRiskValue()
         {
-            return this.Health / 100;
+            return (this.Health / 100) + (this.Kills / 5);
         }
 
         /// <summary>

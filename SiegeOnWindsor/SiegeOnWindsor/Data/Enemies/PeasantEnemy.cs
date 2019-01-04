@@ -12,13 +12,16 @@ namespace SiegeOnWindsor.Data.Enemies
 {
     public class PeasantEnemy : Enemy
     {
-        public PeasantEnemy(World w) : base(w)
+
+        public PeasantEnemy() : base()
         {
             //Sets key variables
             this.Health = 200;
-            this.Speed = 70;
+            this.Speed = 60;
             this.Damage = 10;
             this.AttackCooldown = 20;
+
+            this.Cost = 20;
         }
 
         public override Graphic GetGraphic()

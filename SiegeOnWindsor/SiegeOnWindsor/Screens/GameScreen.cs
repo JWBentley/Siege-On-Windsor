@@ -21,6 +21,8 @@ namespace SiegeOnWindsor.Screens
         private DefenceSelectPanel defenceSelectPanel;
         private UIPanel pauseMenuPanel;
         private UILabel moneyLabel;
+        private UILabel waveLabel;
+        private UIButton waveStartButton;
 
         public GameScreen(SiegeGame game) : base(game)
         {
@@ -31,16 +33,29 @@ namespace SiegeOnWindsor.Screens
 
         public override void Initialize()
         {
-            
+
         }
 
         public override void LoadContent()
         {
+            //Wave info
+            this.waveLabel = new UILabel(this.world.WaveController.GetWaveNumberText, Graphics.Graphics.arial32, Color.White, new Rectangle(10,10, (int)Graphics.Graphics.arial32.Object.MeasureString("Wave - xxxx").Length(), (int)Graphics.Graphics.arial32.Object.MeasureString("Wave - xxxx").Y));
+            this.uiController.Components.Add(this.waveLabel);
+
+            //Wave start button
+            this.waveStartButton = new UIButton(Graphics.Graphics.blankButtonUI.Object, Graphics.Graphics.arial32.Object, "Start wave", new Vector2(10, (int)Graphics.Graphics.arial32.Object.MeasureString("Wave - xxxx").Y + 10))
+            {
+                Tint = Color.Green
+            };
+            this.waveStartButton.Click += (o, i) => { if (this.world.StartWave()) this.waveStartButton.Toggle(); };
+
+            this.uiController.Components.Add(this.waveStartButton);
+
             //Adds defence panel to the screen
             this.defenceSelectPanel = new DefenceSelectPanel(this.world, 
                 new Rectangle(Convert.ToInt16(((this.game.Graphics.PreferredBackBufferWidth - (this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1))))) / 2) + ((this.world.Grid).GetLength(0) * Convert.ToInt16(Math.Floor((double)(this.game.Graphics.PreferredBackBufferHeight * 0.9 / this.world.Grid.GetLength(1)))))) + 10, 
-                this.game.Graphics.PreferredBackBufferHeight / 2 - 390 / 2, 202, 390), 
-                new List<Defence>() { new StoneWallDef(), new GuardDef(), new DummyDef(Graphics.Graphics.archerDef), new DummyDef(Graphics.Graphics.catapultDef) });
+                this.game.Graphics.PreferredBackBufferHeight / 2 - 390 / 2, 202, 390));
+
             this.uiController.Components.Add(this.defenceSelectPanel);
 
             //Adds money label to the screen
@@ -80,6 +95,11 @@ namespace SiegeOnWindsor.Screens
             {
                 this.pauseMenuPanel.Toggle();
                 this.world.isPaused = !this.world.isPaused;
+            }
+
+            if(!this.world.WaveController.IsWaveActive && !this.waveStartButton.isActive)
+            {
+                this.waveStartButton.Toggle();
             }
             
             this.uiController.Update(gameTime);
@@ -221,6 +241,7 @@ namespace SiegeOnWindsor.Screens
             this.pauseMenuPanel.Toggle(); //Unpauses game
             this.moneyLabel.textGetter = this.world.getMoneyText; //Reallocates money label delegate
             this.defenceSelectPanel.UpdateWorld(this.world); //Updates defenceselectpanel and its world reference
+            this.waveLabel.textGetter = this.world.WaveController.GetWaveNumberText; //Updates wave number label with new wave controller
         }
     }
 }

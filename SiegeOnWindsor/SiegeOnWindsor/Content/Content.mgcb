@@ -61,6 +61,30 @@
 /processorParam:TextureFormat=Color
 /build:Enemies/peasant_enemy_right.png
 
+#begin Enemies/shield_enemy_left.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/shield_enemy_left.png
+
+#begin Enemies/shield_enemy_right.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemies/shield_enemy_right.png
+
 #begin Fonts/default16.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

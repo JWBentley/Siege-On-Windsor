@@ -27,19 +27,14 @@ namespace SiegeOnWindsor.Graphics.UI
         /// </summary>
         private int page;
 
-        /// <summary>
-        /// List of defences
-        /// </summary>
-        private List<Defence> defences;
         private World World; //ref to world
 
         public Defence SelectedDefence { get; private set; } = null;
 
-        public DefenceSelectPanel(World w,Rectangle bounds, List<Defence> defences) : base(Graphics.defencePanelUI, bounds)
+        public DefenceSelectPanel(World w, Rectangle bounds) : base(Graphics.defencePanelUI, bounds)
         {
             //this.scale = bounds.Height / Graphics.defencePanelUI.Object.Height;
             this.page = 1;
-            this.defences = defences;
 
             this.World = w;
 
@@ -49,6 +44,8 @@ namespace SiegeOnWindsor.Graphics.UI
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            //Console.WriteLine(this.Children.Count);
 
             if (!this.World.isPaused)
             {
@@ -81,13 +78,13 @@ namespace SiegeOnWindsor.Graphics.UI
                     //Code for picking up a defence
                     foreach (DefencePanel defence in this.Children)
                     {
-                        if (mouseRectangle.Intersects(defence.Bounds) && (defence.Defence.Cost < this.World.Money))
+                        if (mouseRectangle.Intersects(defence.Bounds) && (defence.Defence.Cost <= this.World.Money))
                             this.SelectedDefence = defence.Defence; //Sets the held defence
                     }
                 }
 
                 //Debugging
-                Console.WriteLine(this.SelectedDefence);
+                //Console.WriteLine(this.SelectedDefence);
             }
         }
 
@@ -102,8 +99,8 @@ namespace SiegeOnWindsor.Graphics.UI
             for(int i = (page-1)*8; i < ((page - 1) * 8) + 8; i++) //Loops through each defence on the page
             {
                 int visualIndex = i - (page - 1) * 8;
-                if(i < this.defences.Count && this.defences[i] != null) //Checks defence is not null
-                this.Children.Add(new DefencePanel(this.defences[i], this.World,
+                if(i < Defence.Types.Count && Defence.Types[i] != null) //Checks defence is not null
+                this.Children.Add(new DefencePanel(Defence.Types[i], this.World,
                     new Rectangle(this.Bounds.X + 14 + ((visualIndex % 2) * 94),
                     this.Bounds.Y + 14 + (94 * (int)Math.Floor((float)visualIndex / 2F)),
                     80,
@@ -116,7 +113,7 @@ namespace SiegeOnWindsor.Graphics.UI
         /// </summary>
         public void NextPage()
         {
-            if (this.defences.Count / 8 > this.page + 1) //Validation
+            if (Defence.Types.Count / 8 > this.page + 1) //Validation
             {
                 this.page++; //Next page
                 this.CreatePage(); //Recreates page objects

@@ -29,9 +29,19 @@ namespace SiegeOnWindsor.Data.Tiles
         /// <param name="goal">Location the enemy should move towards</param>
         public void SpawnEnemy(Enemy enemy, Vector2 goal)
         {
+            enemy.World = this.World; //Enemy gets world ref
+            this.World.Enemies.Add(enemy); //Enemy gets loaded into the world
             enemy.Location = this.Location; //Sets the enemies location to the spawn tile
             this.Enemies.Add(enemy); //Adds the enemy to the tiles list
             enemy.UpdatePath(goal); //Upates the path of the enemy
+        }
+
+        /// <summary>
+        /// Spawns a new enemy on the tile
+        /// </summary>
+        public void SpawnEnemy(Enemy enemy, Stack<Vector2> path)
+        {
+
         }
 
         public override Graphics.Graphics.Graphic GetGraphic()

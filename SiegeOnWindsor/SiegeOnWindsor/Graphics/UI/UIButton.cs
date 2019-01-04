@@ -19,6 +19,7 @@ namespace SiegeOnWindsor.Graphics.UI
 
         //public bool Clicked { get; private set; } //bool representing if the button has been clicked or not
         public Color PenColor { get; set; } //Colour for the text
+        public Color Tint { get; set; } = new Color(165, 133, 88); //Colour for the background (deafault brown)
         public string Text { get; set; } //Text of the button
 
         public UIButton(Texture2D t, SpriteFont f, string s)
@@ -54,7 +55,7 @@ namespace SiegeOnWindsor.Graphics.UI
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Color color = new Color(165, 133, 88); //Brown tint
+            Color color = this.Tint;
 
             if (this.isHovering) //If the mouse if hovering over the button a grey tint is added
                 color = Color.Gray;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SiegeOnWindsor.Data;
 using SiegeOnWindsor.Data.Defences;
 using SiegeOnWindsor.Data.Enemies;
 using SiegeOnWindsor.Data.Enemies.Pathfinding;
@@ -39,6 +40,11 @@ namespace SiegeOnWindsor.data
         public AStar aStar;
 
         /// <summary>
+        /// Wave controller for the world
+        /// </summary>
+        public WaveController WaveController;
+
+        /// <summary>
         /// Bool stating if the game is running
         /// </summary>
         public bool IsRunning = false;
@@ -52,6 +58,10 @@ namespace SiegeOnWindsor.data
         /// </summary>
         public int Money { get; private set; }
 
+        /// <summary>
+        /// Total kills from Defences onto enemies
+        /// </summary>
+        public int TotalKills { get; set; }
 
         //Testing for playing the game
         //public Vector2 SelectedTile; //Testing placing
@@ -76,6 +86,8 @@ namespace SiegeOnWindsor.data
 
 
             this.UpdateRiskMap(); //Updates the risk map
+
+            this.WaveController = new WaveController(this); //Instanciates
 
             //TESTING of spawning enemies
             //((SpawnTile)this.GetTileAt(16, 16)).SpawnEnemy(new PeasantEnemy(this), this.GetCrownLocation());
@@ -120,6 +132,10 @@ namespace SiegeOnWindsor.data
             //this.defenceSelectPanel = new DefenceSelectPanel(this, new Rectangle(0, 0, 202, 390), new List<Defence>() { new StoneWallDef(), new GuardDef(), new DummyDef(Graphics.Graphics.archerDef), new DummyDef(Graphics.Graphics.catapultDef) });
             this.IsRunning = true;
             this.isPaused = false;
+
+            //Adds starting money
+            this.AddMoney(3000);
+            this.TotalKills = 0;
         }
 
         /// <summary>
@@ -129,6 +145,15 @@ namespace SiegeOnWindsor.data
         public void SpendMoney(int cost)
         {
             this.Money -= cost;
+        }
+
+        /// <summary>
+        /// Increases player's money by specified amount
+        /// </summary>
+        /// <param name="cost">Amount to add</param>
+        public void AddMoney(int amount)
+        {
+            this.Money += amount;
         }
 
         public void Update(GameTime gameTime)
@@ -143,7 +168,7 @@ namespace SiegeOnWindsor.data
             }
             else
             {
-                this.Money++;
+                //this.Money++;
 
                 foreach (Tile tile in this.Grid) //Runs through each tile
                 {
@@ -154,6 +179,8 @@ namespace SiegeOnWindsor.data
                 {
                     enemy.Update(gameTime); //Updates each enemy
                 }
+
+                this.WaveController.Update(gameTime);
 
                 /*
                 //Updates buttons
@@ -287,6 +314,38 @@ namespace SiegeOnWindsor.data
         {
             return this.Grid[x, y];
         }
+
+        /// <summary>
+        /// Calls for wave to start
+        /// </summary>
+        /// <returns></returns>
+        public bool StartWave()
+        {
+            if (!this.WaveController.IsWaveActive)
+                this.WaveController.StartNextWave();
+
+            return this.WaveController.IsWaveActive;
+        }
+
+        /*
+        /// <summary>
+        /// Gets path to crown via a detour
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="detour"></param>
+        /// <returns></returns>
+        public Stack<Vector2> PathToGoalVia(Vector2 start, Vector2 detour)
+        {
+            Stack<Vector2> detourToGoal = this.aStar.Run(detour, this.GetCrownLocation());
+            List<Vector2> startToDetour = this.aStar.Run(start, detour).ToList();
+
+            for (int i = startToDetour.Count - 2; i >= 0; i--)
+            {
+                detourToGoal.Push(startToDetour.ToArray()[i]);
+            }
+
+            return detourToGoal;
+        }*/
 
         /// <summary>
         /// Money getter

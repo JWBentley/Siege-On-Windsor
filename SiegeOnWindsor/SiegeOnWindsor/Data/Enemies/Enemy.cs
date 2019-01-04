@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SiegeOnWindsor.data;
+using SiegeOnWindsor.Data.Defences;
 using SiegeOnWindsor.Data.Tiles;
 //using SiegeOnWindsor.Data.Enemies.Pathfinding;
 using SiegeOnWindsor.Graphics;
@@ -13,6 +14,11 @@ namespace SiegeOnWindsor.Data.Enemies
 {
     public abstract class Enemy : IUpdate
     {
+        /// <summary>
+        /// List of all types of enemy
+        /// </summary>
+        public static List<Enemy> Types = new List<Enemy>();
+
         /// <summary>
         /// Health of the enemy
         /// </summary>
@@ -58,17 +64,14 @@ namespace SiegeOnWindsor.Data.Enemies
         /// </summary>
         protected Graphics.Graphics.Graphic graphic;
 
-        public Enemy(World w)
-        {
-            this.World = w; //Sets world
-            this.World.Enemies.Add(this); //Registers enemy
-            //Console.WriteLine(this.World.GetCrownLocation().X);
-            //Console.WriteLine(this.World.GetCrownLocation().Y);
-        }
+        /// <summary>
+        /// Cost of spawning an enemy
+        /// </summary>
+        public int Cost { protected set; get; }
 
-        public Enemy(Vector2 l)
+        public Enemy()
         {
-            this.Location = l; //Sets location
+           
         }
 
         public Enemy(Graphics.Graphics.Graphic g)
@@ -94,7 +97,7 @@ namespace SiegeOnWindsor.Data.Enemies
                     this.World.GetTileAt((int)newLoc.X, (int)newLoc.Y).Enemies.Add(this); //Adds enemy to new tile
                 }
             }
-            else if(this.Damage > 0 && this.Path.Count > 0 && this.World.GetTileAt((int)this.Path.Peek().X, (int)this.Path.Peek().Y).Defence != null) //If the enemy is not moving and can attack
+            else if (this.Damage > 0 && this.Path.Count > 0 && this.World.GetTileAt((int)this.Path.Peek().X, (int)this.Path.Peek().Y).Defence != null) //If the enemy is not moving and can attack
             {
                 if (this.AttackProgress >= this.AttackCooldown) //Attack cycle completed
                 {
@@ -104,26 +107,30 @@ namespace SiegeOnWindsor.Data.Enemies
                 else
                     this.AttackProgress++; //Attack progress is incremented
             }
-
+            else if (this.World != null && this.Path.Count == 0)
+                this.UpdatePath(this.World.GetCrownLocation()); //Lost? move to goal
         }
 
         /// <summary>
         /// Reduces the enemy health by a set amount
         /// </summary>
         /// <param name="damage">Amount of damage</param>
-        public void DealDamage(int damage)
+        public void DealDamage(int damage, Defence defence)
         {
             if (this.Health - damage > 0)
                 this.Health -= damage; //Health is reduced b damage
             else
-                this.Die(); //If health is less than or equal to zero the enemy dies
+                this.Die(defence); //If health is less than or equal to zero the enemy dies
         }
 
         /// <summary>
         /// Deletes the enemy from existance
         /// </summary>
-        public virtual void Die()
+        public virtual void Die(Defence defence)
         {
+            this.World.AddMoney((int)(this.Cost * 1.5 * ((SiegeGame.Random.Next(10) / 9) + 1)));
+            defence.Kills++;
+            this.World.TotalKills++;
             this.World.GetTileAt(this.Location).Enemies.Remove(this); //Removes from tile
             this.World.Enemies.Remove(this); //Removes from world
         }
