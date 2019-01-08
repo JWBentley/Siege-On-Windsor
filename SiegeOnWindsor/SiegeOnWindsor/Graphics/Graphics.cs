@@ -18,6 +18,7 @@ namespace SiegeOnWindsor.Graphics
         //UI
         public static Graphic defencePanelUI;
         public static Graphic pauseMenuPanelUI;
+        public static Graphic endGamePanelUI;
 
         public static Graphic blankButtonUI;
 
@@ -37,9 +38,10 @@ namespace SiegeOnWindsor.Graphics
         public static Graphic shieldEnemy_Left, shieldEnemy_Right;
 
         //List of fonts
-
-        public static Font arial32;
         public static Font arial16;
+        public static Font arial24;
+        public static Font arial32;
+        
 
         /// <summary>
         /// Loads the textures
@@ -52,6 +54,7 @@ namespace SiegeOnWindsor.Graphics
 
             defencePanelUI = new Graphic("UI/Panels/defence_panel", game);
             pauseMenuPanelUI = new Graphic("UI/Panels/pausemenu_panel", game);
+            endGamePanelUI = new Graphic("UI/Panels/endgame_panel", game);
 
             blankButtonUI = new Graphic("UI/Buttons/blankButton", game);
 
@@ -71,8 +74,10 @@ namespace SiegeOnWindsor.Graphics
             shieldEnemy_Left = new Graphic("Enemies/shield_enemy_left", game);
             shieldEnemy_Right = new Graphic("Enemies/shield_enemy_right", game);
 
-            arial32 = new Font("Fonts/default32", game);
+            
             arial16 = new Font("Fonts/default16", game);
+            arial24 = new Font("Fonts/default24", game);
+            arial32 = new Font("Fonts/default32", game);
         }
 
         

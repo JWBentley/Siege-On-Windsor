@@ -22,10 +22,10 @@ namespace SiegeOnWindsor.Graphics.UI
         public Color Tint { get; set; } = new Color(165, 133, 88); //Colour for the background (deafault brown)
         public string Text { get; set; } //Text of the button
 
-        public UIButton(Texture2D t, SpriteFont f, string s)
+        public UIButton(Graphics.Graphic t, Graphics.Font f, string s)
         {
-            this.texture = t;
-            this.font = f;
+            this.texture = t.Object;
+            this.font = f.Object;
             this.Text = s;
             this.Bounds = new Rectangle(0, 0, (int)(this.font.MeasureString(Text).X * 1.1), (int)(this.font.MeasureString(Text).Y * 1.1));
             this.PenColor = Color.Black;
@@ -35,10 +35,10 @@ namespace SiegeOnWindsor.Graphics.UI
             this.Click += (o, i) => { this.OnClick(); }; //Sets the OnClick method to run when button is clicked
         }
 
-        public UIButton(Texture2D t, SpriteFont f, string s, Vector2 l)
+        public UIButton(Graphics.Graphic t, Graphics.Font f, string s, Vector2 l)
         {
-            this.texture = t;
-            this.font = f;
+            this.texture = t.Object;
+            this.font = f.Object;
             this.Text = s;
             this.Bounds = new Rectangle((int)l.X, (int)l.Y, (int)(this.font.MeasureString(Text).X * 1.1), (int)(this.font.MeasureString(Text).Y * 1.1));
             this.PenColor = Color.Black;

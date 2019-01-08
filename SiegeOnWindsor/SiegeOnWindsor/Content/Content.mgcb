@@ -92,6 +92,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/default16.spritefont
 
+#begin Fonts/default24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/default24.spritefont
+
 #begin Fonts/default32.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -206,6 +213,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UI/Panels/defence_panel.png
+
+#begin UI/Panels/endgame_panel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/Panels/endgame_panel.png
 
 #begin UI/Panels/pausemenu_panel.png
 /importer:TextureImporter

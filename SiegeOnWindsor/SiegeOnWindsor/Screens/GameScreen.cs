@@ -19,10 +19,15 @@ namespace SiegeOnWindsor.Screens
         World world; //Reference to the world
 
         private DefenceSelectPanel defenceSelectPanel;
-        private UIPanel pauseMenuPanel;
         private UILabel moneyLabel;
+
         private UILabel waveLabel;
         private UIButton waveStartButton;
+
+        private UIPanel pauseMenuPanel;
+
+        private UIPanel endGamePanel;
+        private UILabel wavesLastedLabel;
 
         public GameScreen(SiegeGame game) : base(game)
         {
@@ -43,7 +48,7 @@ namespace SiegeOnWindsor.Screens
             this.uiController.Components.Add(this.waveLabel);
 
             //Wave start button
-            this.waveStartButton = new UIButton(Graphics.Graphics.blankButtonUI.Object, Graphics.Graphics.arial32.Object, "Start wave", new Vector2(10, (int)Graphics.Graphics.arial32.Object.MeasureString("Wave - xxxx").Y + 10))
+            this.waveStartButton = new UIButton(Graphics.Graphics.blankButtonUI, Graphics.Graphics.arial32, "Start wave", new Vector2(10, (int)Graphics.Graphics.arial32.Object.MeasureString("Wave - xxxx").Y + 10))
             {
                 Tint = Color.Green
             };
@@ -78,8 +83,8 @@ namespace SiegeOnWindsor.Screens
             this.pauseMenuPanel.AddComponent(new UILabel("Game paused", Graphics.Graphics.arial32, Color.Red), new Point((this.pauseMenuPanel.Bounds.Size.X / 2) - ((int)Graphics.Graphics.arial32.Object.MeasureString("Game paused").X / 2), 30));
 
             //Return to main menu button
-            UIButton quitGame = new UIButton(Graphics.Graphics.blankButtonUI.Object,
-                                                Graphics.Graphics.arial32.Object,
+            UIButton quitGame = new UIButton(Graphics.Graphics.blankButtonUI,
+                                                Graphics.Graphics.arial32,
                                                 "Quit to menu");
             quitGame.Click += (o, i) => { this.QuitCurrentGame(); };
 
@@ -87,19 +92,52 @@ namespace SiegeOnWindsor.Screens
 
             //Adds pause menu to the ui controller
             this.uiController.Components.Add(this.pauseMenuPanel);
+
+            //End game panel
+            this.endGamePanel = new UIPanel(Graphics.Graphics.endGamePanelUI, new Rectangle(this.game.Graphics.PreferredBackBufferWidth / 2 - 400 / 2, this.game.Graphics.PreferredBackBufferHeight / 2 - 236 / 2, 400, 236))
+            {
+                isActive = false,
+                isVisible = false
+            };
+
+            this.wavesLastedLabel = new UILabel("You lasted * wave(s)", Graphics.Graphics.arial24, Color.White); //Creates waves lasted label
+            this.endGamePanel.AddComponent(this.wavesLastedLabel, new Point(30, 90)); //Adds to the end game popup
+
+            //Creates return to menu button
+            UIButton returnToMenuButton = new UIButton(Graphics.Graphics.blankButtonUI, Graphics.Graphics.arial32, "Return to menu")
+            {
+                Tint = Color.Tomato
+            };
+            returnToMenuButton.Click += (o, i) => { this.QuitCurrentGame(); };
+
+            //Adds the button to the end panel
+            this.endGamePanel.AddComponent(returnToMenuButton, new Point(this.endGamePanel.Bounds.Width / 2 - returnToMenuButton.Bounds.Width / 2, 150));
+
+            //Adds to controller
+            this.uiController.Components.Add(this.endGamePanel);
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (SiegeGame.prevKeyboard.IsKeyDown(Keys.Escape) && SiegeGame.currentKeyboard.IsKeyUp(Keys.Escape))
+            if (!this.world.IsRunning) //If the game is over
             {
-                this.pauseMenuPanel.Toggle();
-                this.world.isPaused = !this.world.isPaused;
-            }
+                //Updates waves lasted
+                this.wavesLastedLabel.Text = String.Format("You lasted {0} wave(s)", this.world.WaveController.WaveNumber - 1); 
 
-            if(!this.world.WaveController.IsWaveActive && !this.waveStartButton.isActive)
+                if (!this.endGamePanel.isActive)
+                    this.endGamePanel.Toggle(); //Displays end game panel
+
+                if (this.defenceSelectPanel.isActive)
+                    this.defenceSelectPanel.isActive = false; //Defence select panel deactivated
+            }
+            else if (SiegeGame.prevKeyboard.IsKeyDown(Keys.Escape) && SiegeGame.currentKeyboard.IsKeyUp(Keys.Escape)) //If Escape key pressed
             {
-                this.waveStartButton.Toggle();
+                this.pauseMenuPanel.Toggle(); //Pause menu toggled
+                this.world.isPaused = !this.world.isPaused; //Toggles world pause
+            }
+            else if(!this.world.WaveController.IsWaveActive && !this.waveStartButton.isActive) //Checks if wave is over
+            {
+                this.waveStartButton.Toggle(); //Toggles the wave start button
             }
             
             this.uiController.Update(gameTime);
@@ -238,9 +276,17 @@ namespace SiegeOnWindsor.Screens
             this.game.ScreenManager.SwitchScreen(Screens.MAIN_MENU);
 
             this.world = new World(this.game); //Creates new world
-            this.pauseMenuPanel.Toggle(); //Unpauses game
+
+            if (this.pauseMenuPanel.isActive)
+                this.pauseMenuPanel.Toggle(); //Unpauses game
+
+            if (this.endGamePanel.isActive)
+                this.endGamePanel.Toggle(); //Removes game over panel
+
             this.moneyLabel.textGetter = this.world.getMoneyText; //Reallocates money label delegate
+
             this.defenceSelectPanel.UpdateWorld(this.world); //Updates defenceselectpanel and its world reference
+
             this.waveLabel.textGetter = this.world.WaveController.GetWaveNumberText; //Updates wave number label with new wave controller
         }
     }

@@ -24,24 +24,24 @@ namespace SiegeOnWindsor.Screens
 
         public override void LoadContent()
         {            
-            UIButton newGameButton = new UIButton(Graphics.Graphics.blankButtonUI.Object,
-                                                Graphics.Graphics.arial32.Object,
+            UIButton newGameButton = new UIButton(Graphics.Graphics.blankButtonUI,
+                                                Graphics.Graphics.arial32,
                                                 "New game",
                                                 new Vector2(805, 300));
             newGameButton.Click += (o, i) => { this.game.ScreenManager.SwitchScreen(Screens.GAME); };
 
             this.uiController.Components.Add(newGameButton);
 
-            UIButton loadGameButton = new UIButton(Graphics.Graphics.blankButtonUI.Object,
-                                                 Graphics.Graphics.arial32.Object,
+            UIButton loadGameButton = new UIButton(Graphics.Graphics.blankButtonUI,
+                                                 Graphics.Graphics.arial32,
                                                 "Load game",
                                                 new Vector2(798, 360));
             loadGameButton.Click += (o, i) => { };
 
             this.uiController.Components.Add(loadGameButton);
 
-            UIButton exitGameButton = new UIButton(Graphics.Graphics.blankButtonUI.Object,
-                                                 Graphics.Graphics.arial32.Object,
+            UIButton exitGameButton = new UIButton(Graphics.Graphics.blankButtonUI,
+                                                 Graphics.Graphics.arial32,
                                                 "Quit Game",
                                                 new Vector2(807, 420));
             exitGameButton.Click += (o, i) => { this.game.Exit(); };
