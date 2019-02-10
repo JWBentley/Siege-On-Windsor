@@ -37,7 +37,8 @@ namespace SiegeOnWindsor.Graphics.UI
             //Draws all children
             foreach (UIComponent child in this.Children)
             {
-                child.Draw(gameTime, spriteBatch);
+                if (child.isVisible)
+                    child.Draw(gameTime, spriteBatch);
             }
         }
 
@@ -46,7 +47,8 @@ namespace SiegeOnWindsor.Graphics.UI
             //Updates all children
             foreach(UIComponent child in this.Children)
             {
-                child.Update(gameTime);
+                if (child.isActive)
+                    child.Update(gameTime);
             }
             //Nothing to do here
         }

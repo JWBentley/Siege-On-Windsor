@@ -15,8 +15,8 @@ namespace SiegeOnWindsor.Screens
     {
         private Screens currentScreen; //Reference to the current screens enum
 
-        private MenuScreen menuScreen; //Instance of the menu screen
-        private GameScreen gameScreen; //Instance of the game screen
+        public MenuScreen menuScreen; //Instance of the menu screen
+        public GameScreen gameScreen; //Instance of the game screen
 
         public ScreenManager(GraphicsDevice gd, SiegeGame game)
         {

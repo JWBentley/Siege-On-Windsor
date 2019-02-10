@@ -8,6 +8,7 @@ using SiegeOnWindsor.Graphics;
 using SiegeOnWindsor.Screens;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SiegeOnWindsor
 {
@@ -33,6 +34,9 @@ namespace SiegeOnWindsor
         // Random //
         public static Random Random;
 
+        // File //
+        public static string SaveFile = Directory.GetCurrentDirectory() + @"\world.data";
+
         public SiegeGame()
         {
             Graphics = new GraphicsDeviceManager(this)
@@ -50,6 +54,10 @@ namespace SiegeOnWindsor
             TargetElapsedTime = TimeSpan.FromSeconds(1.0F / 100.0F); //Forces an update to be called 100 times per second
             IsFixedTimeStep = false;
             Random = new Random();
+
+            //Creates save file if it does not already exist
+            if (!File.Exists(SaveFile))
+                File.Create(SaveFile);
 
             SiegeOnWindsor.Graphics.Graphics.Load(this); //Prompts the texture class to add all textures to the loadBuffer
 

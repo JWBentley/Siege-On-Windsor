@@ -14,7 +14,7 @@ namespace SiegeOnWindsor.Data.Enemies
             //Sets key variables
             this.Health = 700;
             this.Speed = 100;
-            this.Damage = 0;
+            this.Damage = 1;
             this.AttackCooldown = 20;
 
             this.Cost = 150;

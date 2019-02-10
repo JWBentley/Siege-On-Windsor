@@ -25,6 +25,7 @@ namespace SiegeOnWindsor.Screens
         private UIButton waveStartButton;
 
         private UIPanel pauseMenuPanel;
+        private UIButton saveGameButton;
 
         private UIPanel endGamePanel;
         private UILabel wavesLastedLabel;
@@ -90,6 +91,23 @@ namespace SiegeOnWindsor.Screens
 
             this.pauseMenuPanel.AddComponent(quitGame, new Point((this.pauseMenuPanel.Bounds.Size.X / 2) - ((int)quitGame.Bounds.Size.X / 2), 100));
 
+            //Save progress button
+            this.saveGameButton = new UIButton(Graphics.Graphics.blankButtonUI,
+                                                Graphics.Graphics.arial32,
+                                                "Save Game")
+            {
+                Tint = Color.Green
+            };
+
+            //Adds click function to the save game button
+            this.saveGameButton.Click += (o, i) => {
+                System.IO.File.WriteAllLines(SiegeGame.SaveFile, World.WorldToFile(this.world));
+                Console.WriteLine(SiegeGame.SaveFile);
+            };
+
+            //Adds the save game button to the pause screen
+            this.pauseMenuPanel.AddComponent(this.saveGameButton, new Point((this.pauseMenuPanel.Bounds.Size.X / 2) - ((int)this.saveGameButton.Bounds.Size.X / 2), 180));
+
             //Adds pause menu to the ui controller
             this.uiController.Components.Add(this.pauseMenuPanel);
 
@@ -135,9 +153,18 @@ namespace SiegeOnWindsor.Screens
                 this.pauseMenuPanel.Toggle(); //Pause menu toggled
                 this.world.isPaused = !this.world.isPaused; //Toggles world pause
             }
-            else if(!this.world.WaveController.IsWaveActive && !this.waveStartButton.isActive) //Checks if wave is over
+            else if(!this.world.WaveController.IsWaveActive) //Checks if wave is over
             {
-                this.waveStartButton.Toggle(); //Toggles the wave start button
+                if (!this.waveStartButton.isActive)
+                    this.waveStartButton.Toggle(); //Toggles the wave start button
+
+                if (this.world.Enemies.Count == 0 && !this.saveGameButton.isActive) //When wave is over, show save button
+                    this.saveGameButton.Toggle();
+            }
+            else if (this.world.WaveController.IsWaveActive || this.world.Enemies.Count > 0)
+            {
+                if (this.saveGameButton.isActive) //When wave is running, hide save button
+                    this.saveGameButton.Toggle();
             }
             
             this.uiController.Update(gameTime);
@@ -266,6 +293,27 @@ namespace SiegeOnWindsor.Screens
         public override void UnloadContent()
         {
 
+        }
+
+        /// <summary>
+        /// Loads world object into the game screen
+        /// </summary>
+        /// <param name="world"></param>
+        public void LoadWorld(World world)
+        {
+            this.world = world;
+
+            if (this.pauseMenuPanel.isActive)
+                this.pauseMenuPanel.Toggle(); //Unpauses game
+
+            if (this.endGamePanel.isActive)
+                this.endGamePanel.Toggle(); //Removes game over panel
+
+            this.moneyLabel.textGetter = this.world.getMoneyText; //Reallocates money label delegate
+
+            this.defenceSelectPanel.UpdateWorld(this.world); //Updates defenceselectpanel and its world reference
+
+            this.waveLabel.textGetter = this.world.WaveController.GetWaveNumberText; //Updates wave number label with new wave controller
         }
 
         /// <summary>

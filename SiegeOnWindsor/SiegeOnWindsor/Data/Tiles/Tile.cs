@@ -65,6 +65,17 @@ namespace SiegeOnWindsor.Data.Tiles
         /// Deploys a defence on the tile
         /// </summary>
         /// <param name="def">Defence to deploy</param>
+        public void SetDefence(Defence def)
+        {
+            this.Defence = def; //Updates defence
+            def.Tile = this; //Sets tile
+            this.World.UpdateRiskMap(); //Updates risk map
+        }
+
+        /// <summary>
+        /// Deploys a defence on the tile
+        /// </summary>
+        /// <param name="def">Defence to deploy</param>
         public void AddDefence(Defence def)
         {
             this.Defence = def; //Updates defence

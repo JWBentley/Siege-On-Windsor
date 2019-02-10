@@ -36,7 +36,10 @@ namespace SiegeOnWindsor.Screens
                                                  Graphics.Graphics.arial32,
                                                 "Load game",
                                                 new Vector2(798, 360));
-            loadGameButton.Click += (o, i) => { };
+            loadGameButton.Click += (o, i) => {
+                this.game.ScreenManager.SwitchScreen(Screens.GAME);
+                this.game.ScreenManager.gameScreen.LoadWorld(new data.World(this.game, System.IO.File.ReadAllLines(SiegeGame.SaveFile)));
+            };
 
             this.uiController.Components.Add(loadGameButton);
 

@@ -139,5 +139,31 @@ namespace SiegeOnWindsor.Data.Defences
         {
             return this.graphic ?? Graphics.Graphics.emptyTile; //Returns the graphic or emptyTile if the graphic is null
         }
+
+        /// <summary>
+        /// Returns the defence as a string
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return String.Format("{0},{1},{2},{3}", 
+                this.GetType().ToString(),
+                String.Format("[{0}|{1}]", (int)this.Tile.Location.X, (int)this.Tile.Location.Y),
+                this.Health.ToString(), 
+                this.Kills.ToString());
+        }
+
+        /// <summary>
+        /// Loads data from a file and applies it to the defence
+        /// </summary>
+        /// <param name="data"></param>
+        public void LoadData(string[] data)
+        {
+            if (data.Length == 2)
+            {
+                this.Health = int.Parse(data[0]);
+                this.Kills = int.Parse(data[1]);
+            }
+        }
     }
 }

@@ -138,6 +138,66 @@ namespace SiegeOnWindsor.data
             this.TotalKills = 0;
         }
 
+        public World(SiegeGame game, string[] setup)
+        {
+            this.Game = game; //Sets game
+            this.Enemies = new List<Enemy>(); //New list of enemies
+
+            string[] worldSetup = setup[0].Split(',');
+
+            if (worldSetup.Length == 4)
+            {
+                this.WaveController = new WaveController(this)
+                {
+                    WaveNumber = int.Parse(worldSetup[0])
+                };
+
+                //Money
+                this.Money = int.Parse(worldSetup[1]);
+
+                //Grid size
+                worldSetup[2] = worldSetup[2].Trim(new Char[] { '[', ']' });
+                this.CreateGrid(int.Parse(worldSetup[2].Substring(0, worldSetup[2].IndexOf("|"))), int.Parse(worldSetup[2].Remove(0, worldSetup[2].IndexOf("|") + 1))); 
+
+                //Total kills
+                this.TotalKills = int.Parse(worldSetup[3]);
+
+            }
+
+            for (int i = 1; i < setup.Length; i++)
+            {
+                List<string> defenceInfo = new List<string>(setup[i].Split(','));
+
+                if (defenceInfo[0] == new CrownDef().GetType().ToString())
+                {
+                    this.GetTileAt(this.GetCrownLocation()).Defence.Health = int.Parse(defenceInfo[2]);
+                }
+                else
+                {
+                    foreach (Defence d in Defence.Types)
+                    {
+                        if (defenceInfo[0] == d.GetType().ToString())
+                        {
+                            Defence defence = (Defence)Activator.CreateInstance(d.GetType());
+                            defenceInfo[1] = defenceInfo[1].Trim(new Char[] { '[', ']' });
+                            this.GetTileAt(int.Parse(defenceInfo[1].Substring(0, defenceInfo[1].IndexOf("|"))), int.Parse(defenceInfo[1].Remove(0, defenceInfo[1].IndexOf("|") + 1))).SetDefence(defence);
+                            defenceInfo.RemoveRange(0, 2);
+                            defence.LoadData(defenceInfo.ToArray());
+
+                        }
+                    }
+                }
+            }
+
+            this.UpdateRiskMap(); //Updates the risk map
+
+
+            //Testing def panel
+            //this.defenceSelectPanel = new DefenceSelectPanel(this, new Rectangle(0, 0, 202, 390), new List<Defence>() { new StoneWallDef(), new GuardDef(), new DummyDef(Graphics.Graphics.archerDef), new DummyDef(Graphics.Graphics.catapultDef) });
+            this.IsRunning = true;
+            this.isPaused = false;
+        }
+
         /// <summary>
         /// Reduces player's money by specified amount
         /// </summary>
@@ -358,5 +418,37 @@ namespace SiegeOnWindsor.data
                 return "Money: " + Math.Round((float)this.Money / 1000F, 1).ToString() + "K";
             else return "Money: " + Math.Round((float)this.Money / 1000000F, 1).ToString() + "M";
         }
+
+        #region ------ SAVE / LOAD -----
+
+        /// <summary>
+        /// Converts world to a file format
+        /// </summary>
+        /// <param name="world"></param>
+        /// <returns></returns>
+        public static String[] WorldToFile(World world)
+        {
+            List<String> fileLines = new List<String>();
+
+            //Adds first line that holds world data
+            fileLines.Add(String.Format("{0},{1},{2},{3}", 
+                world.WaveController.WaveNumber.ToString(), 
+                world.Money.ToString(), 
+                String.Format("[{0}|{1}]", world.Grid.GetLength(0), world.Grid.GetLength(1)),
+                world.TotalKills.ToString()));
+
+            //Adds defence data to the file
+            foreach (Tile tile in world.Grid)
+            {
+                if(tile.Defence != null)
+                {
+                    fileLines.Add(tile.Defence.ToString());
+                }
+            }
+
+            return fileLines.ToArray();
+        }
+
+        #endregion
     }
 }

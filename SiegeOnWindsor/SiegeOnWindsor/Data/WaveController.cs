@@ -26,7 +26,7 @@ namespace SiegeOnWindsor.Data
         /// <summary>
         /// Current wave number
         /// </summary>
-        public int WaveNumber { get; private set; }
+        public int WaveNumber { get; set; }
 
         /// <summary>
         /// Resources available for the current wave
